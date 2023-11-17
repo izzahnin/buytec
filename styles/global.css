@@ -1,0 +1,8 @@
+/* styles/global.css */
+@font-face {
+  font-family: 'PlayFair Display';
+  src: url('/fonts/playfair-display.woff2') format('woff2'),
+       url('/fonts/playfair-display.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
