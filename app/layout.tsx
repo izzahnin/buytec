@@ -3,7 +3,7 @@ import { AuthContextProvider } from "./firebase/auth/AuthContext";
 import type { Metadata } from 'next'
 import './globals.css'
 import Navbar from './components/Navbar'
-
+import Footer from './components/Footer'
 import localFont from '@next/font/local'
 
 const futura = localFont({
@@ -24,11 +24,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={futura.className}>
-        <AuthContextProvider>
-          <Navbar />
-          {children}
-        </AuthContextProvider>
-      </body>
+        <Navbar/>
+        {children}
+        <Footer/>
+        </body>
     </html>
   );
 }
