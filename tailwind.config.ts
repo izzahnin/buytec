@@ -23,7 +23,7 @@ const config: Config = {
         "dark-blue": '#00072D',
         white: '#FFFFFF',
         black: '#1C1C1C',
-        grey: '#727272',
+        grey: '#F4F4F4',
       }
     },
   },
