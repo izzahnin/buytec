@@ -17,7 +17,7 @@ export default function NavItems() {
   ];
 
   return (
-    <nav className="sticky h-[70px] top-0 z-50 flex w-screen justify-between items-center shadow-lg px-5">
+    <nav className="sticky h-[70px] bg-white xl:px-8 top-0 z-50 flex w-screen justify-between items-center shadow-lg px-5">
       <Link href="/" className="font-playfair select-none text-primary-blue text-heading-l">
         Elixir
       </Link>
