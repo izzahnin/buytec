@@ -1,10 +1,15 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import Navbar from "./components/Navbar";
-import { AuthContextProvider } from "./firebase/auth/AuthContext";
 
-const inter = Inter({ subsets: ["latin"] });
+import { AuthContextProvider } from "./firebase/auth/AuthContext";
+import type { Metadata } from 'next'
+import './globals.css'
+import Navbar from './components/Navbar'
+
+import localFont from '@next/font/local'
+
+const futura = localFont({
+  src:'../fonts/FuturaLT-Book.woff2',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: "Create Next App",
