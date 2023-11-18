@@ -3,7 +3,10 @@ import {
   DocumentSnapshot,
   SnapshotOptions,
 } from "firebase/firestore";
-import { TransactionProps, jsonToTransaction } from "../transaction/transaction";
+import {
+  TransactionProps,
+  jsonToTransaction,
+} from "../transaction/transaction";
 import { ReviewProps, jsonToReview } from "../review/review";
 
 export interface UserType {
@@ -13,7 +16,10 @@ export interface UserType {
   number: string | null;
   gender: string | null;
   birthdate: Date | null;
-  review: ReviewProps[] | null;
+  address: string | null;
+  wishlist: string[];
+  cart: string[];
+  review: ReviewProps[];
   transaction: TransactionProps[];
 }
 
@@ -26,6 +32,9 @@ export const userConverter = {
       number: user.number,
       gender: user.gender,
       birthdate: user.birthdate,
+      address: user.address,
+      wishlist: user.wishlist,
+      cart: user.cart,
       review: user.review,
       transaction: user.transaction,
     };
@@ -38,16 +47,18 @@ export const userConverter = {
     const parsedReview: ReviewProps[] = [];
     const data: DocumentData | undefined = snapshot.data(options);
     if (data?.transaction != null) {
-        for (let transaction in data!.transaction) {
-            parsedTransaction.push(jsonToTransaction((transaction as unknown) as Map<string, any>));
-        }
+      for (let transaction in data!.transaction) {
+        parsedTransaction.push(
+          jsonToTransaction(transaction as unknown as Map<string, any>),
+        );
+      }
     }
     if (data?.review != null) {
-        for (let review in data!.review) {
-            parsedReview.push(jsonToReview((review as unknown) as Map<string, any>));
-        }   
+      for (let review in data!.review) {
+        parsedReview.push(jsonToReview(review as unknown as Map<string, any>));
+      }
     }
-    
+
     return {
       id: data!.id,
       name: data!.name,
@@ -55,6 +66,9 @@ export const userConverter = {
       number: data?.number,
       gender: data?.gender,
       birthdate: data?.birthdate,
+      address: data?.address,
+      wishlist: data?.wishlist,
+      cart: data?.cart,
       review: parsedReview,
       transaction: parsedTransaction,
     } as UserType;
