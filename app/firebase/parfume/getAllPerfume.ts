@@ -10,6 +10,7 @@ export default async function getAllPerfume(): Promise<Array<PerfumeProps> | und
             perfumes.push(jsonToParfume(doc.data()))
         })
         console.log(perfumes)
+        console.log(perfumes[0])
         console.log(`total response: ${perfumes.length}`)
         return perfumes;
     } catch (e) {
