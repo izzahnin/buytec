@@ -1,9 +1,13 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
 import Navbar from './components/Navbar'
 
-const inter = Inter({ subsets: ['latin'] })
+import localFont from '@next/font/local'
+
+const futura = localFont({
+  src:'../fonts/FuturaLT-Book.woff2',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -17,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={futura.className}>
         <Navbar/>
         {children}
         </body>
