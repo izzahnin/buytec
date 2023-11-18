@@ -16,7 +16,6 @@ export default function Navbar() {
     setIsNavOpen((prev) => !prev);
   }
 
-
   useEffect(() => {
     window.addEventListener("resize", () => {
       setWindowWidth(window.innerWidth);
@@ -26,14 +25,14 @@ export default function Navbar() {
   return (
     <>
       {windowWidth <= 1024 ? (
-        <nav className="sticky top-0 z-50 flex h-[70px] w-screen items-center justify-between px-5 shadow-lg ">
+        <nav className="sticky top-0 z-50 flex h-[70px] w-screen items-center justify-between bg-white px-5 shadow-lg ">
           <Link
             href="/"
-            className="text-primary-blue text-heading-l select-none font-playfair"
+            className="select-none font-playfair text-heading-l text-primary-blue"
           >
             Elixir
           </Link>
-          <button className="text-heading-m m p-1" onClick={onNavClick}>
+          <button className="m p-1 text-heading-m" onClick={onNavClick}>
             <RxHamburgerMenu />
           </button>
         </nav>
