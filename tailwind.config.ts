@@ -11,11 +11,20 @@ const config: Config = {
       fontFamily: {
         playfair: ['PlayFair Display', 'serif'],
       },
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-      },
+      colors: {
+        primary: {
+          blue: '#0A2472',
+          "blue-accent": '#001C55',
+        },
+        secondary: {
+          blue: '#A6E1FA',
+          "blue-accent": '#0E6BA8',
+        },
+        "dark-blue": '#00072D',
+        white: '#FFFFFF',
+        black: '#1C1C1C',
+        grey: '#727272',
+      }
     },
   },
   plugins: [],
