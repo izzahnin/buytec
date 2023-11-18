@@ -4,10 +4,10 @@ import React, { useEffect } from 'react';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     const router = useRouter();
-    const { user } = useAuth();
+    const { user}  = useAuth();
 
     useEffect(() => {
-        if (!user.id) {
+        if (user.id) {
             router.push('/');
         }
     }, [router, user]);

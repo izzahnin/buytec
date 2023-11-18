@@ -13,9 +13,51 @@ import { auth, db } from "../config";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { UserType, userConverter } from "./user";
 
-const AuthContext = createContext({});
+export const AuthContext = createContext<AuthType>({
+    user: {
+        id: null,
+        name: null,
+        email: null,
+        number: null,
+        gender: null,
+        birthdate: null,
+        address: null,
+        wishlist: [],
+        cart: [],
+        review: [],
+        transaction: []
+    },
+    signUp: function (name: string, email: string, password: string): Promise<UserCredential> {
+        throw new Error("Function not implemented.");
+    },
+    logIn: function (email: string, password: string): Promise<UserCredential> {
+        throw new Error("Function not implemented.");
+    },
+    logInWithGoogle: function (): Promise<UserCredential> {
+        throw new Error("Function not implemented.");
+    },
+    logOut: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+    },
+    checkUserVerified: function (): Promise<Boolean | undefined> {
+        throw new Error("Function not implemented.");
+    },
+    updateUserData: function(newUserData: UserType): void {
+        throw new Error("Function not implemented.");
+    }
+});
 
-export const useAuth = () => useContext<any>(AuthContext);
+interface AuthType {
+  user: UserType;
+  signUp: (name: string, email: string, password: string) => Promise<UserCredential>;
+  logIn: (email: string, password: string) => Promise<UserCredential>;
+  logInWithGoogle: () => Promise<UserCredential>;
+  logOut: () => Promise<void>;
+  checkUserVerified: () => Promise<Boolean| undefined>;
+  updateUserData: (newUserData: UserType) => void;
+}
+
+export const useAuth = () => useContext(AuthContext);
 
 export const AuthContextProvider = ({
   children,
@@ -29,7 +71,10 @@ export const AuthContextProvider = ({
     number: null,
     gender: null,
     birthdate: null,
-    review: null,
+    address: null,
+    wishlist: [],
+    cart: [],
+    review: [],
     transaction: [],
   });
   const [loading, setLoading] = useState<Boolean>(true);
@@ -45,6 +90,9 @@ export const AuthContextProvider = ({
           number: userData!.number,
           gender: userData!.gender,
           birthdate: userData!.birthdate,
+          address: userData!.address,
+          wishlist: userData!.wishlist,
+          cart: userData!.cart,
           review: userData!.review,
           transaction: userData!.transaction,
         });
@@ -56,7 +104,10 @@ export const AuthContextProvider = ({
           number: null,
           gender: null,
           birthdate: null,
-          review: null,
+          address: null,
+          wishlist: [],
+          cart: [],
+          review: [],
           transaction: [],
         });
       }
@@ -67,26 +118,33 @@ export const AuthContextProvider = ({
     return () => unsubscribe();
   }, []);
 
+  const updateUserData = (newUserData: UserType) => {
+    setUser(newUserData);
+  }
+
   // get user data from firestore
-  const getUserData = async (uid: string, ) => {
+  const getUserData = async (uid: string) => {
     const docRef = doc(db, "user", uid).withConverter(userConverter);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-        const user = docSnap.data();
-        return user;
+      const user = docSnap.data();
+      return user;
     } else {
-
-        return null;
+      return null;
     }
   };
 
   const signUp = async (name: string, email: string, password: string) => {
-    const userCredential = createUserWithEmailAndPassword(auth, email, password);
+    const userCredential = createUserWithEmailAndPassword(
+      auth,
+      email,
+      password,
+    );
     const credential = await userCredential;
     // store new user account to firestore
     const newUserData = {
-        id: credential.user.uid,
-        name: name,
+      id: credential.user.uid,
+      name: name,
     } as UserType;
     await setDoc(doc(db, "user", newUserData.id!), newUserData);
     return userCredential;
@@ -118,7 +176,10 @@ export const AuthContextProvider = ({
       number: null,
       gender: null,
       birthdate: null,
-      review: null,
+      address: null,
+      wishlist: [],
+      cart: [],
+      review: [],
       transaction: [],
     });
     return await signOut(auth);
@@ -129,7 +190,9 @@ export const AuthContextProvider = ({
   };
 
   return (
-    <AuthContext.Provider value={{ user, signUp, logIn, logInWithGoogle, logOut }}>
+    <AuthContext.Provider
+      value={{ user, signUp, logIn, logInWithGoogle, logOut, checkUserVerified, updateUserData }}
+    >
       {loading ? null : children}
     </AuthContext.Provider>
   );
