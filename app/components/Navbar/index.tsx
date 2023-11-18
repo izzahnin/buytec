@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 
@@ -14,6 +15,7 @@ export default function Navbar() {
   function onNavClick() {
     setIsNavOpen((prev) => !prev);
   }
+
 
   useEffect(() => {
     window.addEventListener("resize", () => {
