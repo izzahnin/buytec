@@ -7,13 +7,13 @@ export default function NavItems() {
   const [active, setActive] = useState<number | null>(1);
 
   const navItems = [
-    { id: 1, title: "Notes", href: "/example" },
-    { id: 2, title: "Brand", href: "/example" },
-    { id: 3, title: "Occasion", href: "/example" },
-    { id: 4, title: "Gender", href: "/example"},
-    { id: 5, title: "Concentration", href: "/example"},
-    { id: 6, title: "Size", href: "/example"},
-    { id: 7, title: "Origin", href: "/example"},
+    { id: 1, title: "Notes", href: "/product" },
+    { id: 2, title: "Brand", href: "/product" },
+    { id: 3, title: "Occasion", href: "/product" },
+    { id: 4, title: "Gender", href: "/product"},
+    { id: 5, title: "Concentration", href: "/product"},
+    { id: 6, title: "Size", href: "/product"},
+    { id: 7, title: "Origin", href: "/product"},
   ];
 
   return (
