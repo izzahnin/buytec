@@ -8,7 +8,8 @@ import NavItems from "./NavItems";
 import { RxHamburgerMenu } from "react-icons/rx";
 
 export default function Navbar() {
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [windowWidth, setWindowWidth] = useState(0);
+  
   const [isNavOpen, setIsNavOpen] = useState(false);
   const alreadyLogin = false;
 
@@ -17,9 +18,20 @@ export default function Navbar() {
   }
 
   useEffect(() => {
-    window.addEventListener("resize", () => {
+    const handleResize = () => {
       setWindowWidth(window.innerWidth);
-    });
+    };
+
+    // Add event listener on mount to get initial window width
+    handleResize();
+
+    // Add event listener for window resize
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   return (
@@ -36,7 +48,7 @@ export default function Navbar() {
             <RxHamburgerMenu />
           </button>
         </nav>
-      ) : (
+        ) : (
         <NavItems />
       )}
     </>
