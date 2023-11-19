@@ -18,19 +18,18 @@ export enum ReviewEnum {
 interface GetReviewsProps {
   type: ReviewEnum;
   perfumeId: string | null;
+  userId: string | null;
 }
 
 export default async function getReviews(
   props: GetReviewsProps,
 ): Promise<ReviewProps[] | undefined> {
   try {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { user } = useAuth();
-    const { type, perfumeId } = props;
+    const { type, perfumeId, userId } = props;
     const reviews: ReviewProps[] = [];
     let q: Query<DocumentData, DocumentData> | null;
     if (type == ReviewEnum.user) {
-      q = query(collection(db, "review"), where("userId", "==", user.id));
+      q = query(collection(db, "review"), where("userId", "==", userId));
     } else {
       q = query(collection(db, "review"), where("pefumeId", "==", perfumeId!));
     }
