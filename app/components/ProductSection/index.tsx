@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import CardProduct from '../ProductCard'
+import CardProduct from '@components/ProductCard'
 import getAllPerfume  from '@/firebase/parfume/getAllPerfume';
 
 export default async function ProductSection() {
