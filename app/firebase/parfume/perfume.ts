@@ -29,6 +29,7 @@ export async function jsonToParfume(json: {
   const reviews = await getReviews({
     type: ReviewEnum.perfume,
     perfumeId: json.id,
+    userId: null,
   });
   if (reviews != undefined) {
     parsedReview = reviews;
