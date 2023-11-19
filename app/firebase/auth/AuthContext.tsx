@@ -24,8 +24,6 @@ export const AuthContext = createContext<AuthType>({
         address: null,
         wishlist: [],
         cart: [],
-        review: [],
-        transaction: []
     },
     signUp: function (name: string, email: string, password: string): Promise<UserCredential> {
         throw new Error("Function not implemented.");
@@ -74,8 +72,6 @@ export const AuthContextProvider = ({
     address: null,
     wishlist: [],
     cart: [],
-    review: [],
-    transaction: [],
   });
   const [loading, setLoading] = useState<Boolean>(true);
 
@@ -93,8 +89,6 @@ export const AuthContextProvider = ({
           address: userData!.address,
           wishlist: userData!.wishlist,
           cart: userData!.cart,
-          review: userData!.review,
-          transaction: userData!.transaction,
         });
       } else {
         setUser({
@@ -107,8 +101,6 @@ export const AuthContextProvider = ({
           address: null,
           wishlist: [],
           cart: [],
-          review: [],
-          transaction: [],
         });
       }
     });
@@ -179,8 +171,6 @@ export const AuthContextProvider = ({
       address: null,
       wishlist: [],
       cart: [],
-      review: [],
-      transaction: [],
     });
     return await signOut(auth);
   };

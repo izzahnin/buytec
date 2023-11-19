@@ -6,8 +6,8 @@ export default async function getAllPerfume(): Promise<Array<PerfumeProps> | und
     try {
         const perfumes: Array<PerfumeProps> = [];
         const querySnapshot = await getDocs(collection(db, "perfume"));
-        querySnapshot.forEach((doc) => {
-            perfumes.push(jsonToParfume(doc.data()))
+        querySnapshot.forEach(async (doc) => {
+            perfumes.push(await jsonToParfume(doc.data()))
         })
         console.log(perfumes)
         console.log(perfumes[0])
