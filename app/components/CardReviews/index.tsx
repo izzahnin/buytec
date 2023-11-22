@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { FaStar } from "react-icons/fa6";
+import { Star } from "../StarRating";
 
 interface CardReviewsInterface {
   TextReview: string;
@@ -32,9 +32,7 @@ export default function CardReviews(props: CardReviewsInterface) {
         </section>
 
         <section className="flex flex-col pl-14 sm:pl-24">
-          <div className="flex flex-row ">
-            <FaStar /> <FaStar /> <FaStar /> <FaStar /> <FaStar />
-          </div>
+          <Star stars={4} />
 
           <div className="line-clamp-1 pt-4 text-text-m lg:line-clamp-3 lg:w-fit">
             <span>{TextReview}</span>

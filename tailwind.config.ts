@@ -44,10 +44,16 @@ const config: Config = {
             lineHeight: "24px",
           },
         ],
-        "heading-s": [
+        "text-xl": [
           "20px",
           {
             lineHeight: "28px",
+          },
+        ],
+        "heading-s": [
+          "22px",
+          {
+            lineHeight: "32px",
           },
         ],
         "heading-m": [
