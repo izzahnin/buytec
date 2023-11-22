@@ -10,49 +10,73 @@ import {
 } from "firebase/auth";
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth, db } from "../config";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { UserType, userConverter } from "./user";
 
 export const AuthContext = createContext<AuthType>({
-    user: {
-        id: null,
-        name: null,
-        email: null,
-        number: null,
-        gender: null,
-        birthdate: null,
-        address: null,
-        wishlist: [],
-        cart: [],
-    },
-    signUp: function (name: string, email: string, password: string): Promise<UserCredential> {
-        throw new Error("Function not implemented.");
-    },
-    logIn: function (email: string, password: string): Promise<UserCredential> {
-        throw new Error("Function not implemented.");
-    },
-    logInWithGoogle: function (): Promise<UserCredential> {
-        throw new Error("Function not implemented.");
-    },
-    logOut: function (): Promise<void> {
-        throw new Error("Function not implemented.");
-    },
-    checkUserVerified: function (): Promise<Boolean | undefined> {
-        throw new Error("Function not implemented.");
-    },
-    updateUserData: function(newUserData: UserType): void {
-        throw new Error("Function not implemented.");
-    }
+  user: {
+    id: null,
+    name: null,
+    email: null,
+    number: null,
+    gender: null,
+    birthdate: null,
+    address: null,
+    wishlist: [],
+    cart: [],
+  },
+  signUp: function (
+    name: string,
+    email: string,
+    password: string,
+  ): Promise<UserCredential> {
+    throw new Error("Function not implemented.");
+  },
+  logIn: function (email: string, password: string): Promise<UserCredential> {
+    throw new Error("Function not implemented.");
+  },
+  logInWithGoogle: function (): Promise<UserCredential> {
+    throw new Error("Function not implemented.");
+  },
+  logOut: function (): Promise<void> {
+    throw new Error("Function not implemented.");
+  },
+  checkUserVerified: function (): Promise<Boolean | undefined> {
+    throw new Error("Function not implemented.");
+  },
+  updateAddress: function (address: string): Promise<void> {
+    throw new Error("Function not implemented.");
+  },
+  updateName: function (name: string): Promise<void> {
+    throw new Error("Function not implemented.");
+  },
+  updateBirthdate: function (birhtdate: Date): Promise<void> {
+    throw new Error("Function not implemented.");
+  },
+  updateNumber: function (number: string): Promise<void> {
+    throw new Error("Function not implemented.");
+  },
+  updateGender: function (gender: string): Promise<void> {
+    throw new Error("Function not implemented.");
+  },
 });
 
 interface AuthType {
   user: UserType;
-  signUp: (name: string, email: string, password: string) => Promise<UserCredential>;
+  signUp: (
+    name: string,
+    email: string,
+    password: string,
+  ) => Promise<UserCredential>;
   logIn: (email: string, password: string) => Promise<UserCredential>;
   logInWithGoogle: () => Promise<UserCredential>;
   logOut: () => Promise<void>;
-  checkUserVerified: () => Promise<Boolean| undefined>;
-  updateUserData: (newUserData: UserType) => void;
+  checkUserVerified: () => Promise<Boolean | undefined>;
+  updateAddress: (text: string) => Promise<void>;
+  updateName: (text: string) => Promise<void>;
+  updateBirthdate: (text: Date) => Promise<void>;
+  updateNumber: (text: string) => Promise<void>;
+  updateGender: (text: string) => Promise<void>;
 }
 
 export const useAuth = () => useContext(AuthContext);
@@ -109,10 +133,6 @@ export const AuthContextProvider = ({
 
     return () => unsubscribe();
   }, []);
-
-  const updateUserData = (newUserData: UserType) => {
-    setUser(newUserData);
-  }
 
   // get user data from firestore
   const getUserData = async (uid: string) => {
@@ -179,9 +199,69 @@ export const AuthContextProvider = ({
     return auth.currentUser?.emailVerified;
   };
 
+  const updateAddress = async (address: string) => {
+    await updateDoc(doc(db, "user", user.id!), {
+      address: address,
+    });
+    setUser({
+      ...user,
+      address: address,
+    });
+  };
+  const updateName = async (name: string) => {
+    await updateDoc(doc(db, "user", user.id!), {
+      name: name,
+    });
+    setUser({
+      ...user,
+      name: name,
+    });
+  };
+  const updateBirthdate = async (birthdate: Date) => {
+    await updateDoc(doc(db, "user", user.id!), {
+      birthdate: birthdate,
+    });
+    setUser({
+      ...user,
+      birthdate: birthdate,
+    });
+  };
+
+  const updateNumber = async (number: string) => {
+    await updateDoc(doc(db, "user", user.id!), {
+      number: number,
+    });
+    setUser({
+      ...user,
+      number: number,
+    });
+  };
+
+  const updateGender = async (gender: string) => {
+    await updateDoc(doc(db, "user", user.id!), {
+      gender: gender,
+    });
+    setUser({
+      ...user,
+      gender: gender,
+    });
+  };
+
   return (
     <AuthContext.Provider
-      value={{ user, signUp, logIn, logInWithGoogle, logOut, checkUserVerified, updateUserData }}
+      value={{
+        user,
+        signUp,
+        logIn,
+        logInWithGoogle,
+        logOut,
+        checkUserVerified,
+        updateAddress,
+        updateName,
+        updateBirthdate,
+        updateNumber,
+        updateGender,
+      }}
     >
       {loading ? null : children}
     </AuthContext.Provider>
