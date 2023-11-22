@@ -13,8 +13,8 @@ export default async function getAllPerfume(): Promise<Array<PerfumeProps> | und
         
           // Wait for all promises to resolve
           await Promise.all(fetchPromises);
-        console.log(perfumes);
-        console.log(`total response: ${perfumes.length}`);
+        // console.log(perfumes);
+        // console.log(`total response: ${perfumes.length}`);
         return perfumes;
     } catch (e) {
         console.log(e);
