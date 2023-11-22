@@ -10,8 +10,10 @@ import {
 } from "firebase/auth";
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth, db } from "../config";
-import { collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { collection, doc, getDoc, runTransaction, setDoc, updateDoc } from "firebase/firestore";
 import { UserType, userConverter } from "./user";
+import { PerfumeProps } from "../perfume/perfume";
+import { TransactionProps } from "../transaction/transaction";
 
 export const AuthContext = createContext<AuthType>({
   user: {
@@ -59,6 +61,9 @@ export const AuthContext = createContext<AuthType>({
   updateGender: function (gender: string): Promise<void> {
     throw new Error("Function not implemented.");
   },
+  checkoutCart: function (perfumes: PerfumeProps[], amounts: number[], total: number): Promise<void> {
+    throw new Error("Function not implemented.");
+  },
 });
 
 interface AuthType {
@@ -77,6 +82,7 @@ interface AuthType {
   updateBirthdate: (text: Date) => Promise<void>;
   updateNumber: (text: string) => Promise<void>;
   updateGender: (text: string) => Promise<void>;
+  checkoutCart: (perfumes: PerfumeProps[], amounts: number[], total: number) => Promise<void>;
 }
 
 export const useAuth = () => useContext(AuthContext);
@@ -247,6 +253,55 @@ export const AuthContextProvider = ({
     });
   };
 
+  const checkoutCart = async (perfumes: PerfumeProps[], amounts: number[], total: number) => {
+    // document
+    const docRef = doc(db, "transaction");
+
+    // parse perfume id and total amount
+    let perfumeId: string[] = [];
+    let totalAmount: number[] = [];
+    for (var i=0; i<perfumes.length; i++) {
+      perfumeId.push(perfumes[i].id);
+      totalAmount.push(perfumes[i].price * amounts[i]);
+    }
+
+    // transaction data
+    const newTransaction: TransactionProps = {
+      id: docRef.id,
+      userId: user.id!,
+      perfumeId: perfumeId,
+      amount: amounts,
+      totalAmount: totalAmount,
+      packageStatus: "Packed",
+      total: total,
+    }
+    
+    // remove perfumes from user cart
+    let newUserCart: string[] = user.cart;
+    for (let perfume in perfumeId) {
+      newUserCart.filter((cartId) => cartId != perfume);
+    }
+    
+    // transaction on firebase
+    await runTransaction(db, async (transaction) => {
+      transaction.update(doc(db, 'user', user.id!), {
+        cart: newUserCart,
+      });
+
+      transaction.set(docRef, transaction)
+    })
+
+    // update local
+    setUser({
+      ...user,
+      cart: newUserCart
+    })
+    // await setDoc(docRef, newTransaction);
+    // await updateDoc(doc(db, 'user', user.id!), {
+    //   cart: newUserCart,
+    // });
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -261,6 +316,7 @@ export const AuthContextProvider = ({
         updateBirthdate,
         updateNumber,
         updateGender,
+        checkoutCart,
       }}
     >
       {loading ? null : children}

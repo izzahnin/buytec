@@ -4,6 +4,7 @@ export interface TransactionProps {
     perfumeId: string[],
     amount: number[],
     totalAmount: number[],
+    total: number,
     packageStatus: string,
 }
 
@@ -14,6 +15,7 @@ export function jsonToTransaction(json: { [key: string]: any}): TransactionProps
         perfumeId: Array.isArray(json.perfumeId) ? json.perfumeId : [],
         amount: Array.isArray(json.amount) ? json.amount : [],
         totalAmount: Array.isArray(json.totalAmount) ? json.totalAmount : [],
+        total: json.total || 0,
         packageStatus: json.packageStatus || "",
     }
 }
