@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import CardProduct from "@components/ProductCard";
-import getAllPerfume from "@/firebase/parfume/getAllPerfume";
+import getAllPerfume from "@/firebase/perfume/getAllPerfume";
 
 export default async function Product() {
   const perfumes = await getAllPerfume();
