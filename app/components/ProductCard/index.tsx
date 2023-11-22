@@ -3,10 +3,12 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
+import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io";
+
+import { Star } from "../StarRating";
+
 import { parserCurrency } from "@/utils/parsercurrency";
 
-import { MdStar } from "react-icons/md";
-import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io";
 
 interface ProductCardProps {
   id: string;
@@ -46,9 +48,8 @@ export default function CardProduct(props: ProductCardProps) {
           <h1 className="text-lg uppercase">{brand}</h1>
           <p className="font-semibold">{name}</p>
           <p className="text-sm">{concentration}</p>
-          {/* sementara */}
-          <p>{parserCurrency(price)}.000</p>
-          <div className="flex ">{rating}</div>
+          <p>{parserCurrency(price)}</p>
+          <Star stars={rating} />
         </section>
       </Link>
       <section
