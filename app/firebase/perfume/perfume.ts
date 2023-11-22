@@ -19,6 +19,7 @@ export interface PerfumeProps {
   stock: number;
   rating: number;
   reviews: ReviewProps[];
+  bestSeller: boolean;
 }
 
 export async function jsonToParfume(json: {
@@ -60,5 +61,6 @@ export async function jsonToParfume(json: {
     stock: json.stock || "",
     rating: rating,
     reviews: parsedReview,
+    bestSeller: json.bestSeller ?? false,
   };
 }
