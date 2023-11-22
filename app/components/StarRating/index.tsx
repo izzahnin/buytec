@@ -24,5 +24,5 @@ export function Star(props: StarProps) {
     );
   });
 
-  return <main className="flex gap-[1px] text-xl">{ratingStar}</main>;
+  return <main className="flex gap-[1px] text-xl text-dark-blue">{ratingStar}</main>;
 }
