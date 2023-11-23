@@ -19,6 +19,7 @@ export interface UserType {
   address: string | null;
   wishlist: string[];
   cart: string[];
+  cartAmount: number[];
 }
 
 export const userConverter = {
@@ -33,6 +34,7 @@ export const userConverter = {
       address: user.address,
       wishlist: user.wishlist,
       cart: user.cart,
+      cartAmount: user.cartAmount
     };
   },
   fromFirestore: (
@@ -65,6 +67,7 @@ export const userConverter = {
       address: data?.address,
       wishlist: data?.wishlist,
       cart: data?.cart,
+      cartAmount: data?.cartAmount
     } as UserType;
   },
 };
