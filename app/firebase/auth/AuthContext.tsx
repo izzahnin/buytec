@@ -10,7 +10,14 @@ import {
 } from "firebase/auth";
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth, db } from "../config";
-import { collection, doc, getDoc, runTransaction, setDoc, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  runTransaction,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { UserType, userConverter } from "./user";
 import { PerfumeProps } from "../perfume/perfume";
 import { TransactionProps } from "../transaction/transaction";
@@ -26,6 +33,7 @@ export const AuthContext = createContext<AuthType>({
     address: null,
     wishlist: [],
     cart: [],
+    cartAmount: [],
   },
   signUp: function (
     name: string,
@@ -61,8 +69,25 @@ export const AuthContext = createContext<AuthType>({
   updateGender: function (gender: string): Promise<void> {
     throw new Error("Function not implemented.");
   },
-  checkoutCart: function (perfumes: PerfumeProps[], amounts: number[], total: number): Promise<void> {
+  checkoutCart: function (
+    perfumes: PerfumeProps[],
+    amounts: number[],
+    total: number,
+  ): Promise<void> {
     throw new Error("Function not implemented.");
+  },
+  addToCart: function (perfumeId: string, amount: number): Promise<void> {
+    throw new Error("Function not implemented");
+  },
+  deleteFromCart: function (perfumeId: string): Promise<void> {
+    throw new Error("Function not implemented");
+  },
+  updateAmountOnCart: function (
+    perfumeId: string,
+    amount: number,
+    increment: boolean,
+  ): Promise<void> {
+    throw new Error("Function not implemented");
   },
 });
 
@@ -82,7 +107,18 @@ interface AuthType {
   updateBirthdate: (text: Date) => Promise<void>;
   updateNumber: (text: string) => Promise<void>;
   updateGender: (text: string) => Promise<void>;
-  checkoutCart: (perfumes: PerfumeProps[], amounts: number[], total: number) => Promise<void>;
+  checkoutCart: (
+    perfumes: PerfumeProps[],
+    amounts: number[],
+    total: number,
+  ) => Promise<void>;
+  addToCart: (perfumeId: string, amount: number) => Promise<void>;
+  deleteFromCart: (perfumeId: string) => Promise<void>;
+  updateAmountOnCart: (
+    perfumeId: string,
+    amount: number,
+    increment: boolean,
+  ) => Promise<void>;
 }
 
 export const useAuth = () => useContext(AuthContext);
@@ -102,6 +138,7 @@ export const AuthContextProvider = ({
     address: null,
     wishlist: [],
     cart: [],
+    cartAmount: [],
   });
   const [loading, setLoading] = useState<Boolean>(true);
 
@@ -119,6 +156,7 @@ export const AuthContextProvider = ({
           address: userData!.address,
           wishlist: userData!.wishlist,
           cart: userData!.cart,
+          cartAmount: userData!.cartAmount,
         });
       } else {
         setUser({
@@ -131,6 +169,7 @@ export const AuthContextProvider = ({
           address: null,
           wishlist: [],
           cart: [],
+          cartAmount: [],
         });
       }
     });
@@ -197,6 +236,7 @@ export const AuthContextProvider = ({
       address: null,
       wishlist: [],
       cart: [],
+      cartAmount: [],
     });
     return await signOut(auth);
   };
@@ -214,6 +254,7 @@ export const AuthContextProvider = ({
       address: address,
     });
   };
+
   const updateName = async (name: string) => {
     await updateDoc(doc(db, "user", user.id!), {
       name: name,
@@ -223,6 +264,7 @@ export const AuthContextProvider = ({
       name: name,
     });
   };
+
   const updateBirthdate = async (birthdate: Date) => {
     await updateDoc(doc(db, "user", user.id!), {
       birthdate: birthdate,
@@ -253,14 +295,18 @@ export const AuthContextProvider = ({
     });
   };
 
-  const checkoutCart = async (perfumes: PerfumeProps[], amounts: number[], total: number) => {
+  const checkoutCart = async (
+    perfumes: PerfumeProps[],
+    amounts: number[],
+    total: number,
+  ) => {
     // document
     const docRef = doc(db, "transaction");
 
     // parse perfume id and total amount
     let perfumeId: string[] = [];
     let totalAmount: number[] = [];
-    for (var i=0; i<perfumes.length; i++) {
+    for (var i = 0; i < perfumes.length; i++) {
       perfumeId.push(perfumes[i].id);
       totalAmount.push(perfumes[i].price * amounts[i]);
     }
@@ -274,33 +320,110 @@ export const AuthContextProvider = ({
       totalAmount: totalAmount,
       packageStatus: "Packed",
       total: total,
-    }
-    
+    };
+
     // remove perfumes from user cart
     let newUserCart: string[] = user.cart;
+    const newCartAmount = user.cartAmount;
     for (let perfume in perfumeId) {
+      const indexId = newUserCart.findIndex((id) => id == perfume);
       newUserCart.filter((cartId) => cartId != perfume);
+      newCartAmount.filter((index) => index != indexId);
     }
-    
+
     // transaction on firebase
     await runTransaction(db, async (transaction) => {
-      transaction.update(doc(db, 'user', user.id!), {
+      transaction.update(doc(db, "user", user.id!), {
         cart: newUserCart,
       });
 
-      transaction.set(docRef, transaction)
-    })
+      transaction.set(docRef, transaction);
+    });
 
     // update local
     setUser({
       ...user,
-      cart: newUserCart
-    })
+      cart: newUserCart,
+    });
     // await setDoc(docRef, newTransaction);
     // await updateDoc(doc(db, 'user', user.id!), {
     //   cart: newUserCart,
     // });
-  }
+  };
+
+  const addToCart = async (perfumeId: string, amount: number) => {
+    const newCart = user.cart;
+    const newCartAmount = user.cartAmount;
+    // if item already in cart
+    if (newCart.includes(perfumeId)) {
+      const indexId = newCart.findIndex((value) => value == perfumeId);
+      // delete items from cart & amount
+      newCart.filter((id) => id != perfumeId);
+      // get the amount in the cart before
+      const previousAmount = newCartAmount[indexId];
+      newCartAmount.filter((index) => index != indexId);
+      // add item at the start of the list
+      newCart.unshift(perfumeId);
+      newCartAmount.unshift(amount + previousAmount);
+    }
+    // if item is not yet in cart
+    else {
+      // add item in cart
+      newCart.unshift(perfumeId);
+      newCartAmount.unshift(amount);
+    }
+
+    await updateDoc(doc(db, "user", user.id!), { cart: newCart, cartAmount: newCartAmount, });
+
+    setUser({
+      ...user,
+      cart: newCart,
+      cartAmount: newCartAmount,
+    });
+  };
+
+  const deleteFromCart = async (perfumeId: string) => {
+    const newCart = user.cart;
+    const newCartAmount = user.cartAmount;
+    // get the index of the perfume
+    const indexId = newCart.findIndex((id) => id == perfumeId);
+    // remove the perfume from cart and cart amount
+    newCart.filter((id) => id != perfumeId);
+    newCartAmount.filter((index) => index != indexId);
+
+    setUser({
+      ...user,
+      cart: newCart,
+      cartAmount: newCartAmount,
+    });
+
+    await updateDoc(doc(db, "user", user.id!), {
+      cart: newCart,
+      cartAmount: newCartAmount,
+    });
+  };
+
+  const updateAmountOnCart = async (
+    perfumeId: string,
+    amount: number,
+    increment: boolean,
+  ) => {
+    const cart = user.cart;
+    const newCartAmount = user.cartAmount;
+    // look for the index of perfume
+    const indexId = cart.findIndex((id) => id == perfumeId);
+    // add/reduce the amount the amount
+    if (increment) {
+      newCartAmount[indexId] += amount;
+    } else {
+      if (newCartAmount[indexId] == 1) return;
+      newCartAmount[indexId] -= amount;
+    }
+
+    await updateDoc(doc(db, "user", user.id!), {
+      cartAmount: newCartAmount,
+    });
+  };
 
   return (
     <AuthContext.Provider
@@ -317,6 +440,9 @@ export const AuthContextProvider = ({
         updateNumber,
         updateGender,
         checkoutCart,
+        addToCart,
+        deleteFromCart,
+        updateAmountOnCart,
       }}
     >
       {loading ? null : children}

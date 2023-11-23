@@ -8,7 +8,6 @@ import {
 } from "firebase/firestore";
 import { ReviewProps, jsonToReview } from "./review";
 import { db } from "../config";
-import { useAuth } from "../auth/AuthContext";
 
 export enum ReviewEnum {
   user,

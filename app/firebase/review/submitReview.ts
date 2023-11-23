@@ -1,27 +1,26 @@
 import { doc, setDoc, updateDoc } from "firebase/firestore";
-import { useAuth } from "../auth/AuthContext";
 import { db } from "../config";
 import { ReviewProps } from "./review";
 
-interface submitReviewProps {
+interface SubmitReviewProps {
+  userId: string;
   perfumeId: string;
   text: string;
   rating: number;
+  date: Date;
 }
 
 export default async function submitReview(
-  props: submitReviewProps,
+  props: SubmitReviewProps,
 ): Promise<void> {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { user } = useAuth();
-
   // create new review
   const newDocRef = doc(db, "review");
   await setDoc(newDocRef, {
     id: newDocRef.id,
-    userId: user.id,
+    userId: props.userId,
     perfumeId: props.perfumeId,
     text: props.text,
     rating: props.rating,
+    date: props.date,
   } as ReviewProps);
 }

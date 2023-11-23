@@ -4,6 +4,7 @@ export interface ReviewProps {
   perfumeId: string;
   text: string;
   rating: number;
+  date: Date;
 }
 
 export function jsonToReview(json: { [key: string]: any }): ReviewProps {
@@ -13,5 +14,6 @@ export function jsonToReview(json: { [key: string]: any }): ReviewProps {
     perfumeId: json.perfumeId || "",
     text: json.text || "",
     rating: json.rating || 0.0,
+    date: json.date || "",
   };
 }
