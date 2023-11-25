@@ -1,24 +1,24 @@
 import Link from "next/link";
 import React, { useState } from "react";
+import { navItems } from "@/components/Navbar/";
 
-import { MdSearch, MdOutlineShoppingCart, MdOutlinePersonOutline } from "react-icons/md";
+import {
+  MdSearch,
+  MdOutlineShoppingCart,
+  MdOutlinePersonOutline,
+} from "react-icons/md";
 
 export default function NavItems() {
+  const alreadyLogin = false;
+  
   const [active, setActive] = useState<number | null>(1);
 
-  const navItems = [
-    { id: 1, title: "Notes", href: "/product" },
-    { id: 2, title: "Brand", href: "/product" },
-    { id: 3, title: "Occasion", href: "/product" },
-    { id: 4, title: "Gender", href: "/product"},
-    { id: 5, title: "Concentration", href: "/product"},
-    { id: 6, title: "Size", href: "/product"},
-    { id: 7, title: "Origin", href: "/product"},
-  ];
-
   return (
-    <nav className="sticky h-[70px] bg-white xl:px-8 top-0 z-50 flex w-screen justify-between items-center shadow-lg px-5">
-      <Link href="/" className="font-playfair select-none text-primary-blue text-heading-l">
+    <nav className="sticky top-0 z-50 hidden h-[70px] w-screen items-center justify-between bg-white px-5 shadow-lg lg:flex xl:px-8">
+      <Link
+        href="/"
+        className="select-none font-playfair text-heading-l text-primary-blue"
+      >
         Elixir
       </Link>
       <section className="flex gap-4 px-2 py-3 text-center">
@@ -35,10 +35,22 @@ export default function NavItems() {
           </Link>
         ))}
       </section>
-      <section className="flex text-heading-s gap-1">
-        <Link href="/" className="p-1"><MdSearch /></Link>
-        <Link href="/cart" className="p-1"><MdOutlineShoppingCart /></Link>
-        <Link href="/profile" className="p-1"><MdOutlinePersonOutline /></Link>
+      <section className="flex gap-1 items-center">
+        <Link href="/" className="p-1 text-heading-s">
+          <MdSearch />
+        </Link>
+        <Link href="/cart" className={alreadyLogin ? "p-1 text-heading-s" : "hidden"}>
+          <MdOutlineShoppingCart />
+        </Link>
+        <Link href="/profile" className={alreadyLogin ? "p-1 text-heading-s" : "hidden"}>
+          <MdOutlinePersonOutline />
+        </Link>
+        <Link href="/signup" className={alreadyLogin ? "hidden" : "p-1 bg-primary-blue text-white px-4 rounded-full"}>
+          Sign Up
+        </Link>
+        <Link href="/login" className={alreadyLogin ? "hidden" : "p-1 border border-dark-blue text-primary-blue px-4 rounded-full"}>
+          Login
+        </Link>
       </section>
     </nav>
   );
