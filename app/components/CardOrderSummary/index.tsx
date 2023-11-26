@@ -62,7 +62,7 @@ export default function CardOrderSummary() {
               <h2>Shipping</h2>
               <h2>{ShippingPrice}</h2>
             </div>
-            <span className="text-text-m sm:text-text-xl text-zinc-800 ">{CardShipping}</span>
+            <span className="text-text-s sm:text-text-xl text-gray-500 ">{CardShipping}</span>
           </div>
 
           <div className="flex flex-row justify-between">
