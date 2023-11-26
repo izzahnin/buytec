@@ -30,6 +30,7 @@ export default function CardOrderSummary() {
       : Subtotal + parseFloat(ShippingPrice.replace(/\./g, ""));
 
   return (
+    <main className="rounded flex w-64 md:w-[497px] sm:w-[420px] flex-col border-2 border-solid border-primary-blue-accent">
       <section className="mx-6 flex w-52 md:w-[446.04px] sm:w-[370px] flex-col">
         <section className="flex flex-col divide-y-2 divide-primary-blue-accent">
           <h1 className="my-[19px] text-heading-m">Order Summary</h1>
