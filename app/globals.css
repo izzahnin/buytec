@@ -8,3 +8,7 @@ body{
   overflow-x: hidden;
   letter-spacing: 0.5px;
 }
+
+.custom-height{
+  height: calc(100vh - 70px);
+}
