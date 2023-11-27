@@ -18,10 +18,11 @@ interface ProductCardProps {
   brand: string;
   rating: number;
   concentration: string;
+  size: number;
 }
 
 export default function CardProduct(props: ProductCardProps) {
-  const { id, name, image, price, brand, rating, concentration } = props;
+  const { id, name, image, price, brand, rating, concentration, size } = props;
 
   const [isFavorite, setIsFavorite] = useState(false);
   const handleFavoriteClick = () => {
@@ -46,8 +47,8 @@ export default function CardProduct(props: ProductCardProps) {
 
         <section className="flex flex-col items-center justify-center text-center">
           <h1 className="text-lg uppercase">{brand}</h1>
-          <p className="font-semibold">{name}</p>
-          <p className="text-sm">{concentration}</p>
+          <p className="font-semibold line-clamp-1">{name}</p>
+          <p className="text-sm">{concentration} ({size}ml)</p>
           <p>{parserCurrency(price)}</p>
           <Star stars={rating} />
         </section>
