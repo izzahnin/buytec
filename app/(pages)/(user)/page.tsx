@@ -10,10 +10,10 @@ import getPerfumesByCategory from "@/firebase/perfume/getPerfumesByCategory";
 export default async function Home() {
   // const { logInWithGoogle } = useAuth();
   return (
-    <main className="flex flex-col gap-10">
+    <main className="flex flex-col gap-10 items-center">
       <HeroSection />
-      <ProductSection />
       <SectionCatalogue />
+      <ProductSection />
       <AboutSection />
     </main>
   );
