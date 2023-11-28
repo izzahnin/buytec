@@ -11,7 +11,6 @@ import {
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth, db } from "../config";
 import {
-  collection,
   doc,
   getDoc,
   runTransaction,
@@ -20,7 +19,7 @@ import {
 } from "firebase/firestore";
 import { UserType, userConverter } from "./user";
 import { PerfumeProps } from "../perfume/perfume";
-import { TransactionProps } from "../transaction/transaction";
+import { TransactionFirebaseProps, TransactionProps } from "../transaction/transaction";
 
 export const AuthContext = createContext<AuthType>({
   user: {
@@ -39,13 +38,13 @@ export const AuthContext = createContext<AuthType>({
     name: string,
     email: string,
     password: string,
-  ): Promise<UserCredential> {
+  ): Promise<UserCredential | undefined>  {
     throw new Error("Function not implemented.");
   },
-  logIn: function (email: string, password: string): Promise<UserCredential> {
+  logIn: function (email: string, password: string): Promise<UserCredential | undefined>  {
     throw new Error("Function not implemented.");
   },
-  logInWithGoogle: function (): Promise<UserCredential> {
+  logInWithGoogle: function (): Promise<UserCredential> | undefined {
     throw new Error("Function not implemented.");
   },
   logOut: function (): Promise<void> {
@@ -97,9 +96,9 @@ interface AuthType {
     name: string,
     email: string,
     password: string,
-  ) => Promise<UserCredential>;
-  logIn: (email: string, password: string) => Promise<UserCredential>;
-  logInWithGoogle: () => Promise<UserCredential>;
+  ) => Promise<UserCredential | undefined>;
+  logIn: (email: string, password: string) => Promise<UserCredential | undefined>;
+  logInWithGoogle: () => Promise<UserCredential> | undefined;
   logOut: () => Promise<void>;
   checkUserVerified: () => Promise<Boolean | undefined>;
   updateAddress: (text: string) => Promise<void>;
@@ -123,6 +122,13 @@ interface AuthType {
 
 export const useAuth = () => useContext(AuthContext);
 
+enum UserLoginState {
+  Idle,
+  Success,
+  Failed,
+  Loading,
+}
+
 export const AuthContextProvider = ({
   children,
 }: {
@@ -140,7 +146,7 @@ export const AuthContextProvider = ({
     cart: [],
     cartAmount: [],
   });
-  const [loading, setLoading] = useState<Boolean>(true);
+  const [loginState, setLoginState] = useState<UserLoginState>(UserLoginState.Idle);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -174,7 +180,7 @@ export const AuthContextProvider = ({
       }
     });
 
-    setLoading(false);
+    setLoginState(UserLoginState.Idle);
 
     return () => unsubscribe();
   }, []);
@@ -192,36 +198,49 @@ export const AuthContextProvider = ({
   };
 
   const signUp = async (name: string, email: string, password: string) => {
-    const userCredential = createUserWithEmailAndPassword(
-      auth,
-      email,
-      password,
-    );
-    const credential = await userCredential;
-    // store new user account to firestore
-    const newUserData = {
-      id: credential.user.uid,
-      name: name,
-    } as UserType;
-    await setDoc(doc(db, "user", newUserData.id!), newUserData);
-    return userCredential;
+    try {
+      const userCredential = createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+      const credential = await userCredential;
+      // store new user account to firestore
+      const newUserData = {
+        id: credential.user.uid,
+        name: name,
+      } as UserType;
+      await setDoc(doc(db, "user", newUserData.id!), newUserData);
+      return credential;
+    } catch (e) {
+      setLoginState(UserLoginState.Failed);
+    }
   };
 
   // Login the user
-  const logIn = (email: string, password: string) => {
-    return signInWithEmailAndPassword(auth, email, password);
+  const logIn = async (email: string, password: string) => {
+    try {
+      const credential = await signInWithEmailAndPassword(auth, email, password);
+      return credential;
+    } catch (e) {
+      setLoginState(UserLoginState.Failed);
+    }
   };
 
   const logInWithGoogle = () => {
-    const provider = new GoogleAuthProvider();
-    const result = signInWithPopup(auth, provider).then((result) => {
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential?.accessToken;
-      // The signed-in user info.
-      const user = result.user;
+    try {
+      const provider = new GoogleAuthProvider();
+      const result = signInWithPopup(auth, provider).then((result) => {
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential?.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        return result;
+      });
       return result;
-    });
-    return result;
+    } catch (e) {
+      setLoginState(UserLoginState.Failed);
+    }
   };
 
   // Logout the user
@@ -238,6 +257,7 @@ export const AuthContextProvider = ({
       cart: [],
       cartAmount: [],
     });
+    setLoginState(UserLoginState.Idle);
     return await signOut(auth);
   };
 
@@ -311,10 +331,12 @@ export const AuthContextProvider = ({
       totalAmount.push(perfumes[i].price * amounts[i]);
     }
 
-    // transaction data
-    const newTransaction: TransactionProps = {
+    // new transaction data
+    const newTransaction: TransactionFirebaseProps = {
       id: docRef.id,
       userId: user.id!,
+      userName: user.name!,
+      address: user.address!,
       perfumeId: perfumeId,
       amount: amounts,
       totalAmount: totalAmount,
@@ -337,7 +359,7 @@ export const AuthContextProvider = ({
         cart: newUserCart,
       });
 
-      transaction.set(docRef, transaction);
+      transaction.set(docRef, newTransaction);
     });
 
     // update local
@@ -445,7 +467,7 @@ export const AuthContextProvider = ({
         updateAmountOnCart,
       }}
     >
-      {loading ? null : children}
+      {loginState != UserLoginState.Success ? null : children}
     </AuthContext.Provider>
   );
 };
