@@ -23,11 +23,21 @@ export default function Navbar() {
 
   const [active, setActive] = useState<number | null>(1);
 
+  const resetActive = () => {
+    setActive(null);
+  };
+
   const [isNavOpen, setIsNavOpen] = useState(false);
 
-  function onNavClick() {
-    setIsNavOpen((prev) => !prev);
-  }
+  const onNavClick = () => {
+    setIsNavOpen(!isNavOpen);
+  };
+
+  const [searchBarVisible, setSearchBarVisible] = useState(false);
+
+  const toggleSearchBar = () => {
+    setSearchBarVisible(!searchBarVisible);
+  };
 
   return (
     <>
@@ -41,10 +51,13 @@ export default function Navbar() {
             Elixir
           </Link>
           <div className="flex gap-1">
-            <Link href="/" className="p-1 text-heading-m">
+            <button className="p-1 text-heading-s" onClick={toggleSearchBar}>
               <MdSearch />
-            </Link>
-            <button className="p-1 text-heading-m" onClick={onNavClick}>
+            </button>
+            <button className="p-1 text-heading-m" onClick={() => {
+              onNavClick();
+              resetActive();
+            }}>
               <RxHamburgerMenu />
             </button>
           </div>
@@ -60,10 +73,18 @@ export default function Navbar() {
             <section
               className={alreadyLogin ? "flex flex-col gap-4" : "hidden"}
             >
-              <Link href="/" className="p-1 hover:font-semibold">
+              <Link
+                href="/"
+                className="p-1 hover:font-semibold"
+                onClick={resetActive}
+              >
                 Cart
               </Link>
-              <Link href="/" className="p-1 hover:font-semibold">
+              <Link
+                href="/"
+                className="p-1 hover:font-semibold"
+                onClick={resetActive}
+              >
                 Profile
               </Link>
               <hr className="border-gray-300" />
@@ -84,12 +105,11 @@ export default function Navbar() {
               <Link
                 key={item.id}
                 href={item.href}
-                className={`p-1 hover:bg-gray-100 hover:font-semibold hover:duration-150 ${
-                  active === item.id && "font-semibold"
+                className={`p-1 hover:font-semibold ${
+                  active === item.id ? "font-semibold" : ""
                 }`}
                 onClick={() => {
-                  setActive(item.id);
-                  setIsNavOpen(false);
+                  setActive(active === item.id ? null : item.id);
                 }}
               >
                 {item.title}
@@ -98,6 +118,16 @@ export default function Navbar() {
           </section>
         </section>
       </nav>
+      {searchBarVisible && (
+        <section className="mx-7 my-2 flex h-11  items-center rounded-xl border border-dark-blue px-4 align-middle lg:hidden">
+          <MdSearch className="w-5  text-2xl text-dark-blue" />
+          <input
+            type="text"
+            placeholder="Search"
+            className="h-full w-full bg-transparent pl-2 text-lg text-dark-blue outline-none"
+          />
+        </section>
+      )}
 
       <NavItems />
     </>
