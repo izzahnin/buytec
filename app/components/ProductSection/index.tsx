@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import CardProduct from "@components/ProductCard";
 import getAllPerfume from "@/firebase/perfume/getAllPerfume";
 import Link from "next/link";
+import getBestSellerPerfumes from "@/firebase/perfume/getBestSellerPerfumes";
 
 export default async function ProductSection() {
-  const perfumes = await getAllPerfume();
+  const perfumes = await getBestSellerPerfumes();
   let cardList: JSX.Element[] = [];
   if (perfumes != undefined) {
     cardList = perfumes
-      .slice(0, 4)
       .map((perfume) => (
         <CardProduct
           id={perfume.id}

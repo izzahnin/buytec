@@ -14,7 +14,7 @@ export enum ReviewEnum {
   perfume,
 }
 
-interface GetReviewsProps {
+export interface GetReviewsProps {
   type: ReviewEnum;
   perfumeId: string | null;
   userId: string | null;

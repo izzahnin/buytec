@@ -7,15 +7,48 @@ import CardReviewsInput from "@/components/CardReviewsInput";
 
 import getAllPerfume from "@/firebase/perfume/getAllPerfume";
 import DetailProduct from "@/components/ProductDetail";
+import getPerfumeById from "@/firebase/perfume/getPerfumeById";
+import getReviews, {
+  GetReviewsProps,
+  ReviewEnum,
+} from "@/firebase/review/getReviews";
+import getBestSellerPerfumes from "@/firebase/perfume/getBestSellerPerfumes";
 
-export default async function ProductDetail() {
-  const perfumes = await getAllPerfume();
+export default async function ProductDetail({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const { id } = params;
+  const perfume = await getPerfumeById(id);
+  // review
+  const reviews = await getReviews({
+    type: ReviewEnum.perfume,
+    perfumeId: id,
+  } as GetReviewsProps);
+
+  const perfumes = await getBestSellerPerfumes();
   let cardList: JSX.Element[] = [];
   if (perfumes != undefined) {
-    cardList = perfumes
-      .slice(0, 4)
-      .map((perfume) => (
-        <CardProduct
+    cardList = perfumes.map((perfume) => (
+      <CardProduct
+        id={perfume.id}
+        brand={perfume.brand}
+        name={perfume.name}
+        price={perfume.price}
+        rating={perfume.rating}
+        concentration={perfume.concentration}
+        image={perfume.image}
+        key={perfume.id}
+        size={perfume.size}
+      />
+    ));
+  }
+  return (
+    <main className="flex w-screen flex-col gap-8">
+      {/* product detail */}
+      <section className=" h-full w-full">
+        <DetailProduct
           id={perfume.id}
           brand={perfume.brand}
           name={perfume.name}
@@ -23,34 +56,14 @@ export default async function ProductDetail() {
           rating={perfume.rating}
           concentration={perfume.concentration}
           image={perfume.image}
-          key={perfume.id}
-        />
-      ));
-  }
-  return (
-    <main className="flex w-screen flex-col gap-8">
-      {/* product detail */}
-      <section className=" h-full w-full">
-        <DetailProduct
-          id={"1"}
-          brand={"Lattafa"}
-          name={"Ameer Al Oudh Intense Oud"}
-          price={259000}
-          rating={4}
-          concentration={"Extrait de Parfum"}
-          image={
-            "https://firebasestorage.googleapis.com/v0/b/elixir-8ce95.appspot.com/o/Lattafa_Ameer%20Al%20Oudh%20Intense%20Oud.jpg?alt=media&token=7da0a2f0-ea2d-4b26-ae0c-4b9552d1010a"
-          }
-          description={
-            "Ameer Al Oudh Intense Oud is a rich and luxurious fragrance that opens with woody notes and oud. The heart of the fragrance is a creamy and sweet blend of vanilla and sugar, while the base is dark and smoky with agarwood (oud), sandalwood, and herbal notes. This fragrance is perfect for those who love bold and exotic scents."
-          }
-          gender={"Unisex"}
-          size={100}
+          description={perfume.description}
+          gender={perfume.gender}
+          size={perfume.size}
         />
       </section>
 
       {/* keynotes */}
-      <KeyNotes />
+      <KeyNotes topNotes={perfume.topNotes} middleNotes={perfume.middleNotes} baseNotes={perfume.baseNotes} />
 
       {/* reviews */}
       <section className="flex h-screen flex-col items-center justify-center gap-6">
@@ -101,6 +114,4 @@ const ReviewList = [
   },
 ];
 
-const filter = [
-  
-]
+const filter = [];
