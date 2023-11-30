@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import CardProduct from "@components/ProductCard";
-import getAllPerfume from "@/firebase/perfume/getAllPerfume";
 import Link from "next/link";
 import getBestSellerPerfumes from "@/firebase/perfume/getBestSellerPerfumes";
+import { getBestSellerPerfumesFromLocal, getPerfumeFromLocal } from "@/firebase/perfume/getPerfumeFromLocal";
 
 export default async function ProductSection() {
-  const perfumes = await getBestSellerPerfumes();
+  // const perfumes = await getBestSellerPerfumes();
+  const perfumes = await getBestSellerPerfumesFromLocal();
   let cardList: JSX.Element[] = [];
   if (perfumes != undefined) {
     cardList = perfumes

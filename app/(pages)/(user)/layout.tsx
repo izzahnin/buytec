@@ -1,4 +1,3 @@
-import { AuthContextProvider } from "@firebase/auth/AuthContext";
 import localFont from '@next/font/local'
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";

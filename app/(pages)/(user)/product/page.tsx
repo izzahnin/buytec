@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import CardProduct from "@components/ProductCard";
 import getAllPerfume from "@/firebase/perfume/getAllPerfume";
 import getPerfumesByCategory from "@/firebase/perfume/getPerfumesByCategory";
+import { getPerfumeFromLocal } from "@/firebase/perfume/getPerfumeFromLocal";
 
 export const categoryBrand = [
   { id: 1, title: "Dior"},
@@ -13,7 +14,8 @@ export const categoryBrand = [
 
 
 export default async function Product() {
-  const perfumes = await getAllPerfume();
+  // const perfumes = await getAllPerfume();
+  const perfumes = await getPerfumeFromLocal();
   let cardList: JSX.Element[] = [];
   if (perfumes != undefined) {
     cardList = perfumes.map((perfume) => (
