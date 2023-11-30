@@ -6,34 +6,38 @@ interface KeyNotesProps {
 
 export default function KeyNotes(props: KeyNotesProps) {
   const { topNotes, middleNotes, baseNotes } = props;
-  const parseTopNotes = topNotes.join(', ')
-  const parseMiddleNotes = middleNotes.join(', ')
-  const parseBaseNotes = baseNotes.join(', ')
+  const parseTopNotes = topNotes.join(", ");
+  const parseMiddleNotes = middleNotes.join(", ");
+  const parseBaseNotes = baseNotes.join(", ");
+
+  const Notes = [
+    {
+      id: 1,
+      title: "Top Notes",
+      notes: parseTopNotes,
+    },
+    {
+      id: 2,
+      title: "Middle Notes",
+      notes: parseMiddleNotes,
+    },
+    {
+      id: 3,
+      title: "Base Notes",
+      notes: parseBaseNotes,
+    },
+  ];
   return (
-    <div className="container mx-auto w-full max-w-screen-lg py-8">
+    <main className="container mx-auto h-fit w-full max-w-screen-lg">
       <h2 className="mb-6 text-center text-heading-m font-bold">Key Notes</h2>
-
-      <div className="-mx-4 flex flex-wrap">
-        <div className="mb-8 w-full px-4 sm:w-1/2 md:w-1/3 lg:w-1/3">
-          <div className="rounded-lg bg-white p-6 shadow">
-            <p>Top notes:</p>
-            <p className="mt-4">{parseTopNotes}</p>
+      <section className=" flex flex-col items-center md:items-start justify-between align-middle md:flex-row mx-2 gap-8">
+        {Notes.map((item) => (
+          <div key={item.id} className="flex flex-col gap-1 text-center max-w-80 w-80 justify-center">
+            <h3 className="font-semibold">{item.title}</h3>
+            <span className="flex-wrap">{item.notes}</span>
           </div>
-        </div>
-
-        <div className="mb-8 w-full px-4 sm:w-1/2 md:w-1/3 lg:w-1/3">
-          <div className="rounded-lg bg-white p-6 shadow">
-            <p>Middle notes:</p>
-            <p className="mt-4">{parseMiddleNotes}</p>
-          </div>
-        </div>
-        <div className="mb-8 w-full px-4 sm:w-1/2 md:w-1/3 lg:w-1/3">
-          <div className="rounded-lg bg-white p-6 shadow">
-            <p>Base notes:</p>
-            <p className="mt-4">{parseBaseNotes}</p>
-          </div>
-        </div>
-      </div>
-    </div>
+        ))}
+      </section>
+    </main>
   );
 }
