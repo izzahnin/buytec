@@ -5,7 +5,6 @@ import KeyNotes from "@components/KeyNotes/index";
 import CardReviews from "@/components/CardReviews";
 import CardReviewsInput from "@/components/CardReviewsInput";
 
-import getAllPerfume from "@/firebase/perfume/getAllPerfume";
 import DetailProduct from "@/components/ProductDetail";
 import getPerfumeById from "@/firebase/perfume/getPerfumeById";
 import getReviews, {
@@ -13,6 +12,7 @@ import getReviews, {
   ReviewEnum,
 } from "@/firebase/review/getReviews";
 import getBestSellerPerfumes from "@/firebase/perfume/getBestSellerPerfumes";
+import { getBestSellerPerfumesFromLocal, getPerfumeByIdFromLocal, getPerfumeFromLocal } from "@/firebase/perfume/getPerfumeFromLocal";
 
 export default async function ProductDetail({
   params,
@@ -20,14 +20,17 @@ export default async function ProductDetail({
   params: { id: string };
 }) {
   const { id } = params;
-  const perfume = await getPerfumeById(id);
+  // const perfume = await getPerfumeById(id);
+  const perfume = await getPerfumeByIdFromLocal(id)!;
   // review
-  const reviews = await getReviews({
-    type: ReviewEnum.perfume,
-    perfumeId: id,
-  } as GetReviewsProps);
+  // TODO: ADD REVIEWS
+  // const reviews = await getReviews({
+  //   type: ReviewEnum.perfume,
+  //   perfumeId: id,
+  // } as GetReviewsProps);
 
-  const perfumes = await getBestSellerPerfumes();
+  // const perfumes = await getBestSellerPerfumes();
+  const perfumes = await getBestSellerPerfumesFromLocal();
   let cardList: JSX.Element[] = [];
   if (perfumes != undefined) {
     cardList = perfumes.map((perfume) => (

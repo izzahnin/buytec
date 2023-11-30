@@ -6,11 +6,18 @@ import { RxAvatar, RxLockClosed } from "react-icons/rx";
 import { FaRegEyeSlash, FaRegEye, FaGoogle } from "react-icons/fa";
 import { IoMailOutline } from "react-icons/io5";
 import Link from "next/link";
+// import { UserLoginState, useAuth } from "@/firebase/auth/AuthContext";
+import { useRouter } from "next/navigation";
+import { UserLoginState, useAuth } from "@/firebase/auth/AuthUserProvider";
 
 export default function SignUp() {
+  const router = useRouter();
+  const auth = useAuth();
   const [passwordType, setPasswordType] = useState("password");
+  const [nameInput, setNameInput] = useState("");
+  const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
-  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handlePasswordChange: (e: ChangeEvent<HTMLInputElement>) => void = (e: ChangeEvent<HTMLInputElement>) => {
     setPasswordInput(e.target.value);
   };
   const togglePassword = () => {
@@ -41,6 +48,8 @@ export default function SignUp() {
               <input
                 type="text"
                 placeholder="username"
+                value={nameInput}
+                onChange={(input) => setNameInput(input.target.value)}
                 className="h-10 w-full bg-transparent font-bold focus:outline-none"
               />
             </div>
@@ -49,6 +58,8 @@ export default function SignUp() {
               <input
                 type="email"
                 placeholder="email"
+                value={emailInput}
+                onChange={(input) => setEmailInput(input.target.value)}
                 className="h-10 w-full bg-transparent font-bold focus:outline-none"
               />
             </div>
@@ -85,6 +96,13 @@ export default function SignUp() {
               <button
                 type="submit"
                 className="h-8 w-36 rounded-full bg-white font-bold text-black"
+                onClick={async (e) => {
+                  e.preventDefault()
+                  await auth.signUp(nameInput, emailInput, passwordInput);
+                  if (auth.loginState == UserLoginState.Success) {
+                    router.push('/')
+                  }
+                }}
               >
                 Sign Up
               </button>
