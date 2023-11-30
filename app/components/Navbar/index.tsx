@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 
@@ -7,6 +6,7 @@ import NavItems from "./NavItems";
 
 import { RxHamburgerMenu } from "react-icons/rx";
 import { MdSearch } from "react-icons/md";
+import CardSearchProduct from "../CardSearchProduct";
 
 export const navItems = [
   { id: 1, title: "Notes", href: "/product" },
@@ -32,7 +32,41 @@ export default function Navbar() {
   const toggleSearchBar = () => {
     setSearchBarVisible(!searchBarVisible);
   };
+  const [searchInput, setSearchInput] = useState("");
 
+  const [searchProduct, setSearchProduct] = useState([
+    {
+      id: "1",
+      name: "Infusion d'Homme",
+      image:
+        "https://firebasestorage.googleapis.com/v0/b/elixir-8ce95.appspot.com/o/Prada_Infusiond_Homme.jpg?alt=media&token=51a6e28a-f52a-4d1a-a07b-5433eb38a524",
+      brand: "Prada",
+      concentration: "Eau de Toilette",
+      size: 100,
+    },
+    {
+      id: "2",
+      name: "Luna Rossa Ocean",
+      image:
+        "https://firebasestorage.googleapis.com/v0/b/elixir-8ce95.appspot.com/o/Prada_LunaRossaOcean.jpg?alt=media&token=b33498d4-215c-4417-83ec-d57e28b8a5a1",
+      brand: "Prada",
+      concentration: "Eau de Toilette",
+      size: 100,
+    },
+  ]);
+
+  const [filteredProducts, setFilteredProducts] = useState(searchProduct);
+
+  useEffect(() => {
+    // Filter products based on searchInput
+    const filtered = searchProduct.filter(
+      (product) =>
+        product.name.toLowerCase().includes(searchInput.toLowerCase()) ||
+        product.brand.toLowerCase().includes(searchInput.toLowerCase()),
+    );
+
+    setFilteredProducts(filtered);
+  }, [searchInput, searchProduct]);
   return (
     <>
       <nav className="flex flex-col">
@@ -71,7 +105,11 @@ export default function Navbar() {
               >
                 Cart
               </Link>
-              <Link href="/profile" className="p-1 hover:font-semibold" onClick={onNavClick}>
+              <Link
+                href="/profile"
+                className="p-1 hover:font-semibold"
+                onClick={onNavClick}
+              >
                 Profile
               </Link>
               <hr className="border-gray-300" />
@@ -79,10 +117,18 @@ export default function Navbar() {
             <section
               className={alreadyLogin ? "hidden" : "flex flex-col gap-4"}
             >
-              <Link href="/a" className="p-1 hover:font-semibold" onClick={onNavClick}>
+              <Link
+                href="/a"
+                className="p-1 hover:font-semibold"
+                onClick={onNavClick}
+              >
                 Sign Up
               </Link>
-              <Link href="/a" className="p-1 hover:font-semibold" onClick={onNavClick}>
+              <Link
+                href="/a"
+                className="p-1 hover:font-semibold"
+                onClick={onNavClick}
+              >
                 Login
               </Link>
               <hr className="border-gray-300" />
@@ -102,13 +148,29 @@ export default function Navbar() {
         </section>
       </nav>
       {searchBarVisible && (
-        <section className="mx-7 my-2 flex h-11  items-center rounded-xl border border-dark-blue px-4 align-middle lg:hidden">
-          <MdSearch className="w-5  text-2xl text-dark-blue" />
-          <input
-            type="text"
-            placeholder="Search"
-            className="h-full w-full bg-transparent pl-2 text-lg text-dark-blue outline-none"
-          />
+        <section className="relative mx-3 my-2">
+          <section className="mx-3 my-2 flex h-11  items-center rounded-xl border border-dark-blue px-4 align-middle lg:hidden">
+            <MdSearch className="w-5  text-2xl text-dark-blue" />
+            <input
+              type="text"
+              placeholder="Search"
+              className="h-full w-full bg-transparent pl-2 text-lg text-dark-blue outline-none"
+            />
+          </section>
+          <section className="absolute mt-4 flex w-full flex-col gap-1 md:w-1/4">
+            {searchInput.trim() !== "" &&
+              filteredProducts.map((product) => (
+                <CardSearchProduct
+                  key={product.id}
+                  id={product.id}
+                  name={product.name}
+                  image={product.image}
+                  brand={product.brand}
+                  concentration={product.concentration}
+                  size={product.size}
+                />
+              ))}
+          </section>
         </section>
       )}
 
