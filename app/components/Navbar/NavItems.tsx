@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { navItems } from "@/components/Navbar/";
 
 import {
@@ -7,6 +7,7 @@ import {
   MdOutlineShoppingCart,
   MdOutlinePersonOutline,
 } from "react-icons/md";
+import CardSearchProduct from "../CardSearchProduct";
 
 export default function NavItems() {
   const alreadyLogin = true;
@@ -22,6 +23,11 @@ export default function NavItems() {
     setSearchBarVisible(!searchBarVisible);
   };
 
+
+  useEffect(() => {
+    resetActive();
+  }, []);
+
   return (
     <>
       <nav className="sticky top-0 z-50 hidden h-[70px] w-screen items-center justify-between bg-white px-5 shadow-lg lg:flex xl:px-8">
@@ -33,13 +39,11 @@ export default function NavItems() {
           Elixir
         </Link>
         <section className="flex gap-4 px-2 py-3 text-center">
-        {navItems.map((item) => (
+          {navItems.map((item) => (
             <Link
               key={item.id}
               href={item.href}
-              className={`p-1 hover:font-semibold ${
-                active === item.id ? "font-semibold" : ""
-              }`}
+              className={`p-1 hover:font-semibold `}
               onClick={() => {
                 setActive(active === item.id ? null : item.id);
               }}
@@ -88,15 +92,19 @@ export default function NavItems() {
           </Link>
         </section>
       </nav>
+
       {/* search bar */}
       {searchBarVisible && (
-        <section className="mx-7 my-2 hidden h-12 items-center  rounded-xl border border-dark-blue px-4 align-middle lg:flex">
-          <MdSearch className="w-5  text-2xl text-dark-blue" />
-          <input
-            type="text"
-            placeholder="Search"
-            className="h-full w-full bg-transparent pl-2 text-lg text-dark-blue outline-none"
-          />
+        <section className="relative mx-7 my-2">
+          <section className=" hidden h-12 items-center  rounded-xl border border-dark-blue px-4 align-middle lg:flex">
+            <MdSearch className="w-5  text-2xl text-dark-blue" />
+            <input
+              type="text"
+              placeholder="Search"
+              className="h-full w-full bg-transparent pl-2 text-lg text-dark-blue outline-none"
+            />
+          </section>
+          <CardSearchProduct />
         </section>
       )}
     </>

@@ -21,12 +21,6 @@ export const navItems = [
 export default function Navbar() {
   const alreadyLogin = true;
 
-  const [active, setActive] = useState<number | null>(1);
-
-  const resetActive = () => {
-    setActive(null);
-  };
-
   const [isNavOpen, setIsNavOpen] = useState(false);
 
   const onNavClick = () => {
@@ -54,10 +48,7 @@ export default function Navbar() {
             <button className="p-1 text-heading-s" onClick={toggleSearchBar}>
               <MdSearch />
             </button>
-            <button className="p-1 text-heading-m" onClick={() => {
-              onNavClick();
-              resetActive();
-            }}>
+            <button className="p-1 text-heading-m" onClick={onNavClick}>
               <RxHamburgerMenu />
             </button>
           </div>
@@ -74,17 +65,13 @@ export default function Navbar() {
               className={alreadyLogin ? "flex flex-col gap-4" : "hidden"}
             >
               <Link
-                href="/"
+                href="/cart"
                 className="p-1 hover:font-semibold"
-                onClick={resetActive}
+                onClick={onNavClick}
               >
                 Cart
               </Link>
-              <Link
-                href="/"
-                className="p-1 hover:font-semibold"
-                onClick={resetActive}
-              >
+              <Link href="/profile" className="p-1 hover:font-semibold" onClick={onNavClick}>
                 Profile
               </Link>
               <hr className="border-gray-300" />
@@ -92,10 +79,10 @@ export default function Navbar() {
             <section
               className={alreadyLogin ? "hidden" : "flex flex-col gap-4"}
             >
-              <Link href="/" className="p-1 hover:font-semibold">
+              <Link href="/a" className="p-1 hover:font-semibold" onClick={onNavClick}>
                 Sign Up
               </Link>
-              <Link href="/" className="p-1 hover:font-semibold">
+              <Link href="/a" className="p-1 hover:font-semibold" onClick={onNavClick}>
                 Login
               </Link>
               <hr className="border-gray-300" />
@@ -105,12 +92,8 @@ export default function Navbar() {
               <Link
                 key={item.id}
                 href={item.href}
-                className={`p-1 hover:font-semibold ${
-                  active === item.id ? "font-semibold" : ""
-                }`}
-                onClick={() => {
-                  setActive(active === item.id ? null : item.id);
-                }}
+                className={`p-1 hover:font-semibold `}
+                onClick={onNavClick}
               >
                 {item.title}
               </Link>
