@@ -98,9 +98,10 @@ export default function SignUp() {
                 className="h-8 w-36 rounded-full bg-white font-bold text-black"
                 onClick={async (e) => {
                   e.preventDefault()
-                  await auth.signUp(nameInput, emailInput, passwordInput);
-                  if (auth.loginState == UserLoginState.Success) {
-                    router.push('/')
+                  const result = await auth.signUp(nameInput, emailInput, passwordInput);
+                  console.log(auth.loginState);
+                  if (result != undefined) {
+                    router.push('/');
                   }
                 }}
               >
