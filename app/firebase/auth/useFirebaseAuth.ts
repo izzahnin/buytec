@@ -196,7 +196,7 @@ export function useFirebaseAuth() {
       }
     });
 
-    setLoginState(UserLoginState.Idle);
+    // setLoginState(UserLoginState.Idle);
 
     return () => unsubscribe();
   }, []);
@@ -227,6 +227,7 @@ export function useFirebaseAuth() {
         name: name,
       } as UserType;
       await setDoc(doc(db, "user", newUserData.id!), newUserData);
+      setLoginState(() => UserLoginState.Success);
       return credential;
     } catch (e) {
       setLoginState(UserLoginState.Failed);
@@ -237,6 +238,7 @@ export function useFirebaseAuth() {
   const logIn = async (email: string, password: string) => {
     try {
       const credential = await signInWithEmailAndPassword(auth, email, password);
+      console.log(credential.user.uid);
       return credential;
     } catch (e) {
       setLoginState(UserLoginState.Failed);

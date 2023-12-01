@@ -4,9 +4,14 @@ import { type ChangeEvent, useState } from "react";
 import { RxAvatar, RxLockClosed } from "react-icons/rx";
 import { FaRegEyeSlash, FaRegEye, FaGoogle } from "react-icons/fa";
 import Link from "next/link";
+import { UserLoginState, useAuth } from "@/firebase/auth/AuthUserProvider";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
+  const auth = useAuth();
+  const router = useRouter();
   const [passwordType, setPasswordType] = useState("password");
+  const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPasswordInput(e.target.value);
@@ -33,7 +38,9 @@ export default function Login() {
               <RxAvatar size={34} />
               <input
                 type="text"
-                placeholder="username"
+                placeholder="email"
+                value={emailInput}
+                onChange={(e) => {setEmailInput(e.target.value)}}
                 className="h-10 w-full bg-transparent font-bold focus:outline-none"
               />
             </div>
@@ -71,12 +78,29 @@ export default function Login() {
             </div>
             <div className="flex flex-col items-center space-y-6">
               <button
+              onClick={async (e) => {
+                e.preventDefault();
+                const result = await auth.logIn(emailInput, passwordInput);
+                if (result != undefined) {
+                  console.log(result.user.uid);
+                  router.push('/');
+                }
+              }
+            }
                 type="submit"
                 className="h-8 w-36 rounded-full bg-white font-bold text-black"
               >
                 Login
               </button>
               <button
+              onClick={async (e) => {
+                e.preventDefault();
+                const result = await auth.logInWithGoogle();
+                if (result != undefined) {
+                  console.log(result.user.uid);
+                  router.push('/');
+                }
+              }}
                 type="submit"
                 className="h-8 w-36 rounded-full bg-white text-xs text-black flex items-center justify-center"
               >

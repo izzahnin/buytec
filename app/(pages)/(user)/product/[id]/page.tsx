@@ -13,6 +13,7 @@ import getReviews, {
 } from "@/firebase/review/getReviews";
 import getBestSellerPerfumes from "@/firebase/perfume/getBestSellerPerfumes";
 import { getBestSellerPerfumesFromLocal, getPerfumeByIdFromLocal, getPerfumeFromLocal } from "@/firebase/perfume/getPerfumeFromLocal";
+import { useAuth } from "@/firebase/auth/AuthUserProvider";
 
 export default async function ProductDetail({
   params,

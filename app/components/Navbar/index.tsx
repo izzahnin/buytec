@@ -7,6 +7,7 @@ import NavItems from "./NavItems";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { MdSearch } from "react-icons/md";
 import CardSearchProduct from "../CardSearchProduct";
+import { useAuth } from "@/firebase/auth/AuthUserProvider";
 
 export const navItems = [
   { id: 1, title: "Notes", href: "/product" },
@@ -19,8 +20,11 @@ export const navItems = [
 ];
 
 export default function Navbar() {
-  const alreadyLogin = true;
-
+  let alreadyLogin = false;
+  const auth = useAuth();
+  if (auth.user.id != null) {
+    alreadyLogin = true;
+  }
   const [isNavOpen, setIsNavOpen] = useState(false);
 
   const onNavClick = () => {

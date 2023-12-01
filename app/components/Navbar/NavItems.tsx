@@ -7,9 +7,14 @@ import {
   MdOutlinePersonOutline,
 } from "react-icons/md";
 import CardSearchProduct from "../CardSearchProduct";
+import { useAuth } from "@/firebase/auth/AuthUserProvider";
 
 export default function NavItems() {
-  const alreadyLogin = true;
+  let alreadyLogin = false;
+  const auth = useAuth();
+  if (auth.user.id != null) {
+    alreadyLogin = true;
+  }
   const [active, setActive] = useState<number | null>(1);
   const [searchBarVisible, setSearchBarVisible] = useState(false);
   const [searchInput, setSearchInput] = useState("");
