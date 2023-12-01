@@ -1,12 +1,15 @@
 import React from 'react'
+import AboutUs from './Component/AboutUs'
+import OutStories from './Component/OutStories'
+import Unique from './Component/Unique'
 
 function aboutus() {
   return (
-    <div className='flex flex-col h-screen justify-center items-center'>
-      <h1>
-      About Us
-      </h1>
-      <p>@jet langsung semua disini aboutus-nya dk perlu pake component</p>
+    <div>
+      <AboutUs />
+      <OutStories />
+      <img className='w-full h-[600px] object-cover' src='/images/About_Background2.svg'></img>
+      <Unique />
     </div>
   )
 }
