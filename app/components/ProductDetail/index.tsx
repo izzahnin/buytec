@@ -8,6 +8,7 @@ import { parserCurrency } from "@/utils/parsercurrency";
 import { IoMdHeartEmpty, IoMdHeart, IoMdCheckmark } from "react-icons/io";
 import { HiOutlineMinus, HiOutlinePlus } from "react-icons/hi";
 import { HiOutlineTruck } from "react-icons/hi2";
+import { useAuth } from "@/firebase/auth/AuthUserProvider";
 
 interface DetailProductProps {
   id: string;
@@ -35,10 +36,23 @@ export default function DetailProduct(props: DetailProductProps) {
     concentration,
     description,
   } = props;
+  const auth = useAuth();
 
-  const [isFavorite, setIsFavorite] = useState(false);
-  const handleFavoriteClick = () => {
-    setIsFavorite(!isFavorite);
+
+  const [isFavorite, setIsFavorite] = useState(auth.user.id == null ? false : auth.user.wishlist.includes(id) ? true : false);
+  const handleFavoriteClick =  async () => {
+    if (auth.user.id != null) {
+      if (isFavorite) {
+        await auth.deleteFromWishlist(id);
+      }
+      // if item is not in wishlist
+      else {
+        await auth.addToWishlist(id);
+      }
+      setIsFavorite(!isFavorite);
+    } else {
+      alert('Create account to add perfume to wishlist')
+    }
   };
 
   const [quantity, setQuantity] = useState(1);
@@ -52,6 +66,16 @@ export default function DetailProduct(props: DetailProductProps) {
   const handlePlusClick = () => {
     setQuantity(quantity + 1);
   };
+  const handleAddToCartClick = async () => {
+    if (auth.user.id != null) {
+        await auth.addToCart(id, quantity);
+    } else {
+      // TODO: CHANGE POP UP
+      alert('Create account to add perfume to wishlist')
+    }
+  }
+
+  
 
   return (
     <main className="mx-4 flex h-fit flex-col justify-center md:gap-5 lg:gap-16 md:flex-row ">
@@ -105,7 +129,8 @@ export default function DetailProduct(props: DetailProductProps) {
               </span>
             </section>
           </div>
-          <button className="h-10 w-52 rounded-lg bg-primary-blue text-white">
+          <button className="h-10 w-52 rounded-lg bg-primary-blue text-white"
+          onClick={handleAddToCartClick}>
             Add to cart
           </button>
           <section className="flex gap-10">

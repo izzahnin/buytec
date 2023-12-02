@@ -8,6 +8,7 @@ import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io";
 import { Star } from "../StarRating";
 
 import { parserCurrency } from "@/utils/parsercurrency";
+import { useAuth } from "@/firebase/auth/AuthUserProvider";
 
 
 interface ProductCardProps {
@@ -23,10 +24,26 @@ interface ProductCardProps {
 
 export default function CardProduct(props: ProductCardProps) {
   const { id, name, image, price, brand, rating, concentration, size } = props;
+  const auth = useAuth();
 
-  const [isFavorite, setIsFavorite] = useState(false);
-  const handleFavoriteClick = () => {
-    setIsFavorite(!isFavorite);
+  const [isFavorite, setIsFavorite] = useState(auth.user.id == null ? false : auth.user.wishlist.includes(id) ? true : false);
+
+  const handleFavoriteClick = async () => {
+    // check if user already login
+    if (auth.user.id != null) {
+      // if item is already in wishlist
+      if (isFavorite) {
+        await auth.deleteFromWishlist(id);
+      }
+      // if item is not in wishlist
+      else {
+        await auth.addToWishlist(id);
+      }
+      setIsFavorite(!isFavorite);
+    } else {
+      // TODO: CHANGE POP UP
+      alert('Create account to add perfume to wishlist')
+    }
   };
 
   return (

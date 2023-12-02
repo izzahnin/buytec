@@ -1,3 +1,4 @@
+import { useAuth } from "@/firebase/auth/AuthUserProvider";
 import React, { useState, useEffect, ChangeEvent } from "react";
 
 interface ModalBirthProps {
@@ -15,6 +16,7 @@ export default function ModalBirth({
   const [day, setDay] = useState("");
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
+  const auth = useAuth();
 
   useEffect(() => {
     const [selectedDay, selectedMonth, selectedYear] = selectedDate.split(" ");
@@ -53,7 +55,7 @@ export default function ModalBirth({
     setYear(e.target.value);
   };
 
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     if (!day || !month || !year) {
@@ -63,8 +65,9 @@ export default function ModalBirth({
 
     const birth = `${day} ${month} ${year}`;
 
+    // console.log(`${value ? "Change" : "Add"} value: ${birth}`);
+    await auth.updateBirthdate(birth);
     closeModal();
-    console.log(`${value ? "Change" : "Add"} value: ${birth}`);
 
     // window.location.reload();
   };

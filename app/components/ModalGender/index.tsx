@@ -1,3 +1,4 @@
+import { useAuth } from "@/firebase/auth/AuthUserProvider";
 import React, { useState } from "react";
 
 interface ModalGenderProps {
@@ -8,8 +9,8 @@ interface ModalGenderProps {
 export default function ModalGender({ closeModal, value }: ModalGenderProps) {
   const [gender, setGender] = useState<string>("");
   const [inputError, setInputError] = useState<string | null>(null);
-
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const auth = useAuth();
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     if (!gender.trim()) {
@@ -17,7 +18,8 @@ export default function ModalGender({ closeModal, value }: ModalGenderProps) {
       return;
     }
 
-    console.log(`${value ? "Change" : "Add"} value: ${gender}`);
+    // console.log(`${value ? "Change" : "Add"} value: ${gender}`);
+    await auth.updateGender(gender);
     closeModal();
     // window.location.reload();
   };

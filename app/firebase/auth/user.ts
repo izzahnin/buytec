@@ -15,7 +15,7 @@ export interface UserType {
   email: string | null;
   number: string | null;
   gender: string | null;
-  birthdate: Date | null;
+  birthdate: string | null;
   address: string | null;
   wishlist: string[];
   cart: string[];
@@ -41,16 +41,16 @@ export const userConverter = {
     snapshot: DocumentSnapshot<DocumentData, DocumentData>,
     options: SnapshotOptions | undefined,
   ) => {
-    const parsedTransaction: TransactionProps[] = [];
+    // const parsedTransaction: TransactionProps[] = [];
     const parsedReview: ReviewProps[] = [];
     const data: DocumentData | undefined = snapshot.data(options);
-    if (data?.transaction != null) {
-      for (let transaction in data!.transaction) {
-        parsedTransaction.push(
-          jsonToTransaction(transaction as unknown as Map<string, any>),
-        );
-      }
-    }
+    // if (data?.transaction != null) {
+    //   for (let transaction in data!.transaction) {
+    //     parsedTransaction.push(
+    //       await jsonToTransaction(transaction as unknown as Map<string, any>),
+    //     );
+    //   }
+    // }
     if (data?.review != null) {
       for (let review in data!.review) {
         parsedReview.push(jsonToReview(review as unknown as Map<string, any>));

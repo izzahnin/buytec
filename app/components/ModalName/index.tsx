@@ -1,3 +1,4 @@
+import { useAuth } from "@/firebase/auth/AuthUserProvider";
 import React, { useState } from "react";
 
 interface ModalNameProps {
@@ -8,8 +9,8 @@ interface ModalNameProps {
 export default function ModalName({ closeModal, value }: ModalNameProps) {
   const [name, setName] = useState<string>("");
   const [inputError, setInputError] = useState<string | null>(null);
-
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const auth = useAuth();
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     if (!name.trim()) {
@@ -17,7 +18,8 @@ export default function ModalName({ closeModal, value }: ModalNameProps) {
       return;
     }
 
-    console.log(`${value ? "Change" : "Add"} value: ${name}`);
+    // console.log(`${value ? "Change" : "Add"} value: ${name}`);
+    await auth.updateName(name)
     closeModal();
     // window.location.reload();
   };

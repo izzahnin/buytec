@@ -1,3 +1,4 @@
+import { useAuth } from "@/firebase/auth/AuthUserProvider";
 import React, { useState } from "react";
 
 interface ModalPhoneNumberProps {
@@ -11,8 +12,8 @@ export default function ModalPhoneNumber({
 }: ModalPhoneNumberProps) {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [inputError, setInputError] = useState<string | null>(null);
-
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const auth = useAuth();
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     if (!phoneNumber) {
@@ -20,7 +21,8 @@ export default function ModalPhoneNumber({
       return;
     }
 
-    console.log(`${value ? "Change" : "Add"} value: ${phoneNumber}`);
+    // console.log(`${value ? "Change" : "Add"} value: ${phoneNumber}`);
+    await auth.updateNumber(phoneNumber);
     closeModal();
     // window.location.reload();
   };

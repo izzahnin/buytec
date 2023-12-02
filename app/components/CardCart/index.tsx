@@ -1,12 +1,14 @@
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { FaRegTrashCan } from "react-icons/fa6";
 import { FiMinusCircle, FiPlusCircle } from "react-icons/fi";
 
 import { parserCurrency } from "@/utils/parsercurrency";
+import { useAuth } from "@/firebase/auth/AuthUserProvider";
 
 interface CardProps {
+  id: string;
   title: string;
   image: string;
   price: number;
@@ -15,7 +17,26 @@ interface CardProps {
 }
 
 export default function CardCart(props: CardProps) {
-  const { title, price, image, subtotal, quantity } = props;
+  const { id, title, price, image, subtotal, quantity } = props;
+  const [ quantityValue, setQuantityValue ] = useState(quantity);
+
+  const auth = useAuth();
+  const handleDelete = async () => {
+    await auth.deleteFromCart(id);
+  }
+
+  const handleAdd = async () => {
+    await auth.updateAmountOnCart(id, true);
+  }
+
+  const handleMin = async () => {
+    await auth.updateAmountOnCart(id, false);
+  }
+
+  useEffect(() => {
+    setQuantityValue(quantity);
+  }, [quantity]);
+
 
   return (
     <section className="flex w-11/12 flex-col gap-6 rounded-xl border-2 border-[#C7C7C7]">
@@ -40,25 +61,28 @@ export default function CardCart(props: CardProps) {
           {/* Mobile */}
           <section className="flex items-center justify-between text-[#8D96AA] md:hidden">
             <section className="flex gap-5">
-              <button>
+              {/* <button>
                 <h3 className="text-text-l md:text-heading-s">Move to Cart</h3>
-              </button>
+              </button> */}
 
               <div className="h-6 w-0.5 bg-[#BFC9D9]"></div>
 
-              <button className="w-5">
+              <button className="w-5"
+              onClick={handleDelete}>
                 <FaRegTrashCan size="auto" />
               </button>
             </section>
 
             <section className="flex gap-5">
-              <button className="w-6">
+              <button className={`w-6 ${quantityValue == 1 ? '' : 'text-dark-blue'}`}
+              onClick={handleMin}>
                 <FiMinusCircle size="auto" />
               </button>
 
-              <p className="font-semibold">{quantity}</p>
+              <p className="font-semibold">{quantityValue}</p>
 
-              <button className="w-6 text-dark-blue">
+              <button className="w-6 text-dark-blue"
+              onClick={handleAdd}>
                 <FiPlusCircle size="auto" />
               </button>
             </section>
@@ -69,25 +93,28 @@ export default function CardCart(props: CardProps) {
       {/* Desktop */}
       <section className="hidden items-center justify-end gap-12 border-[#C7C7C7] px-8 py-4 text-[#8D96AA] md:flex md:border-t-2">
         <section className="flex gap-5">
-          <button>
+          {/* <button>
             <h3 className="text-text-l md:text-heading-s">Move to Cart</h3>
-          </button>
+          </button> */}
 
           <div className="h-6 w-0.5 bg-[#BFC9D9] md:h-6 md:w-0.5"></div>
 
-          <button className="w-5 md:w-5">
+          <button className="w-5 md:w-5"
+          onClick={handleDelete}>
             <FaRegTrashCan size="auto" />
           </button>
         </section>
 
         <section className="flex gap-5">
-          <button className="w-6 md:w-6">
+          <button className={`w-6 ${quantityValue == 1 ? '' : 'text-dark-blue'}`}
+          onClick={handleMin}>
             <FiMinusCircle size="auto" />
           </button>
 
-          <p className="font-semibold">{quantity}</p>
+          <p className="font-semibold">{quantityValue}</p>
 
-          <button className="w-6 text-dark-blue md:w-6">
+          <button className="w-6 text-dark-blue md:w-6"
+          onClick={handleAdd}>
             <FiPlusCircle size="auto" />
           </button>
         </section>

@@ -1,3 +1,4 @@
+import { useAuth } from "@/firebase/auth/AuthUserProvider";
 import React, { useState } from "react";
 
 interface ModalAddressProps {
@@ -7,12 +8,12 @@ interface ModalAddressProps {
 
 export default function ModalAddress({ closeModal, value }: ModalAddressProps) {
   const [address, setAddress] = useState<string>("");
-
   const [addressInputError, setAddressInputError] = useState<string | null>(
     null,
-  );
+    );
+  const auth = useAuth();
 
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     if (!address.trim()) {
@@ -20,7 +21,8 @@ export default function ModalAddress({ closeModal, value }: ModalAddressProps) {
       return;
     }
 
-    console.log(`${value ? "Change" : "Add"} value: ${address}`);
+    // console.log(`${value ? "Change" : "Add"} value: ${address}`);
+    await auth.updateAddress(address);
     closeModal();
     // window.location.reload();
   };

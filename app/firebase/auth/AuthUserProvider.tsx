@@ -26,7 +26,7 @@ export interface AuthType {
   checkUserVerified: () => Promise<Boolean | undefined>;
   updateAddress: (text: string) => Promise<void>;
   updateName: (text: string) => Promise<void>;
-  updateBirthdate: (text: Date) => Promise<void>;
+  updateBirthdate: (text: string) => Promise<void>;
   updateNumber: (text: string) => Promise<void>;
   updateGender: (text: string) => Promise<void>;
   checkoutCart: (
@@ -36,9 +36,11 @@ export interface AuthType {
   ) => Promise<void>;
   addToCart: (perfumeId: string, amount: number) => Promise<void>;
   deleteFromCart: (perfumeId: string) => Promise<void>;
+  addToWishlist: (perfumeId: string) => Promise<void>;
+  deleteFromWishlist: (perfumeId: string) => Promise<void>;
   updateAmountOnCart: (
     perfumeId: string,
-    amount: number,
+    // amount: number,
     increment: boolean,
   ) => Promise<void>;
 }
@@ -82,7 +84,7 @@ export const authUserContext = createContext<AuthType>({
     updateName: function (name: string): Promise<void> {
       throw new Error("Function not implemented.");
     },
-    updateBirthdate: function (birhtdate: Date): Promise<void> {
+    updateBirthdate: function (birhtdate: string): Promise<void> {
       throw new Error("Function not implemented.");
     },
     updateNumber: function (number: string): Promise<void> {
@@ -104,9 +106,15 @@ export const authUserContext = createContext<AuthType>({
     deleteFromCart: function (perfumeId: string): Promise<void> {
       throw new Error("Function not implemented");
     },
+    addToWishlist: function (perfumeId: string): Promise<void> {
+      throw new Error("Function not implemented");
+    },
+    deleteFromWishlist: function (perfumeId: string): Promise<void> {
+      throw new Error("Function not implemented");
+    },
     updateAmountOnCart: function (
       perfumeId: string,
-      amount: number,
+      // amount: number,
       increment: boolean,
     ): Promise<void> {
       throw new Error("Function not implemented");
