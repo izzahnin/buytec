@@ -5,27 +5,32 @@ import ModalGender from "../ModalGender";
 import ModalBirth from "../ModalBirth";
 import ModalPhoneNumber from "../ModalPhoneNumber";
 import ModalAddress from "../ModalAddress";
+import { UserType } from "@/firebase/auth/user";
+import { useAuth } from "@/firebase/auth/AuthUserProvider";
+import { useRouter } from "next/navigation";
 
-async function fetchPersonalData() {
-  return {
-    name: "Syawal Achmad",
-    gender: "Male",
-    birth: "14 November 2004",
-    address: "Grandview Karawaci Block 7, DKI Jakarta",
-    email: "syawalachmad1323@gmail.com",
-    phone: "+6281245991113",
-  };
-}
+// async function fetchPersonalData() {
+//   return {
+//     name: "Syawal Achmad",
+//     gender: "Male",
+//     birth: "14 November 2004",
+//     address: "Grandview Karawaci Block 7, DKI Jakarta",
+//     email: "syawalachmad1323@gmail.com",
+//     phone: "+6281245991113",
+//   };
+// }
 
 export default function PersonalData() {
   const [selectedModal, setSelectedModal] = useState<ModalType | null>(null);
   const [modalValue, setModalValue] = useState<string>("");
-  const [personalData, setPersonalData] = useState<any>({});
+  const auth = useAuth();
+  const router = useRouter();
+  const [personalData, setPersonalData] = useState<UserType>(auth.user);
 
   useEffect(() => {
     async function fetchData() {
-      const data = await fetchPersonalData();
-      setPersonalData(data);
+      // const data = await fetchPersonalData();
+      // setPersonalData(data);
     }
 
     fetchData();
@@ -39,7 +44,17 @@ export default function PersonalData() {
   const handleCloseModal = () => {
     setSelectedModal(null);
     setModalValue("");
+    setPersonalData(auth.user);
   };
+
+  useEffect(() => {
+    setPersonalData(auth.user);
+  }, [auth.user]);
+
+  const handleLogOut = async () => {
+    await auth.logOut();
+    router.replace('/');
+  }
 
   return (
     <main className="items flex flex-col gap-10 rounded-xl text-gray-600 sm:gap-2 sm:border-2 sm:border-black sm:p-3">
@@ -65,14 +80,14 @@ export default function PersonalData() {
           />
           <PersonalDataItems
             text="Birth"
-            value={personalData.birth || ""}
+            value={personalData.birthdate ?? ""}
             email={false}
             modalType={ModalType.BIRTH}
             onOpenModal={(type, value) => handleOpenModal(type, value)}
           />
           <PersonalDataItems
             text="Address"
-            value={personalData.address || ""}
+            value={personalData.address ?? ""}
             email={false}
             modalType={ModalType.ADDRESS}
             onOpenModal={(type, value) => handleOpenModal(type, value)}
@@ -92,12 +107,17 @@ export default function PersonalData() {
           />
           <PersonalDataItems
             text="Phone"
-            value={personalData.phone || ""}
+            value={personalData.number ?? ""}
             email={false}
             modalType={ModalType.PHONE}
             onOpenModal={(type, value) => handleOpenModal(type, value)}
           />
         </div>
+        <button
+        onClick={handleLogOut}
+        >
+          log out
+        </button>
       </section>
 
       {selectedModal === ModalType.NAME && (
@@ -110,7 +130,7 @@ export default function PersonalData() {
         <ModalBirth
           closeModal={handleCloseModal}
           value={modalValue}
-          selectedDate={personalData.birth || ""}
+          selectedDate={personalData.birthdate ?? ""}
         />
       )}
       {selectedModal === ModalType.ADDRESS && (

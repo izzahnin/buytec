@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 
 export enum ModalType {
@@ -20,18 +20,24 @@ interface PersonalDataProps {
 export default function PersonalDataItems(props: PersonalDataProps) {
   const { text, value, email, modalType, onOpenModal } = props;
 
+  const [valueprop, setValueprop] = useState(value);
+
+  useEffect(() => {
+    setValueprop(value);
+  }, [value]);
+
   const handleButtonClick = () => {
-    onOpenModal(modalType, value);
+    onOpenModal(modalType, valueprop);
   };
 
-  return value.trim() ? (
+  return valueprop.trim() ? (
     <section className="flex gap-28 sm:gap-36">
       <section className="w-0">
         <h2>{text}</h2>
       </section>
 
       <section className="flex w-full justify-between gap-5">
-        <p>{value}</p>
+        <p>{valueprop}</p>
         <button
           onClick={handleButtonClick}
           className={`${

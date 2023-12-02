@@ -1,5 +1,6 @@
 import React from "react";
 import CardReviewsInput from "../CardReviewsInput";
+import Image from "next/image";
 
 interface CardProductOrderProps {
   date: string;
@@ -41,7 +42,7 @@ export default function CardProductOrder(props: CardProductOrderProps) {
         <div>
           <section className="flex flex-row items-center justify-start">
             <div>
-              <img
+              <Image
                 className="w-28 md:w-36"
                 src={Parfum_image}
                 alt="ParfumeImage"

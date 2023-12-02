@@ -4,6 +4,7 @@ import {
   UserCredential,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  sendEmailVerification,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
@@ -19,7 +20,10 @@ import {
 } from "firebase/firestore";
 import { UserType, userConverter } from "./user";
 import { PerfumeProps } from "../perfume/perfume";
-import { TransactionFirebaseProps, TransactionProps } from "../transaction/transaction";
+import {
+  TransactionFirebaseProps,
+  TransactionProps,
+} from "../transaction/transaction";
 import { FirebaseError } from "firebase/app";
 
 export enum UserLoginState {
@@ -147,7 +151,6 @@ export enum UserLoginState {
 //   ) => Promise<void>;
 // }
 
-
 export function useFirebaseAuth() {
   const [user, setUser] = useState<UserType>({
     id: null,
@@ -161,7 +164,9 @@ export function useFirebaseAuth() {
     cart: [],
     cartAmount: [],
   });
-  const [loginState, setLoginState] = useState<UserLoginState>(UserLoginState.Idle);
+  const [loginState, setLoginState] = useState<UserLoginState>(
+    UserLoginState.Idle,
+  );
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -225,9 +230,14 @@ export function useFirebaseAuth() {
       const newUserData = {
         id: credential.user.uid,
         name: name,
+        email: email,
+        wishlist: [] as string[],
+        cart: [] as string[],
+        cartAmount: [] as number[],
       } as UserType;
       await setDoc(doc(db, "user", newUserData.id!), newUserData);
       setLoginState(() => UserLoginState.Success);
+      await sendEmailVerification(credential.user);
       return credential;
     } catch (e) {
       setLoginState(UserLoginState.Failed);
@@ -237,7 +247,11 @@ export function useFirebaseAuth() {
   // Login the user
   const logIn = async (email: string, password: string) => {
     try {
-      const credential = await signInWithEmailAndPassword(auth, email, password);
+      const credential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
       console.log(credential.user.uid);
       return credential;
     } catch (e) {
@@ -248,11 +262,29 @@ export function useFirebaseAuth() {
   const logInWithGoogle = () => {
     try {
       const provider = new GoogleAuthProvider();
-      const result = signInWithPopup(auth, provider).then((result) => {
+      const result = signInWithPopup(auth, provider).then(async (result) => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential?.accessToken;
         // The signed-in user info.
         const user = result.user;
+        // check if user has data in firestore
+        const document = await getDoc(doc(db, 'user', user.uid));
+        if (document.exists()) {
+          //not doing anything
+        } else {
+          // create new user data and send email verification
+          const newUserData = {
+            id: user.uid,
+            name: user.displayName,
+            email: user.email,
+            wishlist: [] as string[],
+            cart: [] as string[],
+            cartAmount: [] as number[],
+          } as UserType;
+          await setDoc(doc(db, "user", newUserData.id!), newUserData);
+          setLoginState(() => UserLoginState.Success);
+          await sendEmailVerification(user);
+        }
         return result;
       });
       return result;
@@ -303,7 +335,7 @@ export function useFirebaseAuth() {
     });
   };
 
-  const updateBirthdate = async (birthdate: Date) => {
+  const updateBirthdate = async (birthdate: string) => {
     await updateDoc(doc(db, "user", user.id!), {
       birthdate: birthdate,
     });
@@ -362,19 +394,20 @@ export function useFirebaseAuth() {
       total: total,
     };
 
-    // remove perfumes from user cart
-    let newUserCart: string[] = user.cart;
-    const newCartAmount = user.cartAmount;
+    // find perfume index id to be removed
+    const indexId: number[] = [];
     for (let perfume in perfumeId) {
-      const indexId = newUserCart.findIndex((id) => id == perfume);
-      newUserCart.filter((cartId) => cartId != perfume);
-      newCartAmount.filter((index) => index != indexId);
+      indexId.push(user.cart.findIndex((id) => id == perfume));
     }
+    // remove perfumes from user cart
+    let newUserCart: string[] = user.cart.filter((cartId) => !perfumeId.includes(cartId));
+    const newCartAmount = user.cartAmount.filter((index) => !indexId.includes(index));
 
     // transaction on firebase
     await runTransaction(db, async (transaction) => {
       transaction.update(doc(db, "user", user.id!), {
         cart: newUserCart,
+        cartAmount: newCartAmount,
       });
 
       transaction.set(docRef, newTransaction);
@@ -384,24 +417,21 @@ export function useFirebaseAuth() {
     setUser({
       ...user,
       cart: newUserCart,
+      cartAmount: newCartAmount,
     });
-    // await setDoc(docRef, newTransaction);
-    // await updateDoc(doc(db, 'user', user.id!), {
-    //   cart: newUserCart,
-    // });
   };
 
   const addToCart = async (perfumeId: string, amount: number) => {
-    const newCart = user.cart;
-    const newCartAmount = user.cartAmount;
+    let newCart = user.cart;
+    let newCartAmount = user.cartAmount;
     // if item already in cart
     if (newCart.includes(perfumeId)) {
       const indexId = newCart.findIndex((value) => value == perfumeId);
       // delete items from cart & amount
-      newCart.filter((id) => id != perfumeId);
+      newCart = newCart.filter((id) => id != perfumeId);
       // get the amount in the cart before
       const previousAmount = newCartAmount[indexId];
-      newCartAmount.filter((index) => index != indexId);
+      newCartAmount = newCartAmount.filter((num, index) => index != indexId);
       // add item at the start of the list
       newCart.unshift(perfumeId);
       newCartAmount.unshift(amount + previousAmount);
@@ -413,7 +443,10 @@ export function useFirebaseAuth() {
       newCartAmount.unshift(amount);
     }
 
-    await updateDoc(doc(db, "user", user.id!), { cart: newCart, cartAmount: newCartAmount, });
+    await updateDoc(doc(db, "user", user.id!), {
+      cart: newCart,
+      cartAmount: newCartAmount,
+    });
 
     setUser({
       ...user,
@@ -423,13 +456,11 @@ export function useFirebaseAuth() {
   };
 
   const deleteFromCart = async (perfumeId: string) => {
-    const newCart = user.cart;
-    const newCartAmount = user.cartAmount;
     // get the index of the perfume
-    const indexId = newCart.findIndex((id) => id == perfumeId);
+    const indexId = user.cart.findIndex((id) => id == perfumeId);
     // remove the perfume from cart and cart amount
-    newCart.filter((id) => id != perfumeId);
-    newCartAmount.filter((index) => index != indexId);
+    const newCart = user.cart.filter((id) => id != perfumeId);
+    const newCartAmount = user.cartAmount.filter((num, index) => index != indexId);
 
     setUser({
       ...user,
@@ -445,7 +476,7 @@ export function useFirebaseAuth() {
 
   const updateAmountOnCart = async (
     perfumeId: string,
-    amount: number,
+    // amount: number,
     increment: boolean,
   ) => {
     const cart = user.cart;
@@ -454,33 +485,63 @@ export function useFirebaseAuth() {
     const indexId = cart.findIndex((id) => id == perfumeId);
     // add/reduce the amount the amount
     if (increment) {
-      newCartAmount[indexId] += amount;
+      newCartAmount[indexId] += 1;
     } else {
       if (newCartAmount[indexId] == 1) return;
-      newCartAmount[indexId] -= amount;
+      newCartAmount[indexId] -= 1;
     }
 
     await updateDoc(doc(db, "user", user.id!), {
       cartAmount: newCartAmount,
     });
+    setUser({
+      ...user,
+      cartAmount: newCartAmount,
+    })
+  };
+
+  const addToWishlist = async (perfumeId: string) => {
+    const newWishlist = user.wishlist;
+    // add item in wishlist
+    newWishlist.unshift(perfumeId);
+
+    await updateDoc(doc(db, "user", user.id!), { wishlist: newWishlist });
+
+    setUser({
+      ...user,
+      wishlist: newWishlist,
+    });
+  };
+
+  const deleteFromWishlist = async (perfumeId: string) => {
+    // remove id from wishlist
+    const newWishlist = user.wishlist.filter((id) => id != perfumeId);
+    await updateDoc(doc(db, "user", user.id!), { wishlist: newWishlist });
+
+    setUser({
+      ...user,
+      wishlist: newWishlist,
+    });
   };
 
   return {
-        user,
-        loginState,
-        signUp,
-        logIn,
-        logInWithGoogle,
-        logOut,
-        checkUserVerified,
-        updateAddress,
-        updateName,
-        updateBirthdate,
-        updateNumber,
-        updateGender,
-        checkoutCart,
-        addToCart,
-        deleteFromCart,
-        updateAmountOnCart,
-      }
-};
+    user,
+    loginState,
+    signUp,
+    logIn,
+    logInWithGoogle,
+    logOut,
+    checkUserVerified,
+    updateAddress,
+    updateName,
+    updateBirthdate,
+    updateNumber,
+    updateGender,
+    checkoutCart,
+    addToCart,
+    deleteFromCart,
+    updateAmountOnCart,
+    addToWishlist,
+    deleteFromWishlist,
+  };
+}
