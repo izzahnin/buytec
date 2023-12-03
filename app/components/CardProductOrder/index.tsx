@@ -80,7 +80,7 @@ export default function CardProductOrder(props: CardProductOrderProps) {
 
         {orderstatus === 'Received' && (
           <div className="pt-3 pl-3 pb-3">
-            <CardReviewsInput />
+            <CardReviewsInput perfumeId={""} />
           </div>
         )}
       </section>

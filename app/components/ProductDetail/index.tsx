@@ -21,6 +21,7 @@ interface DetailProductProps {
   rating: number;
   concentration: string;
   description: string;
+  stock: number;
 }
 
 export default function DetailProduct(props: DetailProductProps) {
@@ -35,6 +36,7 @@ export default function DetailProduct(props: DetailProductProps) {
     rating,
     concentration,
     description,
+    stock,
   } = props;
   const auth = useAuth();
 
@@ -134,7 +136,7 @@ export default function DetailProduct(props: DetailProductProps) {
             Add to cart
           </button>
           <section className="flex gap-10">
-            <div className="flex items-center gap-2">
+            <div className={`flex items-center gap-2 ${stock > 0 ? '' : 'hidden'}`}>
               <IoMdCheckmark className="text-xl" />
               <p>In Stock!</p>
             </div>

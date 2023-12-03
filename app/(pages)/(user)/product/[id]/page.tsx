@@ -12,8 +12,13 @@ import getReviews, {
   ReviewEnum,
 } from "@/firebase/review/getReviews";
 import getBestSellerPerfumes from "@/firebase/perfume/getBestSellerPerfumes";
-import { getBestSellerPerfumesFromLocal, getPerfumeByIdFromLocal, getPerfumeFromLocal } from "@/firebase/perfume/getPerfumeFromLocal";
+import {
+  getBestSellerPerfumesFromLocal,
+  getPerfumeByIdFromLocal,
+  getPerfumeFromLocal,
+} from "@/firebase/perfume/getPerfumeFromLocal";
 import { useAuth } from "@/firebase/auth/AuthUserProvider";
+import { ReviewProps } from "@/firebase/review/review";
 
 export default async function ProductDetail({
   params,
@@ -25,11 +30,17 @@ export default async function ProductDetail({
   const perfume = await getPerfumeByIdFromLocal(id)!;
   // review
   // TODO: ADD REVIEWS
-  // const reviews = await getReviews({
-  //   type: ReviewEnum.perfume,
-  //   perfumeId: id,
-  // } as GetReviewsProps);
+  let reviews = await getReviews({
+    type: ReviewEnum.perfume,
+    perfumeId: id,
+  } as GetReviewsProps);
 
+  const submitEffect = async () => {
+    reviews = await getReviews({
+      type: ReviewEnum.perfume,
+      perfumeId: id,
+    } as GetReviewsProps);
+  }
   // const perfumes = await getBestSellerPerfumes();
   const perfumes = await getBestSellerPerfumesFromLocal();
   let cardList: JSX.Element[] = [];
@@ -62,32 +73,39 @@ export default async function ProductDetail({
           image={perfume.image}
           description={perfume.description}
           gender={perfume.gender}
-          size={perfume.size}
-        />
+          size={perfume.size} stock={perfume.stock}        />
       </section>
 
       {/* keynotes */}
-      <KeyNotes topNotes={perfume.topNotes} middleNotes={perfume.middleNotes} baseNotes={perfume.baseNotes} />
+      <KeyNotes
+        topNotes={perfume.topNotes}
+        middleNotes={perfume.middleNotes}
+        baseNotes={perfume.baseNotes}
+      />
 
       {/* reviews */}
       <section className="flex h-screen flex-col items-center justify-center gap-6">
         <h1 className="text-heading-m font-medium">Reviews</h1>
         <section className="flex flex-col gap-20 ">
-          <CardReviewsInput />
+          <CardReviewsInput perfumeId={perfume.id}  />
           <div className="flex flex-col gap-6 ">
-            {ReviewList.map((List, index) => (
+            {reviews!.map((review, index) => (
               <CardReviews
                 key={index}
-                TextReview={List.Review}
-                User={List.User}
-                Date={List.Date}
+                id={review.id}
+                userId={review.userId}
+                userName={review.userName}
+                perfumeId={review.perfumeId}
+                text={review.text}
+                rating={review.rating}
+                date={review.date}
               />
             ))}
           </div>
         </section>
-        <h1 className="my-3 w-fit text-center text-heading-s font-medium text-gray-500 hover:cursor-pointer">
+        {/* <h1 className="my-3 w-fit text-center text-heading-s font-medium text-gray-500 hover:cursor-pointer">
           Show more
-        </h1>
+        </h1> */}
       </section>
 
       {/* other product */}
@@ -103,19 +121,16 @@ export default async function ProductDetail({
   );
 }
 
-const ReviewList = [
-  {
-    Review:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, voluptatum.",
-    User: "Nurul Izzah",
-    Date: "20 November 2023",
-  },
-  {
-    Review:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, voluptatum.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, voluptatum",
-    User: "User 2",
-    Date: "12 Desember 2023",
-  },
-];
+// const reviews: ReviewProps[] = [
+//   {
+//     id: "",
+//     userId: "b8nq2zRA64fism84W2GMpdiZ0LI2",
+//     userName: "shobur",
+//     perfumeId: "yNpphOS3xykaHeejUv5e",
+//     text: "Very masspleasing scent!",
+//     rating: 4,
+//     date: new Date(),
+//   },
+// ];
 
 const filter = [];

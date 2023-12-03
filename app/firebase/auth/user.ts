@@ -20,6 +20,8 @@ export interface UserType {
   wishlist: string[];
   cart: string[];
   cartAmount: number[];
+  review: string[];
+  buy: string[];
 }
 
 export const userConverter = {
@@ -34,7 +36,9 @@ export const userConverter = {
       address: user.address,
       wishlist: user.wishlist,
       cart: user.cart,
-      cartAmount: user.cartAmount
+      cartAmount: user.cartAmount,
+      review: user.review,
+      buy: user.buy
     };
   },
   fromFirestore: (
@@ -42,7 +46,7 @@ export const userConverter = {
     options: SnapshotOptions | undefined,
   ) => {
     // const parsedTransaction: TransactionProps[] = [];
-    const parsedReview: ReviewProps[] = [];
+    // const parsedReview: ReviewProps[] = [];
     const data: DocumentData | undefined = snapshot.data(options);
     // if (data?.transaction != null) {
     //   for (let transaction in data!.transaction) {
@@ -51,11 +55,11 @@ export const userConverter = {
     //     );
     //   }
     // }
-    if (data?.review != null) {
-      for (let review in data!.review) {
-        parsedReview.push(jsonToReview(review as unknown as Map<string, any>));
-      }
-    }
+    // if (data?.review != null) {
+    //   for (let review in data!.review) {
+    //     parsedReview.push(jsonToReview(review as unknown as Map<string, any>));
+    //   }
+    // }
 
     return {
       id: data!.id,
@@ -67,7 +71,9 @@ export const userConverter = {
       address: data?.address,
       wishlist: data?.wishlist,
       cart: data?.cart,
-      cartAmount: data?.cartAmount
+      cartAmount: data?.cartAmount,
+      review: data?.review,
+      buy: data?.buy,
     } as UserType;
   },
 };

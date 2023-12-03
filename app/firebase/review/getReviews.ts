@@ -30,7 +30,7 @@ export default async function getReviews(
     if (type == ReviewEnum.user) {
       q = query(collection(db, "review"), where("userId", "==", userId));
     } else {
-      q = query(collection(db, "review"), where("pefumeId", "==", perfumeId!));
+      q = query(collection(db, "review"), where("perfumeId", "==", perfumeId!));
     }
 
     const querySnapshot = await getDocs(q);

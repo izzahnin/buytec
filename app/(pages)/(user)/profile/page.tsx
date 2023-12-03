@@ -3,9 +3,11 @@ import PersonalData from '@/components/PersonalData';
 import CardProductOrder from "@/components/CardProductOrder";
 import CardTrackOrder from "@/components/CardTrackOrder";
 import React, { useState } from "react";
+import { useAuth } from '@/firebase/auth/AuthUserProvider';
 
 export default function Profile() {
   const [activeTab, setActiveTab] = useState("PersonalData");
+  const auth = useAuth();
 
   const handleTabClick = (tab:string) => {
     setActiveTab(tab);
@@ -47,7 +49,7 @@ export default function Profile() {
           </div>
           <div className="flex items-center justify-center pb-24 pt-3">
             {activeTab === "PersonalData" && <PersonalData />}
-            {activeTab === "TrackOrder" && <CardTrackOrder />}
+            {activeTab === "TrackOrder" && <CardTrackOrder userId={auth.user.id!} />}
           </div>
         </section>
       </section>
