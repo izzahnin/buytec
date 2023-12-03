@@ -1,16 +1,17 @@
 import React from "react";
 import Image from "next/image";
 import { Star } from "../StarRating";
+import { ReviewProps } from "@/firebase/review/review";
 
-interface CardReviewsInterface {
-  TextReview: string;
-  User: string;
-  Date: string;
-}
+// interface CardReviewsInterface {
+//   TextReview: string;
+//   User: string;
+//   Date: string;
+// }
 
-export default function CardReviews(props: CardReviewsInterface) {
-  const { TextReview, User, Date } = props;
-  const firstLetter = User.charAt(0);
+export default function CardReviews(props: ReviewProps) {
+  const { id, userId, userName, perfumeId, text, rating, date } = props;
+  const firstLetter = userName.charAt(0);
 
   return (
     <main>
@@ -32,19 +33,25 @@ export default function CardReviews(props: CardReviewsInterface) {
         </section>
 
         <section className="flex flex-col pl-14 sm:pl-24">
-          <Star stars={4} />
+          <Star stars={rating} />
 
           <div className="line-clamp-1 pt-4 text-text-m lg:line-clamp-3 lg:w-fit">
-            <span>{TextReview}</span>
+            <span>{text}</span>
           </div>
 
           <section className="flex flex-row pt-4">
             <div className="w-40">
-              <span className="text-text-m">{User}</span>
+              <span className="text-text-m">{userName}</span>
             </div>
 
             <div>
-              <span className="text-text-m">{Date}</span>
+              <span className="text-text-m">
+                {new Date(date).toLocaleDateString('en-US', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric',
+                  })}
+              </span>
             </div>
           </section>
         </section>

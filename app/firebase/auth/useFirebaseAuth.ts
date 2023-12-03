@@ -163,6 +163,8 @@ export function useFirebaseAuth() {
     wishlist: [],
     cart: [],
     cartAmount: [],
+    review: [],
+    buy: [],
   });
   const [loginState, setLoginState] = useState<UserLoginState>(
     UserLoginState.Idle,
@@ -183,6 +185,8 @@ export function useFirebaseAuth() {
           wishlist: userData!.wishlist,
           cart: userData!.cart,
           cartAmount: userData!.cartAmount,
+    review: userData!.review,
+    buy: userData!.buy,
         });
         console.log(userData?.name);
       } else {
@@ -197,6 +201,8 @@ export function useFirebaseAuth() {
           wishlist: [],
           cart: [],
           cartAmount: [],
+    review: [],
+    buy: [],
         });
       }
     });
@@ -252,7 +258,6 @@ export function useFirebaseAuth() {
         email,
         password,
       );
-      console.log(credential.user.uid);
       return credential;
     } catch (e) {
       setLoginState(UserLoginState.Failed);
@@ -306,6 +311,8 @@ export function useFirebaseAuth() {
       wishlist: [],
       cart: [],
       cartAmount: [],
+    review: [],
+    buy: [],
     });
     setLoginState(UserLoginState.Idle);
     return await signOut(auth);
@@ -369,6 +376,7 @@ export function useFirebaseAuth() {
     perfumes: PerfumeProps[],
     amounts: number[],
     total: number,
+    paymentMethod: string,
   ) => {
     // document
     const docRef = doc(db, "transaction");
@@ -392,6 +400,7 @@ export function useFirebaseAuth() {
       totalAmount: totalAmount,
       packageStatus: "Packed",
       total: total,
+      paymentMethod: paymentMethod,
     };
 
     // find perfume index id to be removed
@@ -403,11 +412,15 @@ export function useFirebaseAuth() {
     let newUserCart: string[] = user.cart.filter((cartId) => !perfumeId.includes(cartId));
     const newCartAmount = user.cartAmount.filter((index) => !indexId.includes(index));
 
+    const newBuy = user.buy;
+    newBuy.unshift(...perfumeId);
+
     // transaction on firebase
     await runTransaction(db, async (transaction) => {
       transaction.update(doc(db, "user", user.id!), {
         cart: newUserCart,
         cartAmount: newCartAmount,
+        buy: newBuy,
       });
 
       transaction.set(docRef, newTransaction);
@@ -418,6 +431,7 @@ export function useFirebaseAuth() {
       ...user,
       cart: newUserCart,
       cartAmount: newCartAmount,
+      buy: newBuy,
     });
   };
 
@@ -524,6 +538,16 @@ export function useFirebaseAuth() {
     });
   };
 
+  const addReview = async (perfumeId: string) => {
+    const newReview = user.review
+    newReview.unshift(perfumeId);
+    await updateDoc(doc(db, "user", user.id!), { review: newReview});
+    setUser({
+      ...user,
+      review: newReview,
+    });
+  }
+
   return {
     user,
     loginState,
@@ -543,5 +567,6 @@ export function useFirebaseAuth() {
     updateAmountOnCart,
     addToWishlist,
     deleteFromWishlist,
+    addReview,
   };
 }

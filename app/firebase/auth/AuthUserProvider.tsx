@@ -33,6 +33,7 @@ export interface AuthType {
     perfumes: PerfumeProps[],
     amounts: number[],
     total: number,
+    paymentMethod: string,
   ) => Promise<void>;
   addToCart: (perfumeId: string, amount: number) => Promise<void>;
   deleteFromCart: (perfumeId: string) => Promise<void>;
@@ -42,6 +43,9 @@ export interface AuthType {
     perfumeId: string,
     // amount: number,
     increment: boolean,
+  ) => Promise<void>;
+  addReview: (
+    perfumeId: string
   ) => Promise<void>;
 }
 
@@ -57,6 +61,8 @@ export const authUserContext = createContext<AuthType>({
       wishlist: [],
       cart: [],
       cartAmount: [],
+    review: [],
+    buy: [],
     },
     loginState: UserLoginState.Idle,
     signUp: async function (
@@ -97,6 +103,7 @@ export const authUserContext = createContext<AuthType>({
       perfumes: PerfumeProps[],
       amounts: number[],
       total: number,
+    paymentMethod: string,
     ): Promise<void> {
       throw new Error("Function not implemented.");
     },
@@ -119,6 +126,11 @@ export const authUserContext = createContext<AuthType>({
     ): Promise<void> {
       throw new Error("Function not implemented");
     },
+    addReview: function (
+      perfuemId: string,
+      ): Promise<void> {
+        throw new Error("Function not implemented");
+    }
   });
 
   export function AuthUserProvider({ children }:  {children: React.ReactNode}) {

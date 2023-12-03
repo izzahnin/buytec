@@ -1,20 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CardProductOrder from "../CardProductOrder";
+import { TransactionProps } from "@/firebase/transaction/transaction";
+import getUserTransactions from "@/firebase/transaction/getUserTransactions";
 
-export default function CardTrackOrder() {
+interface CardTrackOrderProps {
+  userId: string,
+}
+
+export default async function CardTrackOrder(props: CardTrackOrderProps) {
+  const { userId } = props;
   const [activeButton, setActiveButton] = useState("All");
-
+  const [transactions, setTransactions] = useState<TransactionProps[] | null>(null);
   const handleButtonClick = (status:string) => {
     setActiveButton(status);
   };
+  
+  const getTransactions = await getUserTransactions(userId);
+  setTransactions(() => getTransactions!);
+  
+  // useEffect(() => {
+  
+  //   return () => {
+      
+  //   }
+  // }, [])
+  
 
-  const filteredOrders = OrderList.filter((order) => {
-    if (activeButton === "All") {
-      return true;
-    } else {
-      return order.orderstatus === activeButton;
-    }
-  });
+  // const filteredOrders = OrderList.filter((order) => {
+  //   if (activeButton === "All") {
+  //     return true;
+  //   } else {
+  //     return order.orderstatus === activeButton;
+  //   }
+  // });
 
   return (
     <main className="rounded-xl border-2 w-11/12 border-solid border-primary-blue-accent">
@@ -63,17 +81,23 @@ export default function CardTrackOrder() {
           </div>
         </div>
         <section className="flex flex-col gap-7">
-          {filteredOrders.map((List, index) => (
-            <CardProductOrder
-              key={index}
-              date={List.date}
-              orderstatus={List.orderstatus}
-              resi={List.resi}
-              Parfum_image={List.Image}
-              Parfume_name={List.Name}
-              Parfume_qty={List.Qty}
-              Parfume_price={List.Price}
-            />
+          {transactions && transactions.map((transaction, index) => (
+            transaction.perfumeId.map((perfume, index) => (
+              <CardProductOrder
+                key={index}
+                date={new Date(transaction.date).toLocaleDateString('en-US', {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                })}
+                orderstatus={transaction.packageStatus}
+                resi={transaction.id}
+                Parfum_image={perfume.image}
+                Parfume_name={perfume.name}
+                Parfume_qty={transaction.amount[index]}
+                Parfume_price={transaction.totalAmount[index].toString()}
+              />
+            ))
           ))}
         </section>
       </section>
@@ -81,23 +105,23 @@ export default function CardTrackOrder() {
   );
 }
 
-const OrderList = [
-  {
-    date: "20 Nov 2023",
-    orderstatus: "Received",
-    resi: "123456789",
-    Image: "/images/Prada_LunaRossaOcean.jpg",
-    Name: "Ameer Al Oudh Intense Oud",
-    Qty: 1,
-    Price: "2.999.999",
-  },
-  {
-    date: "25 Des 2023",
-    orderstatus: "Sent",
-    resi: "123456789",
-    Image: "/images/Prada_LunaRossaOcean.jpg",
-    Name: "Ameer Al Oudh Intense Oud",
-    Qty: 2,
-    Price: "2.999.999",
-  },
-];
+// const OrderList = [
+//   {
+//     date: "20 Nov 2023",
+//     orderstatus: "Received",
+//     resi: "123456789",
+//     Image: "/images/Prada_LunaRossaOcean.jpg",
+//     Name: "Ameer Al Oudh Intense Oud",
+//     Qty: 1,
+//     Price: "2.999.999",
+//   },
+//   {
+//     date: "25 Des 2023",
+//     orderstatus: "Sent",
+//     resi: "123456789",
+//     Image: "/images/Prada_LunaRossaOcean.jpg",
+//     Name: "Ameer Al Oudh Intense Oud",
+//     Qty: 2,
+//     Price: "2.999.999",
+//   },
+// ];
