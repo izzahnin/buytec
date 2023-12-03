@@ -52,13 +52,15 @@ export default function CardProduct(props: ProductCardProps) {
         href={`/product/${id}`}
         className=" flex  h-[400px] w-[280px] flex-col items-center justify-between rounded-2xl p-6 transition duration-300 ease-in-out hover:shadow-custom"
       >
-        <section>
+        <section className="w-[280px] h-fit object-cover">
           <Image
+            priority={true}
             draggable={false}
             src={image}
             alt={name}
             width={160}
-            height={500}
+            height={213}
+            className="h-[213px] w-auto m-auto"
           />
         </section>
 

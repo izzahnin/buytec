@@ -31,8 +31,8 @@ export default function PersonalDataItems(props: PersonalDataProps) {
   };
 
   return valueprop.trim() ? (
-    <section className="flex gap-28 sm:gap-36">
-      <section className="w-0">
+    <section className="flex justify-between text-sm lg:text-base gap-4">
+      <section className="w-4/12">
         <h2>{text}</h2>
       </section>
 
@@ -49,14 +49,14 @@ export default function PersonalDataItems(props: PersonalDataProps) {
           </section>
 
           <section className="hidden font-semibold text-primary-blue-accent sm:block sm:text-text-l">
-            <p className={`${email ? "text-transparent" : ""}`}>Change</p>
+            <p className={`${email ? "hidden" : ""}`}>Change</p>
           </section>
         </button>
       </section>
     </section>
   ) : (
-    <section className="flex gap-28 sm:gap-36">
-      <h2 className="w-0">{text}</h2>
+    <section className="flex justify-between">
+      <h2>{text}</h2>
       <button
         onClick={handleButtonClick}
         className="font-semibold text-primary-blue-accent sm:text-text-l"

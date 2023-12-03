@@ -8,6 +8,7 @@ import ModalAddress from "../ModalAddress";
 import { UserType } from "@/firebase/auth/user";
 import { useAuth } from "@/firebase/auth/AuthUserProvider";
 import { useRouter } from "next/navigation";
+import Button from "@mui/material/Button";
 
 // async function fetchPersonalData() {
 //   return {
@@ -53,17 +54,17 @@ export default function PersonalData() {
 
   const handleLogOut = async () => {
     await auth.logOut();
-    router.replace('/');
-  }
+    router.replace("/");
+  };
 
   return (
-    <main className="items flex flex-col gap-10 rounded-xl text-gray-600 sm:gap-2 sm:border-2 sm:border-black sm:p-3">
+    <main className="items flex w-11/12 flex-col gap-10 rounded-xl text-gray-600 sm:gap-2 sm:border-2 sm:border-black sm:p-3 lg:w-6/12">
       <section className="flex flex-col gap-5 border-y-2 border-black p-6 sm:border-y-0">
         <h2 className="text-text-l font-bold text-gray-800">
           Change Personal Data
         </h2>
 
-        <div className="flex w-fit flex-col gap-4 sm:gap-6">
+        <div className="flex w-full flex-col gap-4 sm:gap-6">
           <PersonalDataItems
             text="Name"
             value={personalData.name || ""}
@@ -95,10 +96,10 @@ export default function PersonalData() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-5 border-y-2 border-black p-6 sm:border-y-0">
+      <section className="flex flex-col gap-5 border-y-2 border-primary-blue p-6 sm:border-y-0">
         <h2 className="text-text-l font-bold text-gray-800">Change Contact</h2>
 
-        <div className="flex w-fit flex-col gap-4 sm:gap-6">
+        <div className="flex w-full flex-col gap-4 sm:gap-6">
           <PersonalDataItems
             text="Email"
             value={personalData.email || ""}
@@ -115,8 +116,8 @@ export default function PersonalData() {
         </div>
         <button
         onClick={handleLogOut}
-        >
-          log out
+        className="m-auto md:w-1/4 transform rounded-md bg-red-700 px-4 py-2 font-semibold text-white transition duration-300 ease-in-out hover:scale-105 hover:bg-red-800 text-center">
+          Logout
         </button>
       </section>
 

@@ -15,7 +15,7 @@ export default function Profile() {
 
   return (
     <main>
-      <section className="flex flex-col gap-3">
+      <section className="flex flex-col gap-3 m-6">
         {/* <div className="flex items-start justify-start pl-10 md:pl-20 pt-14 text-heading-m text-dark-blue">
           <h1>Profile</h1>
         </div> */}
