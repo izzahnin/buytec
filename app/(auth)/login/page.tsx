@@ -24,10 +24,10 @@ export default function Login() {
     setPasswordType("password");
   };
   return (
-    <div className="flex min-h-screen flex-col bg-repeat bg-auto" style={{backgroundImage: 'url(/images/auth__bg_texture.png)'}}>
-      <div className="mx-auto my-10 flex w-full max-w-screen-xl flex-col items-center space-y-12 border-y border-y-black py-10">
-        <h1 className="text-center font-playfair text-9xl font-bold">Elixir</h1>
-        <div className="flex w-full max-w-md flex-col items-center rounded-xl bg-dark-blue p-6 text-white">
+    <div className="flex min-h-screen flex-col">
+      <div className="mx-auto my-10 flex w-full max-w-screen-xl flex-col items-center space-y-12 py-10">
+        <h1 className="text-center font-playfair text-6xl font-bold">Elixir</h1>
+        <div className="flex w-full max-w-md flex-col items-center rounded-xl bg-dark-blue px-6 py-12 text-white">
           <h2 className="mb-4 text-center text-2xl font-bold">Hello Again!</h2>
           <p className="text-m text-center">{`Welcome Back You've Been Missed!`}</p>
           <form
