@@ -17,7 +17,9 @@ export default function SignUp() {
   const [nameInput, setNameInput] = useState("");
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
-  const handlePasswordChange: (e: ChangeEvent<HTMLInputElement>) => void = (e: ChangeEvent<HTMLInputElement>) => {
+  const handlePasswordChange: (e: ChangeEvent<HTMLInputElement>) => void = (
+    e: ChangeEvent<HTMLInputElement>,
+  ) => {
     setPasswordInput(e.target.value);
   };
   const togglePassword = () => {
@@ -28,13 +30,10 @@ export default function SignUp() {
     setPasswordType("password");
   };
   return (
-    <div
-      className="flex min-h-screen flex-col bg-auto bg-repeat"
-      style={{ backgroundImage: "url(/images/auth__bg_texture.png)" }}
-    >
-      <div className="mx-auto my-10 flex w-full max-w-screen-xl flex-col items-center space-y-12 border-y border-y-black py-10">
-        <h1 className="text-center font-playfair text-9xl font-bold">Elixir</h1>
-        <div className="flex w-full max-w-md flex-col items-center rounded-xl bg-dark-blue p-6 text-white">
+    <div className="flex min-h-screen flex-col">
+      <div className="mx-auto my-10 flex w-full max-w-screen-xl flex-col items-center space-y-12 py-10">
+        <h1 className="text-center font-playfair text-6xl font-bold">Elixir</h1>
+        <div className="flex w-full max-w-md flex-col items-center rounded-xl bg-dark-blue px-6 py-12 text-white">
           <h2 className="mb-4 text-center text-2xl font-bold">
             Create Account
           </h2>
@@ -97,11 +96,15 @@ export default function SignUp() {
                 type="submit"
                 className="h-8 w-36 rounded-full bg-white font-bold text-black"
                 onClick={async (e) => {
-                  e.preventDefault()
-                  const result = await auth.signUp(nameInput, emailInput, passwordInput);
+                  e.preventDefault();
+                  const result = await auth.signUp(
+                    nameInput,
+                    emailInput,
+                    passwordInput,
+                  );
                   console.log(auth.loginState);
                   if (result != undefined) {
-                    router.push('/');
+                    router.push("/");
                   }
                 }}
               >
