@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
+import { toast } from "sonner";
 
 import { Star } from "../StarRating";
 import { parserCurrency } from "@/utils/parsercurrency";
@@ -9,6 +10,7 @@ import { IoMdHeartEmpty, IoMdHeart, IoMdCheckmark } from "react-icons/io";
 import { HiOutlineMinus, HiOutlinePlus } from "react-icons/hi";
 import { HiOutlineTruck } from "react-icons/hi2";
 import { useAuth } from "@/firebase/auth/AuthUserProvider";
+import ModalToast from "../ModalToast";
 
 interface DetailProductProps {
   id: string;
@@ -38,9 +40,14 @@ export default function DetailProduct(props: DetailProductProps) {
   } = props;
   const auth = useAuth();
 
-
-  const [isFavorite, setIsFavorite] = useState(auth.user.id == null ? false : auth.user.wishlist.includes(id) ? true : false);
-  const handleFavoriteClick =  async () => {
+  const [isFavorite, setIsFavorite] = useState(
+    auth.user.id == null
+      ? false
+      : auth.user.wishlist.includes(id)
+      ? true
+      : false,
+  );
+  const handleFavoriteClick = async () => {
     if (auth.user.id != null) {
       if (isFavorite) {
         await auth.deleteFromWishlist(id);
@@ -51,7 +58,13 @@ export default function DetailProduct(props: DetailProductProps) {
       }
       setIsFavorite(!isFavorite);
     } else {
-      alert('Create account to add perfume to wishlist')
+      // alert("Create account to add perfume to wishlist");
+      toast.custom((t) => (
+        <ModalToast
+          closeModal={() => toast.dismiss(t)}
+          value="Create account to add perfume to cart"
+        />
+      ));
     }
   };
 
@@ -68,17 +81,21 @@ export default function DetailProduct(props: DetailProductProps) {
   };
   const handleAddToCartClick = async () => {
     if (auth.user.id != null) {
-        await auth.addToCart(id, quantity);
+      await auth.addToCart(id, quantity);
     } else {
       // TODO: CHANGE POP UP
-      alert('Create account to add perfume to wishlist')
+      // alert('Create account to add perfume to wishlist')
+      toast.custom((t) => (
+        <ModalToast
+          closeModal={() => toast.dismiss(t)}
+          value="Create account to add perfume to cart"
+        />
+      ));
     }
-  }
-
-  
+  };
 
   return (
-    <main className="mx-4 flex h-fit flex-col justify-center md:gap-5 lg:gap-16 md:flex-row ">
+    <main className="mx-4 flex h-fit flex-col justify-center md:flex-row md:gap-5 lg:gap-16 ">
       <section className="flex justify-center align-middle md:w-1/2 md:justify-end lg:w-5/12">
         <Image
           draggable={false}
@@ -89,7 +106,7 @@ export default function DetailProduct(props: DetailProductProps) {
           className="h-[500px] w-[360px] object-cover"
         />
       </section>
-      <section className="my-4 md:my-9 gap-4 flex flex-col md:w-1/2 lg:w-7/12">
+      <section className="my-4 flex flex-col gap-4 md:my-9 md:w-1/2 lg:w-7/12">
         <main className="flex flex-col md:w-5/6 lg:w-2/3">
           <h1 className="text-heading-s uppercase">{brand}</h1>
           <h1 className="text-2xl font-semibold">{name}</h1>
@@ -103,7 +120,7 @@ export default function DetailProduct(props: DetailProductProps) {
           <p className="my-2 text-justify">{description}</p>
         </main>
         <section className="flex flex-col gap-4 md:w-2/3">
-          <div className="flex select-none flex-col lg:flex-row lg:gap-8 gap-4 lg:items-center ">
+          <div className="flex select-none flex-col gap-4 lg:flex-row lg:items-center lg:gap-8 ">
             <section className="flex h-9 w-36 items-center justify-between rounded-lg border-2 border-dark-blue align-middle text-xl">
               <HiOutlineMinus
                 className="mx-2 h-full w-4 items-center "
@@ -129,8 +146,10 @@ export default function DetailProduct(props: DetailProductProps) {
               </span>
             </section>
           </div>
-          <button className="h-10 w-52 rounded-lg bg-primary-blue text-white"
-          onClick={handleAddToCartClick}>
+          <button
+            className="h-10 w-52 rounded-lg bg-primary-blue text-white"
+            onClick={handleAddToCartClick}
+          >
             Add to cart
           </button>
           <section className="flex gap-10">
