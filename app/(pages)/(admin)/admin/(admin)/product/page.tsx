@@ -1,14 +1,20 @@
 "use client";
 import React, { useState } from "react";
-import ProductDetail from "../../components/AdminProductDetail";
+import ProductDetail from "../../../components/AdminProductDetail";
 // import AdminListProduct from "../../components/AdminListProduct";
 // import { getPerfumeFromLocal } from "@/firebase/perfume/getPerfumeFromLocal";
-import ProductCard from "../../components/AdminProductCard";
-import AdminListProduct from "../../components/AdminListProduct";
-import AdminPerfumeDetail from "../../components/AdminPerfumeDetail";
+import ProductCard from "../../../components/AdminProductCard";
+import AdminListProduct from "../../../components/AdminListProduct";
+import AdminPerfumeDetail from "../../../components/AdminPerfumeDetail";
+import { PerfumeProps } from "@/firebase/perfume/perfume";
 
 export default function Product() {
-  // const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
+  const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
+  // const [selectedPerfume, setSelectedPerfume] = useState<PerfumeProps | null>();
+
+  const onClick = (perfumeId: string) => {
+    setSelectedProductId(perfumeId);
+  }
 
   return (
     <section className="m-6 flex  gap-6">

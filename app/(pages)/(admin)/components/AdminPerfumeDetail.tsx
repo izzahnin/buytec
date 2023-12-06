@@ -35,20 +35,20 @@ export default function AdminPerfumeDetail(
   // } = props;
 
   return (
-    <main className="mx-4 flex h-fit  justify-center">
-      <section className="flex w-1/3 justify-center align-middle">
+    <main className="mx-4 w-full flex h-fit  justify-center gap-6">
+      <section className="flex w-fit justify-center  items-center object-cover">
         <Image
           draggable={false}
           src={
             "https://firebasestorage.googleapis.com/v0/b/elixir-8ce95.appspot.com/o/Prada_Infusiond_Homme.jpg?alt=media&token=51a6e28a-f52a-4d1a-a07b-5433eb38a524"
           }
           alt={"alt"}
-          width={100}
-          height={100}
-          className="h-[100px] w-auto"
+          width={200}
+          height={200}
+          className="h-[200px] w-auto"
         />
       </section>
-      <section className="my-4 flex flex-col gap-4">
+      <section className="my-4 w-2/3 flex flex-col gap-4">
         <main className="flex flex-col">
           <h1 className="text-heading-s uppercase">Brand</h1>
           <h1 className="text-2xl font-semibold">Name</h1>

@@ -21,7 +21,7 @@ export default function AdminProductDetail(props: AdminProductDetailProps) {
   // const perfume = await getPerfumeByIdFromLocal(id)!;
 
   return (
-    <main className="mx-4 flex h-fit  justify-center">
+    <main className="mx-4 flex h-fit flex-col justify-center">
       <AdminPerfumeDetail
         // id={perfume.id}
         // brand={perfume.brand}
@@ -35,7 +35,6 @@ export default function AdminProductDetail(props: AdminProductDetailProps) {
         // size={perfume.size}
       />
       <section>
-         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolorem, temporibus!
         {/* <KeyNotes
           topNotes={perfume.topNotes}
           middleNotes={perfume.middleNotes}

@@ -1,4 +1,4 @@
-import Bar from "../components/Bar";
+import Bar from "../../components/Bar";
 
 export default function AdminLayout({
   children,
@@ -8,7 +8,7 @@ export default function AdminLayout({
   return (
     <section className="flex h-screen overflow-hidden bg-[#f4f4f4] text-dark-blue">
       <Bar />
-      <main className="h-full overflow-y-scroll over">{children}</main>
+      <main className="over h-full overflow-y-scroll">{children}</main>
     </section>
   );
 }
