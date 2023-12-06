@@ -30,46 +30,43 @@ export default function SignUp() {
     setPasswordType("password");
   };
   return (
-    <div className="flex min-h-screen flex-col">
-      <div className="mx-auto my-10 flex w-full max-w-screen-xl flex-col items-center space-y-12 py-10">
-        <h1 className="text-center font-playfair text-6xl font-bold">Elixir</h1>
-        <div className="flex w-full max-w-md flex-col items-center rounded-xl bg-dark-blue px-6 py-12 text-white">
-          <h2 className="mb-4 text-center text-2xl font-bold">
-            Create Account
-          </h2>
+    <div className="custom-height flex flex-col items-center justify-center">
+        <div className="flex w-full max-w-screen-xl flex-col items-center gap-4">
+        <div className="flex w-full max-w-md flex-col items-center rounded-xl border-dark-blue px-6 py-12 text-dark-blue shadow-custom">
+        <h2 className="mb-4 text-center text-heading-m font-bold">Create Account</h2>
           <p className="text-m text-center">{`Let's Create Account Together`}</p>
           <form
             action="/"
-            className="my-10 flex w-full max-w-xs flex-col space-y-6"
+            className="my-10 flex w-full max-w-xs flex-col gap-4"
           >
-            <div className="flex items-center space-x-4 rounded-full bg-primary-blue-accent px-2">
-              <RxAvatar size={34} />
+            <div className="flex items-center space-x-4 rounded-full border px-4 py-2">
+              <RxAvatar size={32} />
               <input
                 type="text"
                 placeholder="username"
                 value={nameInput}
                 onChange={(input) => setNameInput(input.target.value)}
-                className="h-10 w-full bg-transparent font-bold focus:outline-none"
+                className="w-full bg-transparent focus:outline-none"
               />
             </div>
-            <div className="flex items-center space-x-4 rounded-full bg-primary-blue-accent px-2">
-              <IoMailOutline size={34} />
+            <div className="flex items-center space-x-4 rounded-full border px-4 py-2">
+              <IoMailOutline size={32} />
               <input
                 type="email"
                 placeholder="email"
                 value={emailInput}
                 onChange={(input) => setEmailInput(input.target.value)}
-                className="h-10 w-full bg-transparent font-bold focus:outline-none"
+                className="w-full bg-transparent focus:outline-none"
               />
             </div>
-            <div className="flex items-center space-x-4 rounded-full bg-primary-blue-accent px-2">
-              <RxLockClosed size={34} />
+            <div className="flex items-center space-x-4 rounded-full border px-4 py-2">
+              <RxLockClosed size={32} />
               <input
                 type={passwordType}
                 onChange={handlePasswordChange}
                 value={passwordInput}
                 placeholder="password"
-                className="h-10 w-full bg-transparent font-bold focus:outline-none"
+                className="w-full bg-transparent focus:outline-none"
               />
               <button
                 type="button"
@@ -83,10 +80,10 @@ export default function SignUp() {
                 )}
               </button>
             </div>
-            <div className="flex text-xs">
+            <div className="flex justify-between test-xs">
               <div className="flex space-x-2">
                 <input type="checkbox" id="rememberMe" name="remember_me" />
-                <label htmlFor="rememberMe" className="text-s">
+                <label htmlFor="rememberMe" className="text-xs">
                   I agree with Terms and Privacy
                 </label>
               </div>
@@ -94,7 +91,7 @@ export default function SignUp() {
             <div className="flex flex-col items-center space-y-6">
               <button
                 type="submit"
-                className="h-8 w-36 rounded-full bg-white font-bold text-black"
+                className="h-8 w-40 rounded-full bg-dark-blue font-bold text-white"
                 onClick={async (e) => {
                   e.preventDefault();
                   const result = await auth.signUp(
@@ -112,7 +109,7 @@ export default function SignUp() {
               </button>
               <button
                 type="submit"
-                className="flex h-8 w-36 items-center justify-center rounded-full bg-white text-xs text-black"
+                className="flex h-8 w-40 items-center justify-center rounded-full border border-dark-blue text-xs text-black"
               >
                 <FaGoogle size={16} className="mr-2 inline-block " />
                 Sign Up with google
