@@ -30,7 +30,7 @@ export const adminConverter = {
     const data: DocumentData | undefined = snapshot.data(options);
 
     return {
-      username: data!.name,
+      username: data!.username,
       superAdmin: data?.superAdmin ?? false,
     } as AdminType;
   },
