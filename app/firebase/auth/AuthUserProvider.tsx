@@ -13,7 +13,19 @@ export enum UserLoginState {
 
 interface AuthType {
   user: UserType;
+  checkout: {
+    perfumes: string[],
+perfumeAmount: number[],
+total: number,
+formattedTotal: string,
+  };
   loginState: UserLoginState;
+  placeOrder: (
+    perfumes: string[],
+    perfumeAmount: number[],
+    total: number,
+    formattedTotal: string,
+  ) => void;
   signUp: (
     username: string,
     email: string,
@@ -32,7 +44,8 @@ interface AuthType {
   updateNumber: (text: string) => Promise<void>;
   updateGender: (text: string) => Promise<void>;
   checkoutCart: (
-    perfumes: PerfumeProps[],
+    va: string,
+    perfumes: string[],
     amounts: number[],
     total: number,
     paymentMethod: string,
@@ -64,7 +77,21 @@ export const authUserContext = createContext<AuthType>({
     review: [],
     buy: [],
   },
+  checkout: {
+    perfumes: [] as string[],
+    perfumeAmount: [] as number[],
+    total: 0,
+    formattedTotal: "",
+  },
   loginState: UserLoginState.Idle,
+  placeOrder: function (
+    perfumes: string[],
+    perfumeAmount: number[],
+    total: number,
+    formattedTotal: string,
+  ): void {
+    throw new Error("Function not implemented.");
+  },
   signUp: async function (
     username: string,
     email: string,
@@ -103,7 +130,8 @@ export const authUserContext = createContext<AuthType>({
     throw new Error("Function not implemented.");
   },
   checkoutCart: function (
-    perfumes: PerfumeProps[],
+    va: string,
+    perfumes: string[],
     amounts: number[],
     total: number,
     paymentMethod: string,

@@ -2,18 +2,44 @@
 import CardOrderSummary from "@/components/CardOrderSummary";
 import CardPaymentMethod from "@/components/CardPaymentMethod";
 import { IoIosWarning } from "react-icons/io";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "./Modal";
 import ReCAPTCHA from "react-google-recaptcha";
+import { useAuth } from "@/firebase/auth/AuthUserProvider";
+import { useRouter } from "next/navigation";
 
-export default function Checkout() {
+interface CheckoutProps {
+  perfumes: string[];
+  perfumeAmount: number[];
+  total: number;
+  formattedTotal: string;
+}
+
+export default function Checkout(props: CheckoutProps) {
+  const auth = useAuth();
+  const router = useRouter();
+  const { perfumes, perfumeAmount, total, formattedTotal } = auth.checkout;
   const [openModal, setOpenModal] = useState(false);
 
   const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState("");
+  useEffect(() => {
+    const checkCart = () => {
+      if (perfumes.length == 0) {
+        router.replace('/cart');
+      }
+    }
+    checkCart();
+  });
+  
 
   const handleOpenModal = () => {
     if (isRecaptchaVerified) {
-      setOpenModal(true);
+      if (auth.user.address != null) {
+        setOpenModal(true);
+      } else {
+        alert("Please fill your address in profile")
+      }
     } else {
       alert("Please verify ReCAPTCHA first.");
     }
@@ -26,11 +52,15 @@ export default function Checkout() {
     console.log("reCAPTCHA value:", value);
   };
 
+  const handlePayment = (method: string) => {
+    setPaymentMethod(method);
+  }
+
   return (
     <main className="mx-4 my-6 flex flex-col justify-center gap-4 md:mx-12">
       <h1 className="text-heading-s font-bold text-dark-blue">Checkout</h1>
 
-      <div className="flex w-auto flex-row items-center gap-2 rounded-md bg-yellow-500 p-3">
+      <div className={`flex w-auto flex-row items-center gap-2 rounded-md bg-yellow-500 p-3 ${auth.user.address == null ? '' : 'hidden'}`}>
         <IoIosWarning size={26} />
         <p className="">Please fill your addres to continue place order</p>
       </div>
@@ -41,24 +71,27 @@ export default function Checkout() {
           <div className="overflow-clip rounded border-2 border-solid border-primary-blue-accent p-4 md:p-6">
             <h2 className="text-heading-s font-bold">Bank</h2>
             <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
-              <CardPaymentMethod bank={"BRI"} image={"/images/bri.svg"} />
-              <CardPaymentMethod bank={"BCA"} image={"/images/bca.svg"} />
-              <CardPaymentMethod bank={"BNI"} image={"/images/bni.svg"} />
-              <CardPaymentMethod bank={"BSI"} image={"/images/bsi.svg"} />
+              <CardPaymentMethod bank={"BRI"} image={"/images/bri.svg"} handlePayment={handlePayment} />
+              <CardPaymentMethod bank={"BCA"} image={"/images/bca.svg"} handlePayment={handlePayment} />
+              <CardPaymentMethod bank={"BNI"} image={"/images/bni.svg"} handlePayment={handlePayment} />
+              <CardPaymentMethod bank={"BSI"} image={"/images/bsi.svg"} handlePayment={handlePayment} />
               <CardPaymentMethod
                 bank={"Mandiri"}
-                image={"/images/mandiri.svg"}
-              />
+                image={"/images/mandiri.svg"} handlePayment={handlePayment}              />
               <CardPaymentMethod
                 bank={"Permata"}
-                image={"/images/permata.svg"}
-              />
+                image={"/images/permata.svg"} handlePayment={handlePayment}              />
             </section>
           </div>
         </section>
 
         <section className="flex  w-full flex-col lg:w-1/2">
-          <CardOrderSummary />
+          <CardOrderSummary
+            perfumes={perfumes}
+            perfumeAmount={perfumeAmount}
+            total={total}
+            formattedTotal={formattedTotal}
+          />
 
           <div className="flex justify-center py-8">
             <ReCAPTCHA
@@ -80,7 +113,7 @@ export default function Checkout() {
         </section>
         {openModal && (
           <>
-            <Modal closeModal={handleCloseModal} />
+            <Modal closeModal={handleCloseModal} bank={paymentMethod} total={total} perfumes={perfumes} perfumesAmount={perfumeAmount} formattedTotal={formattedTotal} />
           </>
         )}
       </main>

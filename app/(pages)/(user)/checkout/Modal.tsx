@@ -1,7 +1,16 @@
+'use client';
+import { useAuth } from "@/firebase/auth/AuthUserProvider";
+import { useRouter } from "next/navigation";
+import { Router } from "next/router";
 import React from "react";
 
 interface ModalProps {
   closeModal: () => void;
+  perfumes: string[];
+  perfumesAmount: number[];
+  bank: string;
+  total: number;
+  formattedTotal: string;
 }
 
 function generateRandomNumbersAsString(): string {
@@ -15,9 +24,14 @@ function generateRandomNumbersAsString(): string {
 
 // Contoh penggunaan
 
-const Modal: React.FC<ModalProps> = ({ closeModal }) => {
+const Modal: React.FC<ModalProps> = ({ closeModal, perfumes, perfumesAmount, bank, total, formattedTotal }) => {
   const randomNumbersString: string = generateRandomNumbersAsString();
+  const auth = useAuth();
+  const router = useRouter();
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    await auth.checkoutCart(randomNumbersString, perfumes, perfumesAmount, total, bank);
+    router.push('/cart');
   }
 
   return (
@@ -30,7 +44,7 @@ const Modal: React.FC<ModalProps> = ({ closeModal }) => {
                 <button onClick={closeModal} className="text-heading-l">
                   &times;
                 </button>
-                <p>Bank BRI</p>
+                <p>Bank {bank}</p>
               </div>
             </header>
 
@@ -42,7 +56,7 @@ const Modal: React.FC<ModalProps> = ({ closeModal }) => {
               <div>
                 <p className="font-medium">Cart Total</p>
                 <p className="font-bold">
-                  <span>Rp.5,999,998,00</span>
+                  <span>Rp.{total}</span>
                 </p>
               </div>
             </div>
@@ -51,7 +65,7 @@ const Modal: React.FC<ModalProps> = ({ closeModal }) => {
                 onClick={handleSubmit}
                 className="rounded-lg bg-primary-blue-accent py-3 font-bold text-white"
               >
-                Confirm
+                Confirm Transfer
               </button>
             </div>
           </section>

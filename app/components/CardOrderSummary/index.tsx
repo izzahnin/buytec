@@ -1,32 +1,32 @@
 import CardOrder from "@/components/CardOrder";
+import { getPerfumeByIdFromLocal } from "@/firebase/perfume/getPerfumeFromLocal";
+import { useSearchParams } from "next/navigation";
 import React from "react";
 
-export default function CardOrderSummary() {
-  const OrderList = [
-    {
-      Image: "/images/Prada_LunaRossaOcean.jpg",
-      Name: "Ameer Al Oudh Intense Oud",
-      Qty: 1,
-      Price: "2.999.999",
-    },
-    {
-      Image: "/images/Prada_LunaRossaOcean.jpg",
-      Name: "Ameer Al Oudh Intense Oud",
-      Qty: 1,
-      Price: "2.999.999",
-    },
-  ];
+interface CardOrderSummaryProps {
+  perfumes: string[];
+  perfumeAmount: number[];
+  total: number;
+  formattedTotal: string;
+}
 
-  const Subtotal = OrderList.reduce(
-    (acc, item) => acc + parseFloat(item.Price.replace(/\./g, "")),
-    0,
-  );
-  const Totalitems = OrderList.length;
+export default function CardOrderSummary(props: CardOrderSummaryProps) {
+  const { perfumes,
+    perfumeAmount,
+    total,
+    formattedTotal, } = props;
+
+  // const Subtotal = OrderList.reduce(
+  //   (acc, item) => acc + parseFloat(item.Price.replace(/\./g, "")),
+  //   0,
+  // );
+  const subTotal = total;
+  const Totalitems = perfumes.length;
   const ShippingPrice: string = "Free";
   const Total =
     ShippingPrice === "Free"
-      ? Subtotal
-      : Subtotal + parseFloat(ShippingPrice.replace(/\./g, ""));
+      ? subTotal
+      : subTotal + parseFloat(ShippingPrice.replace(/\./g, ""));
 
   return (
     <main className="flex h-fit w-full flex-col gap-4 rounded border-2 border-solid border-primary-blue-accent p-6 ">
@@ -36,21 +36,22 @@ export default function CardOrderSummary() {
       </section>
 
       <section className="flex flex-col gap-3">
-        {OrderList.map((List, index) => (
-          <CardOrder
+        {perfumes.map((id, index) => {
+          const perfume = getPerfumeByIdFromLocal(id)!;
+          return <CardOrder
             key={index}
-            Parfum_image={List.Image}
-            Parfume_name={List.Name}
-            Parfume_qty={List.Qty}
-            Parfume_price={List.Price}
+            Parfum_image={perfume.image}
+            Parfume_name={perfume.name}
+            Parfume_qty={perfumeAmount[index]}
+            Parfume_price={perfume.price.toString()}
           />
-        ))}
+})}
       </section>
 
       <section className="flex flex-col gap-8 pb-16 pt-11 ">
         <div className="flex flex-row justify-between">
           <h1 className="font-semibold">Cart Subtotal</h1>
-          <h2>{Subtotal.toLocaleString()}</h2>
+          <h2>{subTotal.toLocaleString()}</h2>
         </div>
 
         <div className="flex flex-row justify-between">

@@ -20,6 +20,7 @@ import {
 import { UserType, userConverter } from "./user";
 import { PerfumeProps } from "../perfume/perfume";
 import { TransactionFirebaseProps } from "../transaction/transaction";
+import { getPerfumeByIdFromLocal } from "../perfume/getPerfumeFromLocal";
 
 export enum UserLoginState {
   Idle,
@@ -46,6 +47,27 @@ export function useFirebaseAuth() {
   const [loginState, setLoginState] = useState<UserLoginState>(
     UserLoginState.Idle,
   );
+
+  const [checkout, setCheckout] = useState({
+    perfumes: [] as string[],
+    perfumeAmount: [] as number[],
+    total: 0,
+    formattedTotal: "",
+  });
+
+  const placeOrder = (
+    perfumes: string[],
+    perfumeAmount: number[],
+    total: number,
+    formattedTotal: string,
+  ) => {
+    setCheckout({
+      perfumes: perfumes,
+      perfumeAmount: perfumeAmount,
+      total: total,
+      formattedTotal: formattedTotal,
+    });
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -254,20 +276,22 @@ export function useFirebaseAuth() {
   };
 
   const checkoutCart = async (
-    perfumes: PerfumeProps[],
+    va: string,
+    perfumes: string[],
     amounts: number[],
     total: number,
     paymentMethod: string,
   ) => {
     // document
-    const docRef = doc(db, "transaction");
+    const docRef = doc(db, "transaction", va);
 
     // parse perfume id and total amount
     let perfumeId: string[] = [];
     let totalAmount: number[] = [];
     for (var i = 0; i < perfumes.length; i++) {
-      perfumeId.push(perfumes[i].id);
-      totalAmount.push(perfumes[i].price * amounts[i]);
+      const perfume = getPerfumeByIdFromLocal(perfumes[i])!;
+      perfumeId.push(perfume.id);
+      totalAmount.push(perfume.price * amounts[i]);
     }
 
     // new transaction data
@@ -279,7 +303,7 @@ export function useFirebaseAuth() {
       perfumeId: perfumeId,
       amount: amounts,
       totalAmount: totalAmount,
-      packageStatus: "Packed",
+      packageStatus: "Received",
       total: total,
       paymentMethod: paymentMethod,
       date: new Date(),
@@ -438,7 +462,9 @@ export function useFirebaseAuth() {
 
   return {
     user,
+    checkout,
     loginState,
+    placeOrder,
     signUp,
     logIn,
     logInWithGoogle,
