@@ -23,24 +23,39 @@ const renderImages = (props: CardProps) => {
           key={index}
           className="relative h-24 w-14 md:h-52 md:w-32 lg:h-52 lg:w-32"
         >
-          <Image key={index} src={image} alt={`${alt} ${index + 1}`} fill />
+          <Image
+            draggable={false}
+            key={index}
+            src={image}
+            alt={`${alt} ${index + 1}`}
+            fill
+            sizes="(max-width: 768px) 100vw"
+            className="inline-block object-scale-down mix-blend-multiply"
+          />
         </section>
       ))}
     </>
   ) : (
     <>
-      <section className="flex gap-20 lg:gap-32">
+      <section className="flex gap-20 lg:justify-between">
         {images.slice(0, 2).map((image, index) => (
           <section
             key={index}
             className="relative h-24 w-14 md:h-64 md:w-44 lg:h-64 lg:w-44"
           >
-            <Image key={index} src={image} alt={`${alt} ${index + 1}`} fill />
+            <Image
+              key={index}
+              src={image}
+              alt={`${alt} ${index + 1}`}
+              fill
+              sizes="(max-width: 768px) 100vw"
+              className="object-scale-down mix-blend-multiply"
+            />
           </section>
         ))}
       </section>
 
-      <section className="flex gap-20 lg:gap-32">
+      <section className="flex gap-20 lg:justify-between">
         {images.slice(2, 4).map((image, index) => (
           <section
             key={index + 2}
@@ -51,6 +66,8 @@ const renderImages = (props: CardProps) => {
               src={image}
               alt={`${alt} ${index + 3}`}
               fill
+              sizes="(max-width: 768px) 100vw"
+              className="object-scale-down mix-blend-multiply"
             />
           </section>
         ))}
@@ -66,18 +83,19 @@ export default function CardCatalogue(props: CardProps) {
 
   return small ? (
     <section
-      // className={`h-[155px] w-[155px] md:h-[312px] md:w-[312px] lg:h-[312px] lg:w-[312px] ${cardStyle}`}
-      className={`h-40 w-40 md:h-80 md:w-80 lg:h-80 lg:w-80 ${cardStyle}`}
+      className={`h-40 w-40 md:h-80 md:w-80 lg:h-full lg:w-full lg:py-5 ${cardStyle}`}
     >
-      <div className="flex gap-5 ">{images}</div>
-      <h5 className="text-text-m md:text-text-l lg:text-text-l">{title}</h5>
+      <div className="flex w-full justify-between gap-5 px-6">{images}</div>
+      <h5 className="text-text-m font-bold md:text-text-l lg:text-text-l">
+        {title}
+      </h5>
     </section>
   ) : (
     <section
-      className={`h-80 w-80 md:h-[670px] md:w-[600px] lg:h-[670px] lg:w-[600px] ${cardStyle}`}
+      className={`h-80 w-80 md:h-[670px] md:w-[600px] lg:h-full lg:w-full lg:py-5 ${cardStyle}`}
     >
       <section className="flex flex-col gap-5">{images}</section>
-      <h2 className="text-heading-s md:text-heading-m lg:text-heading-m">
+      <h2 className="text-heading-s font-bold md:text-heading-m lg:text-heading-m">
         {title}
       </h2>
     </section>
