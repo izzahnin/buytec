@@ -19,7 +19,7 @@ export default function AuthLayout({
     <section  className={futura.className}>
       <Navbar />
       {children}
-      <Footer />
+      {/* <Footer /> */}
     </section>
     </AuthUserProvider>
   );
