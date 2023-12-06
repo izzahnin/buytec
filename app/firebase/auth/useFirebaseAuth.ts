@@ -1,7 +1,6 @@
 "use client";
 import {
   GoogleAuthProvider,
-  UserCredential,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   sendEmailVerification,
@@ -9,7 +8,7 @@ import {
   signInWithPopup,
   signOut,
 } from "firebase/auth";
-import { createContext, useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { auth, db } from "../config";
 import {
   doc,
@@ -20,11 +19,7 @@ import {
 } from "firebase/firestore";
 import { UserType, userConverter } from "./user";
 import { PerfumeProps } from "../perfume/perfume";
-import {
-  TransactionFirebaseProps,
-  TransactionProps,
-} from "../transaction/transaction";
-import { FirebaseError } from "firebase/app";
+import { TransactionFirebaseProps } from "../transaction/transaction";
 
 export enum UserLoginState {
   Idle,
@@ -32,124 +27,6 @@ export enum UserLoginState {
   Failed,
   Loading,
 }
-
-// export const AuthContext = createContext<AuthType>({
-//   user: {
-//     id: null,
-//     name: null,
-//     email: null,
-//     number: null,
-//     gender: null,
-//     birthdate: null,
-//     address: null,
-//     wishlist: [],
-//     cart: [],
-//     cartAmount: [],
-//   },
-//   loginState: UserLoginState.Idle,
-//   signUp: async function (
-//     username: string,
-//     email: string,
-//     password: string,
-//   ): Promise<UserCredential | undefined>{
-//     try {
-//       const userCredential = await createUserWithEmailAndPassword(
-//         auth,
-//         email,
-//         password,
-//       );
-//       // const credential = await userCredential;
-//       // store new user account to firestore
-//       const newUserData = {
-//         id: userCredential.user.uid,
-//         name: username,
-//       } as UserType;
-//       await setDoc(doc(db, "user", newUserData.id!), newUserData);
-//       return userCredential;
-//     } catch (e) {
-//       console.log((e as FirebaseError).code)
-//       // setLoginState(UserLoginState.Failed);
-//     }
-//   },
-//   logIn: function (email: string, password: string): Promise<UserCredential | undefined>  {
-//     throw new Error("Function not implemented.");
-//   },
-//   logInWithGoogle: function (): Promise<UserCredential> | undefined {
-//     throw new Error("Function not implemented.");
-//   },
-//   logOut: function (): Promise<void> {
-//     throw new Error("Function not implemented.");
-//   },
-//   checkUserVerified: function (): Promise<Boolean | undefined> {
-//     throw new Error("Function not implemented.");
-//   },
-//   updateAddress: function (address: string): Promise<void> {
-//     throw new Error("Function not implemented.");
-//   },
-//   updateName: function (name: string): Promise<void> {
-//     throw new Error("Function not implemented.");
-//   },
-//   updateBirthdate: function (birhtdate: Date): Promise<void> {
-//     throw new Error("Function not implemented.");
-//   },
-//   updateNumber: function (number: string): Promise<void> {
-//     throw new Error("Function not implemented.");
-//   },
-//   updateGender: function (gender: string): Promise<void> {
-//     throw new Error("Function not implemented.");
-//   },
-//   checkoutCart: function (
-//     perfumes: PerfumeProps[],
-//     amounts: number[],
-//     total: number,
-//   ): Promise<void> {
-//     throw new Error("Function not implemented.");
-//   },
-//   addToCart: function (perfumeId: string, amount: number): Promise<void> {
-//     throw new Error("Function not implemented");
-//   },
-//   deleteFromCart: function (perfumeId: string): Promise<void> {
-//     throw new Error("Function not implemented");
-//   },
-//   updateAmountOnCart: function (
-//     perfumeId: string,
-//     amount: number,
-//     increment: boolean,
-//   ): Promise<void> {
-//     throw new Error("Function not implemented");
-//   },
-// });
-
-// interface AuthType {
-//   user: UserType;
-//   loginState: UserLoginState;
-//   signUp: (
-//     username: string,
-//     email: string,
-//     password: string,
-//   ) => Promise<UserCredential | undefined> | undefined;
-//   logIn: (email: string, password: string) => Promise<UserCredential | undefined>;
-//   logInWithGoogle: () => Promise<UserCredential> | undefined;
-//   logOut: () => Promise<void>;
-//   checkUserVerified: () => Promise<Boolean | undefined>;
-//   updateAddress: (text: string) => Promise<void>;
-//   updateName: (text: string) => Promise<void>;
-//   updateBirthdate: (text: Date) => Promise<void>;
-//   updateNumber: (text: string) => Promise<void>;
-//   updateGender: (text: string) => Promise<void>;
-//   checkoutCart: (
-//     perfumes: PerfumeProps[],
-//     amounts: number[],
-//     total: number,
-//   ) => Promise<void>;
-//   addToCart: (perfumeId: string, amount: number) => Promise<void>;
-//   deleteFromCart: (perfumeId: string) => Promise<void>;
-//   updateAmountOnCart: (
-//     perfumeId: string,
-//     amount: number,
-//     increment: boolean,
-//   ) => Promise<void>;
-// }
 
 export function useFirebaseAuth() {
   const [user, setUser] = useState<UserType>({
@@ -185,8 +62,8 @@ export function useFirebaseAuth() {
           wishlist: userData!.wishlist,
           cart: userData!.cart,
           cartAmount: userData!.cartAmount,
-    review: userData!.review,
-    buy: userData!.buy,
+          review: userData!.review,
+          buy: userData!.buy,
         });
         console.log(userData?.name);
       } else {
@@ -201,8 +78,8 @@ export function useFirebaseAuth() {
           wishlist: [],
           cart: [],
           cartAmount: [],
-    review: [],
-    buy: [],
+          review: [],
+          buy: [],
         });
       }
     });
@@ -275,7 +152,7 @@ export function useFirebaseAuth() {
         // The signed-in user info.
         const user = result.user;
         // check if user has data in firestore
-        const document = await getDoc(doc(db, 'user', user.uid));
+        const document = await getDoc(doc(db, "user", user.uid));
         if (document.exists()) {
           //not doing anything
         } else {
@@ -315,8 +192,8 @@ export function useFirebaseAuth() {
       wishlist: [],
       cart: [],
       cartAmount: [],
-    review: [],
-    buy: [],
+      review: [],
+      buy: [],
     });
     setLoginState(UserLoginState.Idle);
     return await signOut(auth);
@@ -405,7 +282,7 @@ export function useFirebaseAuth() {
       packageStatus: "Packed",
       total: total,
       paymentMethod: paymentMethod,
-      date: new Date()
+      date: new Date(),
     };
 
     // find perfume index id to be removed
@@ -414,8 +291,12 @@ export function useFirebaseAuth() {
       indexId.push(user.cart.findIndex((id) => id == perfume));
     }
     // remove perfumes from user cart
-    let newUserCart: string[] = user.cart.filter((cartId) => !perfumeId.includes(cartId));
-    const newCartAmount = user.cartAmount.filter((amount, index) => !indexId.includes(index));
+    let newUserCart: string[] = user.cart.filter(
+      (cartId) => !perfumeId.includes(cartId),
+    );
+    const newCartAmount = user.cartAmount.filter(
+      (amount, index) => !indexId.includes(index),
+    );
 
     const newBuy = user.buy;
     newBuy.unshift(...perfumeId);
@@ -479,7 +360,9 @@ export function useFirebaseAuth() {
     const indexId = user.cart.findIndex((id) => id == perfumeId);
     // remove the perfume from cart and cart amount
     const newCart = user.cart.filter((id) => id != perfumeId);
-    const newCartAmount = user.cartAmount.filter((num, index) => index != indexId);
+    const newCartAmount = user.cartAmount.filter(
+      (num, index) => index != indexId,
+    );
 
     setUser({
       ...user,
@@ -516,7 +399,7 @@ export function useFirebaseAuth() {
     setUser({
       ...user,
       cartAmount: newCartAmount,
-    })
+    });
   };
 
   const addToWishlist = async (perfumeId: string) => {
@@ -544,14 +427,14 @@ export function useFirebaseAuth() {
   };
 
   const addReview = async (perfumeId: string) => {
-    const newReview = user.review
+    const newReview = user.review;
     newReview.unshift(perfumeId);
-    await updateDoc(doc(db, "user", user.id!), { review: newReview});
+    await updateDoc(doc(db, "user", user.id!), { review: newReview });
     setUser({
       ...user,
       review: newReview,
     });
-  }
+  };
 
   return {
     user,
