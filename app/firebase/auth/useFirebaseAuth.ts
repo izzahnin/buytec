@@ -240,6 +240,8 @@ export function useFirebaseAuth() {
         wishlist: [] as string[],
         cart: [] as string[],
         cartAmount: [] as number[],
+        buy: [] as string[],
+        review: [] as string[],
       } as UserType;
       await setDoc(doc(db, "user", newUserData.id!), newUserData);
       setLoginState(() => UserLoginState.Success);
@@ -285,6 +287,8 @@ export function useFirebaseAuth() {
             wishlist: [] as string[],
             cart: [] as string[],
             cartAmount: [] as number[],
+            review: [] as string[],
+            buy: [] as string[],
           } as UserType;
           await setDoc(doc(db, "user", newUserData.id!), newUserData);
           setLoginState(() => UserLoginState.Success);
@@ -401,6 +405,7 @@ export function useFirebaseAuth() {
       packageStatus: "Packed",
       total: total,
       paymentMethod: paymentMethod,
+      date: new Date()
     };
 
     // find perfume index id to be removed
@@ -410,7 +415,7 @@ export function useFirebaseAuth() {
     }
     // remove perfumes from user cart
     let newUserCart: string[] = user.cart.filter((cartId) => !perfumeId.includes(cartId));
-    const newCartAmount = user.cartAmount.filter((index) => !indexId.includes(index));
+    const newCartAmount = user.cartAmount.filter((amount, index) => !indexId.includes(index));
 
     const newBuy = user.buy;
     newBuy.unshift(...perfumeId);
