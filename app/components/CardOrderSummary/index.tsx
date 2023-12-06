@@ -22,7 +22,6 @@ export default function CardOrderSummary() {
     0,
   );
   const Totalitems = OrderList.length;
-  const CardShipping = "Reguler - J&T (2 - 3 days)";
   const ShippingPrice: string = "Free";
   const Total =
     ShippingPrice === "Free"
@@ -30,46 +29,39 @@ export default function CardOrderSummary() {
       : Subtotal + parseFloat(ShippingPrice.replace(/\./g, ""));
 
   return (
-    <main className="rounded flex w-full md:w-full sm:w-full flex-col border-2 border-solid border-primary-blue-accent overflow-clip">
-      <section className="mx-6 flex w-auto md:w-auto  sm:w-auto flex-col">
-        <section className="flex flex-col divide-y-2 divide-primary-blue-accent">
-          <h1 className="my-[19px] text-heading-m font-bold">Order Summary</h1>
-          <span className="py-3 text-text-l pb-6">{Totalitems} Items In Cart</span>
-        </section>
+    <main className="flex h-fit w-full flex-col gap-4 rounded border-2 border-solid border-primary-blue-accent p-6 ">
+      <section className="flex flex-col divide-y-2 divide-primary-blue-accent">
+        <h1 className="pb-4 text-heading-s font-bold">Order Summary</h1>
+        <span className="py-4 text-text-l">{Totalitems} Items In Cart</span>
+      </section>
 
-        <section className="gap-4">
-          <div className="flex flex-col gap-3 sm:gap-5">
-            {OrderList.map((List, index) => (
-              <CardOrder
-                key={index}
-                Parfum_image={List.Image}
-                Parfume_name={List.Name}
-                Parfume_qty={List.Qty}
-                Parfume_price={List.Price}
-              />
-            ))}
-          </div>
-        </section>
+      <section className="flex flex-col gap-3">
+        {OrderList.map((List, index) => (
+          <CardOrder
+            key={index}
+            Parfum_image={List.Image}
+            Parfume_name={List.Name}
+            Parfume_qty={List.Qty}
+            Parfume_price={List.Price}
+          />
+        ))}
+      </section>
 
-        <section className="pt-11 flex flex-col gap-8 pb-16 sm:text-heading-m">
-          <div className="flex flex-row justify-between">
-            <h2>Cart Subtotal</h2>
-            <h2>{Subtotal.toLocaleString()}</h2>
-          </div>
+      <section className="flex flex-col gap-8 pb-16 pt-11 ">
+        <div className="flex flex-row justify-between">
+          <h1 className="font-semibold">Cart Subtotal</h1>
+          <h2>{Subtotal.toLocaleString()}</h2>
+        </div>
 
-          <div>
-            <div className="flex flex-row justify-between">
-              <h2>Shipping</h2>
-              <h2>{ShippingPrice}</h2>
-            </div>
-            <span className="text-s sm:text-text-xl text-gray-500 ">{CardShipping}</span>
-          </div>
+        <div className="flex flex-row justify-between">
+          <h1 className="font-semibold">Shipping</h1>
+          <h2>{ShippingPrice}</h2>
+        </div>
 
-          <div className="flex flex-row justify-between">
-            <h2>Total Payment</h2>
-            <h2>{Total.toLocaleString()}</h2>
-          </div>
-        </section>
+        <div className="flex flex-row justify-between">
+          <h1 className="font-semibold">Total Payment</h1>
+          <h2 className="text-xl font-bold">{Total.toLocaleString()}</h2>
+        </div>
       </section>
     </main>
   );

@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 interface CardOrdersInterface {
   Parfum_image: string;
@@ -11,36 +12,22 @@ export default function CardOrder(props: CardOrdersInterface) {
   const Totalitems = Parfume_name;
 
   return (
-    <main className="shadow-lg">
-      <section className="m-2 flex flex-col ">
-        <section className="flex flex-row items-center justify-between gap-2 sm:gap-4 md:gap-4">
-          <div className="flex gap-4">
-            <div>
-              <img
-                className="w-14 md:w-28"
-                src={Parfum_image}
-                alt="ParfumeImage"
-                width={100}
-                height={100}
-              />
-            </div>
+    <main className="flex w-full rounded shadow-lg ">
+      <section className="m-2 w-full flex justify-between gap-2 sm:gap-4 md:gap-4 ">
+        <div className=" flex m-auto w-1/4 object-cover">
+          <Image
+            src={Parfum_image}
+            alt="ParfumeImage"
+            width={100}
+            height={100}
+            className="h-[100px] w-auto m-auto"
+          />
+        </div>
 
-            <section className="flex w-32 flex-col gap-3 text-[10px] sm:w-52 sm:gap-8 sm:text-text-l md:my-4 md:w-72 md:text-text-xl">
-              <div className="flex flex-col">
-                <h3 className="line-clamp-1">{Parfume_name}</h3>
-              </div>
-
-              <div>
-                <h3>Qty {Parfume_qty}</h3>
-              </div>
-            </section>
-          </div>
-
-          <div>
-            <h3 className="text-[10px] sm:text-text-m md:text-heading-s">
-              {Parfume_price}
-            </h3>
-          </div>
+        <section className="flex w-full flex-col justify-between my-2">
+          <h1 className=" line-clamp-1 text-lg font-bold">{Parfume_name}</h1>
+          <h2 className="text-right text-xl">{Parfume_price}</h2>
+          <h3>Qty {Parfume_qty}</h3>
         </section>
       </section>
     </main>

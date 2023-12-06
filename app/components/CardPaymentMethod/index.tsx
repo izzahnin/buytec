@@ -1,17 +1,18 @@
 import React from "react";
+import Image from "next/image";
 
 interface CardProps {
   bank: string;
   image: string;
 }
 function CardPaymentMethod(props: CardProps) {
-  const { bank, image} = props;
+  const { bank, image } = props;
 
   return (
-    <section className="flex h-16 w-48 items-center gap-4 rounded-xl bg-white hover:border-2 hover:border-primary-blue p-4 text-lg font-medium drop-shadow-md">
-      <input type="radio" name="option"/>
+    <section className="flex h-16 w-42 items-center gap-4 rounded-xl bg-white p-4 text-m  drop-shadow-md hover:border-2 border-collapse  hover:border-primary-blue">
+      <input type="radio" name="option" />
       <p>{bank}</p>
-      <img src={image} />
+      <Image width={48} height={48} alt={bank} src={image} />
     </section>
   );
 }
