@@ -13,7 +13,7 @@ export default function CardWishlist(props: CardProps) {
   const { title, price, image } = props;
 
   return (
-    <section className="flex h-36 w-11/12 items-center gap-8 rounded-xl border-2 border-[#C7C7C7] px-8">
+    <section className="flex h-36 w-full items-center gap-8 rounded-xl border-2 border-[#C7C7C7] px-8">
       <section className="relative h-20 w-14">
         <Image src={image} alt={title} fill />
       </section>
