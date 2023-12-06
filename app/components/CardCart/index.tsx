@@ -39,7 +39,7 @@ export default function CardCart(props: CardProps) {
 
 
   return (
-    <section className="flex w-11/12 flex-col gap-6 rounded-xl border-2 border-[#C7C7C7]">
+    <section className="flex w-auto flex-col gap-6 rounded-xl border-2 border-[#C7C7C7]">
       <section className="flex flex-row items-center gap-8 px-8 py-6 ">
         <input
           type="checkbox"
