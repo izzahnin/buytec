@@ -30,10 +30,10 @@ export default function CardOrderSummary() {
       : Subtotal + parseFloat(ShippingPrice.replace(/\./g, ""));
 
   return (
-    <main className="rounded flex w-64 md:w-[497px] sm:w-[420px] flex-col border-2 border-solid border-primary-blue-accent">
-      <section className="mx-6 flex w-52 md:w-[446.04px] sm:w-[370px] flex-col">
+    <main className="rounded flex w-full md:w-full sm:w-full flex-col border-2 border-solid border-primary-blue-accent overflow-clip">
+      <section className="mx-6 flex w-auto md:w-auto  sm:w-auto flex-col">
         <section className="flex flex-col divide-y-2 divide-primary-blue-accent">
-          <h1 className="my-[19px] text-heading-m">Order Summary</h1>
+          <h1 className="my-[19px] text-heading-m font-bold">Order Summary</h1>
           <span className="py-3 text-text-l pb-6">{Totalitems} Items In Cart</span>
         </section>
 
@@ -62,7 +62,7 @@ export default function CardOrderSummary() {
               <h2>Shipping</h2>
               <h2>{ShippingPrice}</h2>
             </div>
-            <span className="text-text-s sm:text-text-xl text-gray-500 ">{CardShipping}</span>
+            <span className="text-s sm:text-text-xl text-gray-500 ">{CardShipping}</span>
           </div>
 
           <div className="flex flex-row justify-between">
