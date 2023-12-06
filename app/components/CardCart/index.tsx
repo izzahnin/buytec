@@ -14,10 +14,11 @@ interface CardProps {
   price: number;
   subtotal: number;
   quantity: number;
+  handleCheckbox: (id: string) => void;
 }
 
 export default function CardCart(props: CardProps) {
-  const { id, title, price, image, subtotal, quantity } = props;
+  const { id, title, price, image, subtotal, quantity, handleCheckbox } = props;
   const [ quantityValue, setQuantityValue ] = useState(quantity);
 
   const auth = useAuth();
@@ -44,6 +45,7 @@ export default function CardCart(props: CardProps) {
         <input
           type="checkbox"
           className="border-red h-6 w-7 appearance-none border-2 border-black bg-white text-heading-m before:absolute before:scale-0 before:leading-6 before:text-white before:content-['\2713'] checked:bg-primary-blue checked:before:scale-100"
+          onClick={() => handleCheckbox(id)}
         />
         <section className="relative h-20 w-14">
           <Image src={image} alt={title} fill />
