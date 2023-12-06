@@ -10,8 +10,8 @@ export default function SectionCatalogue() {
         <CardCatalogue
           title="Smell Sweet"
           images={[
-            "/Dior_Criuse Collection Escale a Parati.jpg",
-            "/Prada_Candy.jpg",
+            "/images/Dior_Criuse Collection Escale a Parati.jpg",
+            "/images/Prada_Candy.jpg",
           ]}
           alt="tes"
           small={true}
@@ -20,8 +20,8 @@ export default function SectionCatalogue() {
         <CardCatalogue
           title="Party Centre"
           images={[
-            "/Versace_PourFemmeDylanPurple.jpg",
-            "/HMNS_The Perfection.jpg",
+            "/images/Versace_PourFemmeDylanPurple.jpg",
+            "/images/HMNS_The Perfection.jpg",
           ]}
           alt="tes"
           small={true}
@@ -29,7 +29,10 @@ export default function SectionCatalogue() {
 
         <CardCatalogue
           title="Scent Stay All Day"
-          images={["/Diptyque_Philosykos.jpg", "/Lattafa_Oud Mood.jpg"]}
+          images={[
+            "/images/Diptyque_Philosykos.jpg",
+            "/images/Lattafa_Oud Mood.jpg",
+          ]}
           alt="tes"
           small={true}
         />
@@ -37,8 +40,8 @@ export default function SectionCatalogue() {
         <CardCatalogue
           title="Stay Fresh"
           images={[
-            "/Dior_Eau de Cologne Fraîche.jpg",
-            "/Prada_LunaRossaOcean.jpg",
+            "/images/Dior_Eau de Cologne Fraîche.jpg",
+            "/images/Prada_LunaRossaOcean.jpg",
           ]}
           alt="tes"
           small={true}
@@ -50,10 +53,10 @@ export default function SectionCatalogue() {
         <CardCatalogue
           title="Your New Signature Scent"
           images={[
-            "/Dior_Eau de Cologne Fraîche.jpg",
-            "/Versace_PourHommeDylanBlue.jpg",
-            "/Lattafa_Fakhar Black.jpg",
-            "/Prada_La Femme.jpg",
+            "/images/Dior_Eau de Cologne Fraîche.jpg",
+            "/images/Versace_PourHommeDylanBlue.jpg",
+            "/images/Lattafa_Fakhar Black.jpg",
+            "/images/Prada_La Femme.jpg",
           ]}
           alt="tes"
           small={false}
