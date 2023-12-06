@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { toast } from "sonner";
 
 import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io";
 
@@ -9,7 +10,7 @@ import { Star } from "../StarRating";
 
 import { parserCurrency } from "@/utils/parsercurrency";
 import { useAuth } from "@/firebase/auth/AuthUserProvider";
-
+import ModalToast from "../ModalToast";
 
 interface ProductCardProps {
   id: string;
@@ -26,7 +27,13 @@ export default function CardProduct(props: ProductCardProps) {
   const { id, name, image, price, brand, rating, concentration, size } = props;
   const auth = useAuth();
 
-  const [isFavorite, setIsFavorite] = useState(auth.user.id == null ? false : auth.user.wishlist.includes(id) ? true : false);
+  const [isFavorite, setIsFavorite] = useState(
+    auth.user.id == null
+      ? false
+      : auth.user.wishlist.includes(id)
+      ? true
+      : false,
+  );
 
   const handleFavoriteClick = async () => {
     // check if user already login
@@ -42,7 +49,12 @@ export default function CardProduct(props: ProductCardProps) {
       setIsFavorite(!isFavorite);
     } else {
       // TODO: CHANGE POP UP
-      alert('Create account to add perfume to wishlist')
+      toast.custom((t) => (
+        <ModalToast
+          closeModal={() => toast.dismiss(t)}
+          value="Create account to add perfume to wishlist"
+        />
+      ));
     }
   };
 
@@ -66,8 +78,10 @@ export default function CardProduct(props: ProductCardProps) {
 
         <section className="flex flex-col items-center justify-center text-center">
           <h1 className="text-lg uppercase">{brand}</h1>
-          <p className="font-semibold line-clamp-1">{name}</p>
-          <p className="text-sm">{concentration} ({size}ml)</p>
+          <p className="line-clamp-1 font-semibold">{name}</p>
+          <p className="text-sm">
+            {concentration} ({size}ml)
+          </p>
           <p>{parserCurrency(price)}</p>
           <Star stars={rating} />
         </section>
