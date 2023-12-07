@@ -8,7 +8,7 @@ import ModalAddress from "../ModalAddress";
 import { UserType } from "@/firebase/auth/user";
 import { useAuth } from "@/firebase/auth/AuthUserProvider";
 import { useRouter } from "next/navigation";
-import Button from "@mui/material/Button";
+// import Button from "@mui/material/Button";
 
 // async function fetchPersonalData() {
 //   return {
@@ -21,7 +21,7 @@ import Button from "@mui/material/Button";
 //   };
 // }
 
-export default function PersonalData() {
+const PersonalData: React.FC = () => {
   const [selectedModal, setSelectedModal] = useState<ModalType | null>(null);
   const [modalValue, setModalValue] = useState<string>("");
   const auth = useAuth();
@@ -143,3 +143,4 @@ export default function PersonalData() {
     </main>
   );
 }
+export default PersonalData;

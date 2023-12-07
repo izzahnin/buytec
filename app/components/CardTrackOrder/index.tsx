@@ -35,7 +35,7 @@ export default async function CardTrackOrder(props: CardTrackOrderProps) {
   // });
 
   return (
-    <main className="rounded-xl border-2 w-11/12 border-solid border-primary-blue-accent">
+    <main className="rounded-xl border-2 w-full border-solid border-primary-blue-accent">
       <section className="flex flex-col gap-6 sm:gap-10 md:gap-20 px-12 py-8">
         <div className="flex flex-row items-center gap-9 w-11/12">
           <span className="text-text-xl font-extrabold text-primary-blue-accent">

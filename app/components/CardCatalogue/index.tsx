@@ -41,7 +41,7 @@ const renderImages = (props: CardProps) => {
         {images.slice(0, 2).map((image, index) => (
           <section
             key={index}
-            className="relative h-24 w-14 md:h-64 md:w-44 lg:h-64 lg:w-44"
+            className="relative h-24 w-14 md:h-64 md:w-44 lg:h-64 lg:w-44 object-cover"
           >
             <Image
               priority={true}
@@ -49,7 +49,7 @@ const renderImages = (props: CardProps) => {
               src={image}
               alt={`${alt} ${index + 1}`}
               fill
-              sizes="(max-width: 768px) 100vw"
+              sizes="128px"
               className="object-scale-down mix-blend-multiply"
             />
           </section>
@@ -68,7 +68,7 @@ const renderImages = (props: CardProps) => {
               src={image}
               alt={`${alt} ${index + 3}`}
               fill
-              sizes="(max-width: 768px) 100vw"
+              sizes="128px"
               className="object-scale-down mix-blend-multiply"
             />
           </section>

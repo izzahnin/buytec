@@ -15,7 +15,7 @@ export default function CardWishlist(props: CardProps) {
   return (
     <main className="flex w-full items-center gap-2 rounded-xl border-2 border-[#C7C7C7] p-6 ">
       <section className="flex justify-center object-cover w-1/2 sm:w-1/4 md:w-1/6 lg:w-1/10 xl:w-32 ">
-        <Image src={image} alt={title} width={100} height={100} 
+        <Image priority={true} draggable={false} src={image} alt={title} width={100} height={100} 
         className="h-[100px] w-auto m-0"/>
       </section>
 
@@ -30,8 +30,8 @@ export default function CardWishlist(props: CardProps) {
             <h3 className="">Move to Cart</h3>
           </button>
           <span className="h-6 w-0.5 bg-[#BFC9D9] md:h-6 md:w-0.5"></span>
-          <button className="w-4 md:w-4">
-            <FaRegTrashCan size="auto" />
+          <button className="p-1 text-heading-s">
+            <FaRegTrashCan />
           </button>
         </div>
       </section>

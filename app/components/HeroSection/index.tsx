@@ -10,7 +10,7 @@ export default function HeroSection() {
           <Image
             draggable={false}
             priority={true}
-            src="/perfume3.png"
+            src="/images/Dior_Sauvage.png"
             alt="Hero Perfume"
             sizes={"(max-width: 768px) 100vw, 768px"}
             fill

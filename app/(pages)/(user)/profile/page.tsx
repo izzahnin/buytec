@@ -32,18 +32,23 @@ export default function Profile() {
                 Wishlist
               </span>
             </NextLink>
-            <span
+            <NextLink href="/profile/trackorder" passHref>
+              <span className="cursor-pointer hover:font-bold hover:bg-grey p-2">
+                Track Order
+              </span>
+            </NextLink>
+            {/* <span
               onClick={() => handleTabClick("TrackOrder")}
               className={`cursor-pointer hover:font-bold hover:bg-grey p-2 ${
                 activeTab === "TrackOrder" ? "font-bold bg-grey" : ""
               }`}
             >
               Track Order
-            </span>
+            </span> */}
           </div>
           <div className="flex items-center justify-center pb-24 pt-3">
             {activeTab === "PersonalData" && <PersonalData />}
-            {activeTab === "TrackOrder" && <CardTrackOrder userId={auth.user.id!} />}
+            {/* {activeTab === "TrackOrder" && <CardTrackOrder userId={auth.user.id!} />} */}
           </div>
         </section>
       </section>
