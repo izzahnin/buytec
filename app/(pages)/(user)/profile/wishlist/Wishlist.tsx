@@ -1,11 +1,10 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import NextLink from "next/link";
 import CardWishlist from "@/components/CardWishlist";
 import { useAuth } from "@/firebase/auth/AuthUserProvider";
-import { useRouter } from "next/router";
 import CardEmpty from "@/components/CardEmpty";
-import { getPerfumeByIdFromLocal } from "@/firebase/perfume/getPerfumeFromLocal";
+import { wishlistItems } from "./page";
 
 export default function Wishlist() {
   const auth = useAuth();
@@ -16,17 +15,12 @@ export default function Wishlist() {
   //   number[]
   // >([]);
   // let change = 0;
-  useEffect(() => {
-    setwishlist(auth.user.wishlist);
-  
-    
-  }, [auth.user.wishlist]);
-  
+  useEffect(() => {}, [auth.user.wishlist]);
 
   return (
     <main className="mx-auto flex w-screen flex-col">
       <section>
-        {wishlist.length == 0 ? (
+        {wishlistItems.length == 0 ? (
           <CardEmpty type="wishlist" />
         ) : (
           <section className="mx-auto my-8 flex h-screen w-11/12 flex-col gap-6">
@@ -39,16 +33,14 @@ export default function Wishlist() {
             </section>
 
             <div className="flex flex-col gap-4">
-              {wishlist.map((id, index) => {
-                const perfume = getPerfumeByIdFromLocal(id)!;
-                return <CardWishlist
-                key={index}
-                title={perfume.name}
-                price={perfume.price.toString()}
-                image={perfume.image}
+              {wishlistItems.map((List, index) => (
+                <CardWishlist
+                  key={index}
+                  title={List.title}
+                  price={List.price}
+                  image={List.image}
                 />
-              }
-              )}
+              ))}
             </div>
           </section>
         )}
@@ -56,21 +48,3 @@ export default function Wishlist() {
     </main>
   );
 }
-
-// export const wishlistItems = [
-//   {
-//     title: "Ameer Al Oudh Intense Oud",
-//     price: "2.999.999",
-//     image: "/images/Prada_LunaRossaOcean.jpg",
-//   },
-//   {
-//     title: "Ameer Al Oudh Intense Oud",
-//     price: "2.999.999",
-//     image: "/images/Prada_LunaRossaOcean.jpg",
-//   },
-//   {
-//     title: "Ameer Al Oudh Intense Oud",
-//     price: "2.999.999",
-//     image: "/images/Prada_LunaRossaOcean.jpg",
-//   },
-// ];

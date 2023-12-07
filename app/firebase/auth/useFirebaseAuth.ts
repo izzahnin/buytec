@@ -303,7 +303,7 @@ export function useFirebaseAuth() {
       perfumeId: perfumeId,
       amount: amounts,
       totalAmount: totalAmount,
-      packageStatus: "Received",
+      packageStatus: "Packed",
       total: total,
       paymentMethod: paymentMethod,
       date: new Date(),
