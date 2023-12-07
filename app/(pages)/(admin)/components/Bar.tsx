@@ -42,7 +42,7 @@ export default function Bar() {
         </Link>
 
         {adminAuth.admin.superAdmin && <Link
-          href={"/admin/add-admin"}
+          href={"/admin/admins"}
           className=" flex cursor-pointer items-center gap-2 rounded-xl p-2  hover:bg-zinc-200"
         >
           <span className="text-2xl">
