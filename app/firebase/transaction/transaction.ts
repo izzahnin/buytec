@@ -1,6 +1,7 @@
 import { Timestamp } from "firebase/firestore";
 import getPerfumeById from "../perfume/getPerfumeById";
 import { PerfumeProps } from "../perfume/perfume";
+import { getPerfumeByIdFromLocal } from "../perfume/getPerfumeFromLocal";
 
 export interface TransactionFirebaseProps {
   id: string;
@@ -35,19 +36,21 @@ export async function jsonToTransaction(json: {
 }): Promise<TransactionProps> {
   const perfumes: PerfumeProps[] = [];
   // TODO: get perfume
-  for (let id in json.perfumeId) {
-    const perfume = await getPerfumeById(id);
-    if (perfume != undefined) {
-      perfumes.push();
-    }
-  }
+  (json.perfumeId as string[]).forEach((id) => {
+    // console.log(id);
+    const perfume = getPerfumeByIdFromLocal(id);
+    console.log(perfume);
+    perfumes.push(perfume!);
+  })
+  // console.log(perfumes);
+  
 
   return {
     id: json.id || "",
     userId: json.userId || "",
     userName: json.userName || "",
     address: json.address || "",
-    perfumeId: Array.isArray(json.perfumeId) ? json.perfumeId : [],
+    perfumeId: perfumes,
     amount: Array.isArray(json.amount) ? json.amount : [],
     totalAmount: Array.isArray(json.totalAmount) ? json.totalAmount : [],
     total: json.total || 0,

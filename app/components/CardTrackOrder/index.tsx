@@ -7,7 +7,7 @@ interface CardTrackOrderProps {
   userId: string,
 }
 
-export default async function CardTrackOrder(props: CardTrackOrderProps) {
+export default function CardTrackOrder(props: CardTrackOrderProps) {
   const { userId } = props;
   const [activeButton, setActiveButton] = useState("All");
   const [transactions, setTransactions] = useState<TransactionProps[] | null>(null);
@@ -15,15 +15,21 @@ export default async function CardTrackOrder(props: CardTrackOrderProps) {
     setActiveButton(status);
   };
   
-  const getTransactions = await getUserTransactions(userId);
-  setTransactions(() => getTransactions!);
+  // const getTransactions = await getUserTransactions(userId);
+  // setTransactions(() => getTransactions!);
   
-  // useEffect(() => {
-  
-  //   return () => {
-      
-  //   }
-  // }, [])
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userTransactions = await getUserTransactions(userId);
+        setTransactions(userTransactions!);
+      } catch (error) {
+        console.error("Error fetching transactions:", error);
+      }
+    }
+
+    fetchData();
+  }, [userId]);
   
 
   // const filteredOrders = OrderList.filter((order) => {
