@@ -11,7 +11,7 @@ export default function TrackOrder() {
   const auth = useAuth();
 
   return (
-    <main className="mx-auto flex w-screen h-full flex-col">
+    <main className="mx-auto flex w-screen flex-col">
       <section className="mx-auto my-8 flex w-11/12 flex-col gap-6">
         <section className="flex flex-row gap-1">
           <NextLink href="/profile" passHref>
