@@ -21,22 +21,22 @@ const Unique = () => {
           <div className="flex flex-col gap-5">
             <p className="text-2xl font-bold">High-Quality Ingredients</p>
             <p className="text-xl font-medium">
-              We believe that the key to an extraordinary scent lies in the
+              {`We believe that the key to an extraordinary scent lies in the
               quality of ingredients. That's why we collaborate with expert
               perfumers who source the finest and ethically-sourced materials
               from around the world. We never compromise on the quality of our
-              products, ensuring a long-lasting and luxurious experience.
+              products, ensuring a long-lasting and luxurious experience.`}
             </p>
           </div>
           <div className="flex flex-col gap-5">
             <p className="text-2xl font-bold">Personalized Service</p>
             <p className="text-xl font-medium">
-              We understand that choosing the perfect scent is a deeply personal
+              {`              We understand that choosing the perfect scent is a deeply personal
               experience. Our team of fragrance experts is always ready to
               assist you in finding a fragrance that complements your
               personality and style. Whether you're exploring new scents or
               seeking to rediscover an old favorite, we're here to guide you
-              every step of the way.
+              every step of the way.`}
             </p>
           </div>
         </div>

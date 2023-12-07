@@ -5,7 +5,9 @@ import Image from "next/image";
 const AboutUs = () => {
   return (
     <div className="relative">
-      <img
+      <Image
+        width={200}
+        height={200}
         src="/images/About_Background.svg"
         alt="About Us"
         className="w-full overflow-hidden brightness-[.15] h-[600px] object-cover "
