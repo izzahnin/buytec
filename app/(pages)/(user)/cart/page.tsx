@@ -43,8 +43,8 @@ export default function Cart() {
   };
 
   const handleBuy = async () => {
-    const result = await auth.checkUserVerified();
-    if (result) {
+    // const result = await auth.checkUserVerified();
+    if (await auth.checkUserVerified()) {
       auth.placeOrder(selectedCart, selectedCartAmount, total, formattedTotal);
       router.push("/checkout");
     } else {

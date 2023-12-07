@@ -298,7 +298,7 @@ export function useFirebaseAuth() {
     // update perfume stock on firebase
     perfumeId.forEach(async (id) => {
       await updateDoc(doc(db, 'perfume', id), {
-        stock: increment(totalAmount[perfumeId.findIndex((val) => val == id)] * -1),
+        stock: increment(amounts[perfumeId.findIndex((val) => val == id)] * -1),
       });
     })
 
