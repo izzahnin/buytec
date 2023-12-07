@@ -40,7 +40,7 @@ export default async function ProductDetail({
       type: ReviewEnum.perfume,
       perfumeId: id,
     } as GetReviewsProps);
-  }
+  };
   // const perfumes = await getBestSellerPerfumes();
   const perfumes = await getBestSellerPerfumesFromLocal();
   let cardList: JSX.Element[] = [];
@@ -73,7 +73,9 @@ export default async function ProductDetail({
           image={perfume.image}
           description={perfume.description}
           gender={perfume.gender}
-          size={perfume.size} stock={perfume.stock}        />
+          size={perfume.size}
+          stock={perfume.stock}
+        />
       </section>
 
       {/* keynotes */}
@@ -84,24 +86,29 @@ export default async function ProductDetail({
       />
 
       {/* reviews */}
-      <section className="flex h-screen flex-col items-center justify-center gap-6">
-        <h1 className="text-heading-m font-medium">Reviews</h1>
+      <section className="flex  flex-col items-center justify-center gap-6">
+        <h1 className="my-3 mt-5 text-center text-heading-m font-bold">Reviews</h1>
         <section className="flex flex-col gap-20 ">
-          <CardReviewsInput perfumeId={perfume.id}  />
-          <div className="flex flex-col gap-6 ">
-            {reviews!.map((review, index) => (
-              <CardReviews
-                key={index}
-                id={review.id}
-                userId={review.userId}
-                userName={review.userName}
-                perfumeId={review.perfumeId}
-                text={review.text}
-                rating={review.rating}
-                date={review.date}
-              />
-            ))}
-          </div>
+          {reviews!.length === 0 ? (
+            <div className="mb-4 text-lg bg-slate-100 p-3">
+              <h1>There are no reviews for this product yet</h1>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-6 ">
+              {reviews!.map((review, index) => (
+                <CardReviews
+                  key={index}
+                  id={review.id}
+                  userId={review.userId}
+                  userName={review.userName}
+                  perfumeId={review.perfumeId}
+                  text={review.text}
+                  rating={review.rating}
+                  date={review.date}
+                />
+              ))}
+            </div>
+          )}
         </section>
         {/* <h1 className="my-3 w-fit text-center text-heading-s font-medium text-gray-500 hover:cursor-pointer">
           Show more

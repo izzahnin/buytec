@@ -11,7 +11,7 @@ export default function CardEmpty(props: CardProps) {
   const { type } = props;
 
   return (
-    <section className="flex h-screen w-screen items-center justify-center">
+    <section className="flex custom-height w-screen items-center justify-center">
       <div className="flex flex-col items-center space-y-10">
         {type === "wishlist" ? <FaHeart size={64} /> : <FaOpencart size={64} />}
         <h1 className="text-4xl font-bold">

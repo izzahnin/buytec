@@ -44,6 +44,7 @@ const renderImages = (props: CardProps) => {
             className="relative h-24 w-14 md:h-64 md:w-44 lg:h-64 lg:w-44"
           >
             <Image
+              priority={true}
               key={index}
               src={image}
               alt={`${alt} ${index + 1}`}
@@ -62,6 +63,7 @@ const renderImages = (props: CardProps) => {
             className="relative h-24 w-14 md:h-64 md:w-44 lg:h-64 lg:w-44"
           >
             <Image
+              priority={true}
               key={index + 2}
               src={image}
               alt={`${alt} ${index + 3}`}

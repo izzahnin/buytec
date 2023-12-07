@@ -109,7 +109,7 @@ export default function Cart() {
                   </section>
                   <section className="flex justify-center">
                     <button
-                      className="mt-1 h-10 w-full justify-center rounded bg-primary-blue-accent font-extrabold text-white"
+                      className="mt-1 h-10 w-full justify-center rounded bg-primary-blue-accent font-extrabold text-white hover:scale-105"
                       type="button"
                       onClick={handleBuy}
                     >

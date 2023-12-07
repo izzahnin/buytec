@@ -13,27 +13,28 @@ export default function CardWishlist(props: CardProps) {
   const { title, price, image } = props;
 
   return (
-    <section className="flex h-36 w-full items-center gap-8 rounded-xl border-2 border-[#C7C7C7] px-8">
-      <section className="relative h-20 w-14">
-        <Image src={image} alt={title} fill />
+    <main className="flex w-full items-center gap-2 rounded-xl border-2 border-[#C7C7C7] p-6 ">
+      <section className="flex justify-center object-cover w-1/2 sm:w-1/4 md:w-1/6 lg:w-1/10 xl:w-32 ">
+        <Image src={image} alt={title} width={100} height={100} 
+        className="h-[100px] w-auto m-0"/>
       </section>
 
       <section className="flex w-full flex-col justify-between gap-4 md:flex-row">
-        <section className="flex flex-col gap-2 text-text-m md:text-text-l">
-          <h5>{title}</h5>
+        <div className="flex flex-col gap-2">
+          <h5 className="text-xl line-clamp-2">{title}</h5>
           <p className="text-[#606060]">Price : Rp {price}</p>
-        </section>
+        </div>
 
-        <section className="flex items-center gap-5 text-[#8D96AA]">
+        <div className="flex items-center gap-5  text-[#8D96AA]">
           <button>
-            <h3 className="text-text-l md:text-heading-s">Move to Cart</h3>
+            <h3 className="">Move to Cart</h3>
           </button>
-          <div className="h-6 w-0.5 bg-[#BFC9D9] md:h-6 md:w-0.5"></div>
-          <button className="w-5 md:w-5">
+          <span className="h-6 w-0.5 bg-[#BFC9D9] md:h-6 md:w-0.5"></span>
+          <button className="w-4 md:w-4">
             <FaRegTrashCan size="auto" />
           </button>
-        </section>
+        </div>
       </section>
-    </section>
+    </main>
   );
 }
