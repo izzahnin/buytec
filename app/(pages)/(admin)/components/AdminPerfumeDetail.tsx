@@ -38,6 +38,7 @@ export default function AdminPerfumeDetail(
     <main className="mx-4 w-full flex h-fit  justify-center gap-6">
       <section className="flex w-fit justify-center  items-center object-cover">
         <Image
+          priority={true}
           draggable={false}
           src={
             "https://firebasestorage.googleapis.com/v0/b/elixir-8ce95.appspot.com/o/Prada_Infusiond_Homme.jpg?alt=media&token=51a6e28a-f52a-4d1a-a07b-5433eb38a524"

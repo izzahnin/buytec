@@ -20,6 +20,7 @@ export default function NavItems() {
     alreadyLogin = true;
   }
 
+
   // search bar start
   const [searchBarVisible, setSearchBarVisible] = useState(false);
   const [searchInput, setSearchInput] = useState("");
@@ -69,6 +70,7 @@ export default function NavItems() {
   // State variable for notification count
   const [notificationCount, setNotificationCount] = useState(3); // Initialize with the number of items that need review
 
+  
   return (
     <>
       <nav className="sticky top-0 z-50 hidden h-[70px] w-screen items-center justify-between bg-white px-5 shadow-lg lg:flex xl:px-8">
