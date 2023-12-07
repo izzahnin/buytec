@@ -40,7 +40,8 @@ export default function Bar() {
           </span>{" "}
           <span>Shipping</span>
         </Link>
-        <Link
+
+        {adminAuth.admin.superAdmin && <Link
           href={"/admin/add-admin"}
           className=" flex cursor-pointer items-center gap-2 rounded-xl p-2  hover:bg-zinc-200"
         >
@@ -48,7 +49,7 @@ export default function Bar() {
             <MdPersonAddAlt />{" "}
           </span>
           <span>Add Admin</span>
-        </Link>
+        </Link>}
         <button
           className=" flex cursor-pointer items-center gap-2 rounded-xl p-2  hover:bg-zinc-200"
           onClick={handleLogout}
