@@ -12,7 +12,7 @@ export default function TrackOrder() {
 
   return (
     <main className="mx-auto flex w-screen flex-col">
-      <section className="mx-auto my-8 flex h-screen w-11/12 flex-col gap-6">
+      <section className="mx-auto my-8 flex h-full w-11/12 flex-col gap-6">
         <section className="flex flex-row gap-1">
           <NextLink href="/profile" passHref>
             <span className="cursor-pointer">Profile</span>
