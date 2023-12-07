@@ -6,6 +6,8 @@ import CardCart from "@/components/CardCart";
 import { getPerfumeByIdFromLocal } from "@/firebase/perfume/getPerfumeFromLocal";
 import NextLink from "next/link";
 import { useRouter } from "next/navigation";
+import ModalToast from "@/components/ModalToast";
+import { toast } from "sonner";
 
 export default function Cart() {
   const auth = useAuth();
@@ -40,9 +42,19 @@ export default function Cart() {
     console.log(selectedCart);
   };
 
-  const handleBuy = () => {
-    auth.placeOrder(selectedCart, selectedCartAmount, total, formattedTotal);
-    router.push("/checkout");
+  const handleBuy = async () => {
+    const result = await auth.checkUserVerified();
+    if (result) {
+      auth.placeOrder(selectedCart, selectedCartAmount, total, formattedTotal);
+      router.push("/checkout");
+    } else {
+      toast.custom((t) => (
+        <ModalToast
+          closeModal={() => toast.dismiss(t)}
+          value="Please verify your account on your email to checkout"
+        />
+      ));
+    }
   };
 
   useEffect(() => {
