@@ -46,8 +46,8 @@ export default function DetailProduct(props: DetailProductProps) {
     auth.user.id == null
       ? false
       : auth.user.wishlist.includes(id)
-      ? true
-      : false,
+        ? true
+        : false,
   );
   const handleFavoriteClick = async () => {
     if (auth.user.id != null) {
@@ -64,7 +64,7 @@ export default function DetailProduct(props: DetailProductProps) {
       toast.custom((t) => (
         <ModalToast
           closeModal={() => toast.dismiss(t)}
-          value="Create account to add perfume to cart"
+          value="Create account to add perfume to wishlist"
         />
       ));
     }
@@ -100,6 +100,7 @@ export default function DetailProduct(props: DetailProductProps) {
     <main className="mx-4 flex h-fit flex-col justify-center md:flex-row md:gap-5 lg:gap-16 ">
       <section className="flex justify-center align-middle md:w-1/2 md:justify-end lg:w-5/12">
         <Image
+          priority={true}
           draggable={false}
           src={image}
           alt={name}
@@ -149,13 +150,15 @@ export default function DetailProduct(props: DetailProductProps) {
             </section>
           </div>
           <button
-            className="h-10 w-52 rounded-lg bg-primary-blue text-white"
+            className="h-10 w-52 rounded-lg bg-primary-blue text-white hover:scale-105 "
             onClick={handleAddToCartClick}
           >
             Add to cart
           </button>
           <section className="flex gap-10">
-            <div className={`flex items-center gap-2 ${stock > 0 ? '' : 'hidden'}`}>
+            <div
+              className={`flex items-center gap-2 ${stock > 0 ? "" : "hidden"}`}
+            >
               <IoMdCheckmark className="text-xl" />
               <p>In Stock!</p>
             </div>

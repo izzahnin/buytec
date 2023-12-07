@@ -59,7 +59,7 @@ export default function Admin() {
             //   }
             // }
             type="submit"
-            className="my-3 w-36 rounded-xl bg-primary-blue py-2 font-bold text-white"
+            className="my-3 w-36 rounded-xl bg-primary-blue py-2 font-bold hover:scale-105 text-white"
             onClick={handleSubmit}
           >
             Login

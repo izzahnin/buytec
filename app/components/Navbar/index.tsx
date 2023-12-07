@@ -1,12 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { RxHamburgerMenu } from "react-icons/rx";
+import { MdOutlineNotifications, MdSearch } from "react-icons/md";
 
 import NavItems from "./NavItems";
-
-import { RxHamburgerMenu } from "react-icons/rx";
-import { MdSearch } from "react-icons/md";
 import CardSearchProduct from "../CardSearchProduct";
+import CardNotification from "@/components/CardNotification";
+
 import { useAuth } from "@/firebase/auth/AuthUserProvider";
 
 export const navItems = [
@@ -18,6 +19,12 @@ export const navItems = [
   { id: 6, title: "Size", href: "/product" },
   { id: 7, title: "Origin", href: "/product" },
 ];
+
+export const notifItems = [
+  { id:1, title: "New Product", description: "Lorem ipsum dolor sit amet consectetur." },
+  { id:2, title: "New Product", description: "Lorem ipsum dolor sit amet consectetur." },
+  { id:3, title: "New Product", description: "Lorem ipsum dolor sit amet consectetur." },
+]
 
 export default function Navbar() {
   let alreadyLogin = false;
@@ -31,6 +38,7 @@ export default function Navbar() {
     setIsNavOpen(!isNavOpen);
   };
 
+      // search bar start
   const [searchBarVisible, setSearchBarVisible] = useState(false);
 
   const toggleSearchBar = () => {
@@ -71,6 +79,16 @@ export default function Navbar() {
 
     setFilteredProducts(filtered);
   }, [searchInput, searchProduct]);
+    // search bar end
+
+    // notification start
+    const [notificationBarVisible, setNotificationBarVisible] = useState(false);
+    const toggleNotificationBar = () => {
+      setNotificationBarVisible(!notificationBarVisible);
+    };
+      // State variable for notification count
+  const [notificationCount, setNotificationCount] = useState(2); // Initialize with the number of items that need review
+  
   return (
     <>
       <nav className="flex flex-col">
@@ -86,6 +104,17 @@ export default function Navbar() {
             <button className="p-1 text-heading-s" onClick={toggleSearchBar}>
               <MdSearch />
             </button>
+            <button
+            className={alreadyLogin ? "relative p-1 text-heading-s" : "hidden"}
+            onClick={toggleNotificationBar}
+          >
+            <MdOutlineNotifications />
+            {notificationCount > 0 && (
+              <span className="absolute -right-1 -top-1 rounded-full bg-red-500 px-2 text-xs text-white">
+                {notificationCount}
+              </span>
+            )}
+          </button>
             <button className="p-1 text-heading-m" onClick={onNavClick}>
               <RxHamburgerMenu />
             </button>
@@ -122,14 +151,14 @@ export default function Navbar() {
               className={alreadyLogin ? "hidden" : "flex flex-col gap-4"}
             >
               <Link
-                href="/a"
+                href="/signup"
                 className="p-1 hover:font-semibold"
                 onClick={onNavClick}
               >
                 Sign Up
               </Link>
               <Link
-                href="/a"
+                href="/login"
                 className="p-1 hover:font-semibold"
                 onClick={onNavClick}
               >
@@ -151,6 +180,23 @@ export default function Navbar() {
           </section>
         </section>
       </nav>
+            
+      {/* notification bar */}
+      {notificationBarVisible && (
+        <main className="sticky top-[70px] z-50  w-full ">
+          <section className="absolute right-16 md:w-1/4 ">
+            {notifItems.map((item) => (
+              <CardNotification
+                key={item.id}
+                title={item.title}
+                description={item.description}
+              />
+            ))}
+          </section>
+        </main>
+      )}
+
+      {/* search bar */}
       {searchBarVisible && (
         <section className="relative mx-3 my-2">
           <section className="mx-3 my-2 flex h-11  items-center rounded-xl border border-dark-blue px-4 align-middle lg:hidden">
@@ -161,7 +207,7 @@ export default function Navbar() {
               className="h-full w-full bg-transparent pl-2 text-lg text-dark-blue outline-none"
             />
           </section>
-          <section className="absolute mt-4 flex w-full flex-col gap-1 md:w-1/4">
+          <section className="absolute  top-0 mt-4 flex w-full flex-col gap-1 md:w-1/4">
             {searchInput.trim() !== "" &&
               filteredProducts.map((product) => (
                 <CardSearchProduct
@@ -177,6 +223,7 @@ export default function Navbar() {
           </section>
         </section>
       )}
+
 
       <NavItems />
     </>

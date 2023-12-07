@@ -8,8 +8,11 @@ export default function HeroSection() {
       <div className="flex items-center justify-center gap-2 md:gap-6  p-10 ">
         <div className="relative aspect-[3/5] w-72">
           <Image
+            draggable={false}
+            priority={true}
             src="/perfume3.png"
             alt="Hero Perfume"
+            sizes={"(max-width: 768px) 100vw, 768px"}
             fill
             className="object-cover"
           />

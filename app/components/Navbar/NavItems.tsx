@@ -1,12 +1,16 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { navItems } from "@/components/Navbar/";
 import {
   MdSearch,
   MdOutlineShoppingCart,
   MdOutlinePersonOutline,
+  MdOutlineNotifications,
 } from "react-icons/md";
-import CardSearchProduct from "../CardSearchProduct";
+
+import { navItems, notifItems } from "@/components/Navbar/";
+import CardSearchProduct from "@/components/CardSearchProduct";
+import CardNotification from "@/components/CardNotification";
+
 import { useAuth } from "@/firebase/auth/AuthUserProvider";
 
 export default function NavItems() {
@@ -15,7 +19,8 @@ export default function NavItems() {
   if (auth.user.id != null) {
     alreadyLogin = true;
   }
-  const [active, setActive] = useState<number | null>(1);
+
+  // search bar start
   const [searchBarVisible, setSearchBarVisible] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const toggleSearchBar = () => {
@@ -54,6 +59,15 @@ export default function NavItems() {
 
     setFilteredProducts(filtered);
   }, [searchInput, searchProduct]);
+  // search bar end
+
+  // notification start
+  const [notificationBarVisible, setNotificationBarVisible] = useState(false);
+  const toggleNotificationBar = () => {
+    setNotificationBarVisible(!notificationBarVisible);
+  };
+  // State variable for notification count
+  const [notificationCount, setNotificationCount] = useState(3); // Initialize with the number of items that need review
 
   return (
     <>
@@ -70,9 +84,6 @@ export default function NavItems() {
               key={item.id}
               href={item.href}
               className={`p-1 hover:font-semibold `}
-              onClick={() => {
-                setActive(active === item.id ? null : item.id);
-              }}
             >
               {item.title}
             </Link>
@@ -88,6 +99,17 @@ export default function NavItems() {
           >
             <MdOutlineShoppingCart />
           </Link>
+          <button
+            className={alreadyLogin ? "relative p-1 text-heading-s" : "hidden"}
+            onClick={toggleNotificationBar}
+          >
+            <MdOutlineNotifications />
+            {notificationCount > 0 && (
+              <span className="absolute -right-1 -top-1 rounded-full bg-red-500 px-2 text-xs text-white">
+                {notificationCount}
+              </span>
+            )}
+          </button>
           <Link
             href="/profile"
             className={alreadyLogin ? "p-1 text-heading-s" : "hidden"}
@@ -116,6 +138,21 @@ export default function NavItems() {
           </Link>
         </section>
       </nav>
+
+      {/* notification bar */}
+      {notificationBarVisible && (
+        <main className="sticky top-[70px] z-50  w-full ">
+          <section className="divide-y  border-slate-200 border divide-slate-200 absolute right-16 md:w-1/4 ">
+            {notifItems.map((item) => (
+              <CardNotification
+                key={item.id}
+                title={item.title}
+                description={item.description}
+              />
+            ))}
+          </section>
+        </main>
+      )}
 
       {/* search bar */}
       {searchBarVisible && (
