@@ -1,10 +1,11 @@
+/* eslint-disable @next/next/no-img-element */
 import React from "react";
 
 const OutStories = () => {
   return (
     <div className="w-full px-16 py-12 md:px-16 md:py-20">
       <div className="mx-auto grid max-w-[900px] md:grid-cols-2 gap-4">
-        <img className="w-[236px] mx-auto my-4" src="/perfume1.png"></img>
+        <img alt="image" className="w-[236px] mx-auto my-4" src="/perfume1.png"/>
         <div className="flex flex-col justify-center gap-6 text-center md:text-start">
           <h1 className="text-4xl font-bold md:text-5xl lg:text-7xl py-2">Our Stories</h1>
           <p className="font-semibold text-xl" >
