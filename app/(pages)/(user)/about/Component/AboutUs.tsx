@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React from "react";
 import Image from "next/image";
 
@@ -15,11 +16,11 @@ const AboutUs = () => {
           About Us
         </h1>
         <p className="text-lg text-white md:text-xl lg:text-2xl">
-          At Elixir, we believe that perfumes are more than just scents; they
+          {`At Elixir, we believe that perfumes are more than just scents; they
           are expressions of one's individuality and style. Our passion for
           exquisite fragrances led us to curate a collection that captures the
           essence of diverse personalities, bringing you an unparalleled
-          olfactory experience.
+          olfactory experience.`}
         </p>
       </div>
     </div>
