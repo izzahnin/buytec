@@ -20,11 +20,19 @@ export const navItems = [
   { id: 7, title: "Origin", href: "/product" },
 ];
 
-export const notifItems = [
-  { id:1, title: "New Product", description: "Lorem ipsum dolor sit amet consectetur." },
-  { id:2, title: "New Product", description: "Lorem ipsum dolor sit amet consectetur." },
-  { id:3, title: "New Product", description: "Lorem ipsum dolor sit amet consectetur." },
-]
+// export const notifItems = [
+//   { id:1, title: "New Product", description: "Lorem ipsum dolor sit amet consectetur." },
+//   { id:2, title: "New Product", description: "Lorem ipsum dolor sit amet consectetur." },
+//   { id:3, title: "New Product", description: "Lorem ipsum dolor sit amet consectetur." },
+// ]
+
+interface Notification {
+  id: number;
+  title: string;
+  description: string;
+}
+
+export const notifItems: Notification[] = [];
 
 export default function Navbar() {
   let alreadyLogin = false;
@@ -38,7 +46,21 @@ export default function Navbar() {
     setIsNavOpen(!isNavOpen);
   };
 
-      // search bar start
+  // fill notifications
+  useEffect(() => {
+    const getNotif = async () => {
+      if (await auth.checkUserVerified()) {
+        notifItems.unshift({
+          id: 0,
+          title: "Verify Account",
+          description: "Check your email to verify your account",
+        });
+      }
+    };
+    getNotif();
+  });
+
+  // search bar start
   const [searchBarVisible, setSearchBarVisible] = useState(false);
 
   const toggleSearchBar = () => {
@@ -79,16 +101,16 @@ export default function Navbar() {
 
     setFilteredProducts(filtered);
   }, [searchInput, searchProduct]);
-    // search bar end
+  // search bar end
 
-    // notification start
-    const [notificationBarVisible, setNotificationBarVisible] = useState(false);
-    const toggleNotificationBar = () => {
-      setNotificationBarVisible(!notificationBarVisible);
-    };
-      // State variable for notification count
+  // notification start
+  const [notificationBarVisible, setNotificationBarVisible] = useState(false);
+  const toggleNotificationBar = () => {
+    setNotificationBarVisible(!notificationBarVisible);
+  };
+  // State variable for notification count
   const [notificationCount, setNotificationCount] = useState(2); // Initialize with the number of items that need review
-  
+
   return (
     <>
       <nav className="flex flex-col">
@@ -105,16 +127,18 @@ export default function Navbar() {
               <MdSearch />
             </button>
             <button
-            className={alreadyLogin ? "relative p-1 text-heading-s" : "hidden"}
-            onClick={toggleNotificationBar}
-          >
-            <MdOutlineNotifications />
-            {notificationCount > 0 && (
-              <span className="absolute -right-1 -top-1 rounded-full bg-red-500 px-2 text-xs text-white">
-                {notificationCount}
-              </span>
-            )}
-          </button>
+              className={
+                alreadyLogin ? "relative p-1 text-heading-s" : "hidden"
+              }
+              onClick={toggleNotificationBar}
+            >
+              <MdOutlineNotifications />
+              {notificationCount > 0 && (
+                <span className="absolute -right-1 -top-1 rounded-full bg-red-500 px-2 text-xs text-white">
+                  {notificationCount}
+                </span>
+              )}
+            </button>
             <button className="p-1 text-heading-m" onClick={onNavClick}>
               <RxHamburgerMenu />
             </button>
@@ -180,7 +204,7 @@ export default function Navbar() {
           </section>
         </section>
       </nav>
-            
+
       {/* notification bar */}
       {notificationBarVisible && (
         <main className="sticky top-[70px] z-50  w-full ">
@@ -223,7 +247,6 @@ export default function Navbar() {
           </section>
         </section>
       )}
-
 
       <NavItems />
     </>
