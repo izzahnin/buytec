@@ -53,10 +53,22 @@ export default function DetailProduct(props: DetailProductProps) {
     if (auth.user.id != null) {
       if (isFavorite) {
         await auth.deleteFromWishlist(id);
+        toast.custom((t) => (
+          <ModalToast
+            closeModal={() => toast.dismiss(t)}
+            value="Perfume removed from wishlist"
+          />
+        ));
       }
       // if item is not in wishlist
       else {
         await auth.addToWishlist(id);
+        toast.custom((t) => (
+          <ModalToast
+            closeModal={() => toast.dismiss(t)}
+            value="Perfume added to wishlist"
+          />
+        ));
       }
       setIsFavorite(!isFavorite);
     } else {
@@ -84,6 +96,12 @@ export default function DetailProduct(props: DetailProductProps) {
   const handleAddToCartClick = async () => {
     if (auth.user.id != null) {
       await auth.addToCart(id, quantity);
+      toast.custom((t) => (
+        <ModalToast
+          closeModal={() => toast.dismiss(t)}
+          value="Perfume added to cart"
+        />
+      ));
     } else {
       // TODO: CHANGE POP UP
       // alert('Create account to add perfume to wishlist')

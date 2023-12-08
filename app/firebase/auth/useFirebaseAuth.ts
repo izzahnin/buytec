@@ -13,6 +13,7 @@ import { auth, db } from "../config";
 import {
   doc,
   getDoc,
+  increment,
   runTransaction,
   setDoc,
   updateDoc,
@@ -294,6 +295,15 @@ export function useFirebaseAuth() {
       totalAmount.push(perfume.price * amounts[i]);
     }
 
+    // update perfume stock on firebase
+    perfumeId.forEach(async (id) => {
+      await updateDoc(doc(db, 'perfume', id), {
+        stock: increment(amounts[perfumeId.findIndex((val) => val == id)] * -1),
+      });
+    })
+
+    // await updateStock();
+
     // new transaction data
     const newTransaction: TransactionFirebaseProps = {
       id: docRef.id,
@@ -303,7 +313,7 @@ export function useFirebaseAuth() {
       perfumeId: perfumeId,
       amount: amounts,
       totalAmount: totalAmount,
-      packageStatus: "Received",
+      packageStatus: "Packed",
       total: total,
       paymentMethod: paymentMethod,
       date: new Date(),

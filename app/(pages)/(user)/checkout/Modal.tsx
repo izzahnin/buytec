@@ -1,8 +1,10 @@
 'use client';
+import ModalToast from "@/components/ModalToast";
 import { useAuth } from "@/firebase/auth/AuthUserProvider";
 import { useRouter } from "next/navigation";
 import { Router } from "next/router";
 import React from "react";
+import { toast } from "sonner";
 
 interface ModalProps {
   closeModal: () => void;
@@ -31,6 +33,12 @@ const Modal: React.FC<ModalProps> = ({ closeModal, perfumes, perfumesAmount, ban
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     await auth.checkoutCart(randomNumbersString, perfumes, perfumesAmount, total, bank);
+    toast.custom((t) => (
+      <ModalToast
+        closeModal={() => toast.dismiss(t)}
+        value="Success checkout"
+      />
+    ));
     router.push('/cart');
   }
 
