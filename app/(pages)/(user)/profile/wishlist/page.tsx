@@ -43,6 +43,7 @@ export default function Wishlist() {
                 const perfume = getPerfumeByIdFromLocal(id)!;
                 return <CardWishlist
                 key={index}
+                id={perfume.id}
                 title={perfume.name}
                 price={perfume.price.toString()}
                 image={perfume.image}
