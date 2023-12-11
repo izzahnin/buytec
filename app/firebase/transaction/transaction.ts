@@ -39,7 +39,6 @@ export async function jsonToTransaction(json: {
   (json.perfumeId as string[]).forEach((id) => {
     // console.log(id);
     const perfume = getPerfumeByIdFromLocal(id);
-    console.log(perfume);
     perfumes.push(perfume!);
   })
   // console.log(perfumes);

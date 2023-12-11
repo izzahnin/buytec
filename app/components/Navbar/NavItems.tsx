@@ -59,7 +59,10 @@ export default function NavItems() {
     );
 
     setFilteredProducts(filtered);
-  }, [searchInput, searchProduct]);
+
+    setNotificationCount(notifItems.size);
+
+  }, [searchInput, searchProduct, notifItems.size]);
   // search bar end
 
   // notification start
@@ -68,7 +71,11 @@ export default function NavItems() {
     setNotificationBarVisible(!notificationBarVisible);
   };
   // State variable for notification count
-  const [notificationCount, setNotificationCount] = useState(3); // Initialize with the number of items that need review
+  const [notificationCount, setNotificationCount] = useState(0); // Initialize with the number of items that need review
+
+  useEffect(() => {
+    setNotificationCount(notifItems.size);
+  }, [notifItems]);
 
   
   return (
@@ -145,7 +152,7 @@ export default function NavItems() {
       {notificationBarVisible && (
         <main className="sticky top-[70px] z-50  w-full ">
           <section className="divide-y  border-slate-200 border divide-slate-200 absolute right-16 md:w-1/4 ">
-            {notifItems.map((item) => (
+            {Array.from(notifItems).map((item) => (
               <CardNotification
                 key={item.id}
                 title={item.title}

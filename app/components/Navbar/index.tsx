@@ -7,8 +7,9 @@ import { MdOutlineNotifications, MdSearch } from "react-icons/md";
 import NavItems from "./NavItems";
 import CardSearchProduct from "../CardSearchProduct";
 import CardNotification from "@/components/CardNotification";
-
+import isEqual from 'lodash/isEqual';
 import { useAuth } from "@/firebase/auth/AuthUserProvider";
+import getUserTransactions from "@/firebase/transaction/getUserTransactions";
 
 export const navItems = [
   { id: 1, title: "Notes", href: "/product" },
@@ -32,7 +33,7 @@ interface Notification {
   description: string;
 }
 
-export const notifItems: Notification[] = [];
+export const notifItems = new Set<Notification>();
 
 export default function Navbar() {
   let alreadyLogin = false;
@@ -41,23 +42,76 @@ export default function Navbar() {
     alreadyLogin = true;
   }
   const [isNavOpen, setIsNavOpen] = useState(false);
+  const [notifications, setNotifications] =
+    useState<Set<Notification>>(notifItems);
+
+  // State variable for notification count
+  const [notificationCount, setNotificationCount] = useState(notifItems.size); // Initialize with the number of items that need review
 
   const onNavClick = () => {
     setIsNavOpen(!isNavOpen);
   };
 
   // fill notifications
-  useEffect(() => {
-    const getNotif = async () => {
-      if (await auth.checkUserVerified()) {
-        notifItems.unshift({
+  const getNotif = async () => {
+    notifItems.clear();
+    console.log("navbar is running again");
+    const verif = await auth.checkUserVerified();
+    console.log(verif);
+    // check verified
+    if (!verif) {
+      // to prevent multiple notifications
+      if (notifItems.size == 0) {
+        notifItems.add({
           id: 0,
           title: "Verify Account",
           description: "Check your email to verify your account",
         });
       }
-    };
-    getNotif();
+    }
+
+    // check unreviewed perfumes
+    const transactions = await getUserTransactions(auth.user.id!);
+    // let id = notifItems.size == 0 ? 1 : 0
+    transactions?.forEach((transaction) => {
+      let title = "";
+      let desc = "";
+
+      if (transaction.packageStatus == "Wait for verification") {
+        title = "Order in pending";
+        desc = `Order number ${transaction.id} is waiting for verification`;
+      } else if (transaction.packageStatus == "Packed") {
+        title = "Order is packed";
+        desc = `Order number ${transaction.id} is being packed`;
+      } else if (transaction.packageStatus == "Sent") {
+        title = "Order is sent";
+        desc = `Order number ${transaction.id} is on its way`;
+      } else if (transaction.packageStatus == "Received") {
+        title = "Order done";
+        desc = `Order number ${transaction.id} is arrived. Please review`;
+      }
+      const newNotif = {
+        id: +transaction.id,
+        title: title,
+        description: desc,
+      };
+      // check if the notification is already exist
+      const exist = Array.from(notifItems).some((notif) => isEqual(notif, newNotif));
+      if (!exist) {
+        notifItems.add(newNotif);
+      }
+    });
+  };
+  useEffect(() => {
+    setNotifications(notifItems);
+    console.log(`isi notif: ${notifItems.size}`);
+    setNotificationCount(notifItems.size);
+  }, [notifItems, notifItems.size]);
+
+  getNotif().then(() => {
+    setNotifications(notifItems);
+    console.log(`isi notif: ${notifItems.size}`);
+    setNotificationCount(notifItems.size)
   });
 
   // search bar start
@@ -100,6 +154,7 @@ export default function Navbar() {
     );
 
     setFilteredProducts(filtered);
+
   }, [searchInput, searchProduct]);
   // search bar end
 
@@ -108,8 +163,7 @@ export default function Navbar() {
   const toggleNotificationBar = () => {
     setNotificationBarVisible(!notificationBarVisible);
   };
-  // State variable for notification count
-  const [notificationCount, setNotificationCount] = useState(2); // Initialize with the number of items that need review
+  
 
   return (
     <>
@@ -209,7 +263,7 @@ export default function Navbar() {
       {notificationBarVisible && (
         <main className="sticky top-[70px] z-50  w-full ">
           <section className="absolute right-16 md:w-1/4 ">
-            {notifItems.map((item) => (
+            {Array.from(notifications).map((item) => (
               <CardNotification
                 key={item.id}
                 title={item.title}
@@ -248,7 +302,7 @@ export default function Navbar() {
         </section>
       )}
 
-      <NavItems />
+      <NavItems/>
     </>
   );
 }

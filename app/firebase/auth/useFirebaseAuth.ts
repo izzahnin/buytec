@@ -88,7 +88,6 @@ export function useFirebaseAuth() {
           review: userData!.review,
           buy: userData!.buy,
         });
-        console.log(userData?.name);
       } else {
         setUser({
           id: null,
