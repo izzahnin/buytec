@@ -10,6 +10,7 @@ interface CardProductOrderProps {
   Parfume_name: string;
   Parfume_qty: number;
   Parfume_price: string;
+  verification: string;
 }
 
 export default function CardProductOrder(props: CardProductOrderProps) {
@@ -21,8 +22,10 @@ export default function CardProductOrder(props: CardProductOrderProps) {
     Parfume_name,
     Parfume_qty,
     Parfume_price,
+    verification,
   } = props;
   
+
   const Total_order = (Parfume_qty * parseFloat(Parfume_price.replace(/\./g, ""))).toLocaleString("id-ID", {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
@@ -31,12 +34,13 @@ export default function CardProductOrder(props: CardProductOrderProps) {
   return (
     <main className="shadow-xl rounded-xl">
       <section className="flex flex-col md:gap-7 py-4 px-10 gap-4">
-        <div className="text-text-s flex flex-row items-center justify-start gap-6 md:text-text-m">
-          <span className="font-semibold">{date}</span>
-          <span className="rounded-md bg-[#E4EBF5] px-4 py-1 font-semibold text-primary-blue-accent">
+        <div className="w-11/12 text-text-s flex flex-row items-center justify-start gap-6 md:text-text-m">
+          <span className="text-[8px] sm:text-text-m md:text-text-l font-semibold">{date}</span>
+          <span className="text-[8px] sm:text-text-m md:text-text-l rounded-md bg-[#E4EBF5] px-2 md:px-4 md:py-1 font-semibold text-primary-blue-accent">
             {orderstatus}
           </span>
-          <span className="font-semibold">{resi}</span>
+          <span className="text-[8px] sm:text-text-m md:text-text-l font-semibold">{resi}</span>
+          <span className="flex items-center text-center text-[8px] sm:text-text-m md:text-text-l rounded-md bg-[#E4EBF5] -center px-2 sm:px-4 sm:py-1 text-primary-blue-accent">{verification}</span>
         </div>
 
         <div>
