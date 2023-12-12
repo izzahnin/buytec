@@ -30,12 +30,12 @@ formattedTotal: string,
     username: string,
     email: string,
     password: string,
-  ) => Promise<UserCredential | undefined> | undefined;
+  ) => Promise<string | undefined>;
   logIn: (
     email: string,
     password: string,
-  ) => Promise<UserCredential | undefined>;
-  logInWithGoogle: () => Promise<UserCredential> | undefined;
+  ) => Promise<string | undefined>;
+  logInWithGoogle: () => Promise<string | undefined>;
   logOut: () => Promise<void>;
   checkUserVerified: () => Promise<Boolean | undefined>;
   updateAddress: (text: string) => Promise<void>;
@@ -96,16 +96,16 @@ export const authUserContext = createContext<AuthType>({
     username: string,
     email: string,
     password: string,
-  ): Promise<UserCredential | undefined> {
+  ): Promise<string | undefined> {
     throw new Error("Function not implemented.");
   },
   logIn: function (
     email: string,
     password: string,
-  ): Promise<UserCredential | undefined> {
+  ): Promise<string | undefined> {
     throw new Error("Function not implemented.");
   },
-  logInWithGoogle: function (): Promise<UserCredential> | undefined {
+  logInWithGoogle: function (): Promise<string | undefined> {
     throw new Error("Function not implemented.");
   },
   logOut: function (): Promise<void> {

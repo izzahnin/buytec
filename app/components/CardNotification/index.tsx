@@ -12,7 +12,7 @@ export default function CardNotification(props: CardNotificationProps) {
     <main className="z-40 hidden w-full  gap-2  bg-white p-2 shadow-md lg:flex">
       <section>
         <h1 className=" font-semibold">{title}</h1>
-        <p className="line-clamp-2">{description}</p>
+        <div className="line-clamp-2">{description}</div>
       </section>
     </main>
   );

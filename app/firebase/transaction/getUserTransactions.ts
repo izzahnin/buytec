@@ -15,10 +15,8 @@ export default async function getUserTransactions(userId: string): Promise<
 
     // Wait for all promises to resolve
     await Promise.all(fetchPromises);
-    console.log(transactions);
     return transactions;
   } catch (e) {
-    console.log(e);
     return undefined;
   }
 }
