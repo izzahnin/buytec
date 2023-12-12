@@ -13,6 +13,9 @@ export default function Login() {
   const [passwordType, setPasswordType] = useState("password");
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
+  const [signupError, setSignupError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPasswordInput(e.target.value);
   };
@@ -23,6 +26,32 @@ export default function Login() {
     }
     setPasswordType("password");
   };
+
+  
+  const handleLogin = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    setLoading(true);
+    setSignupError(null);
+    try {
+      const result = await auth.logIn(emailInput, passwordInput);
+      if (result == undefined) {
+        router.push("/");
+      } else {
+        setSignupError('Email and/or password is wrong');
+      }
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const handleGoogleLogin = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    const result = await auth.logInWithGoogle();
+    if (result == undefined) {
+      router.push("/");
+    }
+  }
+
   return (
     <div className="custom-height flex flex-col items-center justify-center">
       <div className="flex w-full max-w-screen-xl flex-col items-center gap-4">
@@ -66,7 +95,7 @@ export default function Login() {
                 )}
               </button> */}
             </div>
-            <div className="flex justify-between text-xs">
+            {/* <div className="flex justify-between text-xs">
               <div className="flex space-x-2">
                 <input type="checkbox" id="rememberMe" name="remember_me" />
                 <label htmlFor="rememberMe" className="text-s">
@@ -76,31 +105,23 @@ export default function Login() {
               <a href="#" className="text-s">
                 Forgot Password?
               </a>
-            </div>
+            </div> */}
+            {signupError && (
+              <span className="text-red-500 flex justify-center">
+                {signupError}
+              </span>
+            )}
             <div className="flex flex-col items-center space-y-6">
               <button
-                onClick={async (e) => {
-                  e.preventDefault();
-                  const result = await auth.logIn(emailInput, passwordInput);
-                  if (result != undefined) {
-                    console.log(result.user.uid);
-                    router.push("/");
-                  }
-                }}
+                onClick={handleLogin}
                 type="submit"
                 className="h-8 w-40 rounded-full bg-dark-blue font-bold text-white"
+                disabled={loading}
               >
-                Login
+                {loading ? 'Loading...' : 'Login'}
               </button>
               <button
-                onClick={async (e) => {
-                  e.preventDefault();
-                  const result = await auth.logInWithGoogle();
-                  if (result != undefined) {
-                    console.log(result.user.uid);
-                    router.push("/");
-                  }
-                }}
+                onClick={handleGoogleLogin}
                 type="submit"
                 className="flex h-8 w-40 items-center justify-center rounded-full border border-dark-blue text-xs text-black"
               >

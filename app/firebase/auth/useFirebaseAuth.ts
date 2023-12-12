@@ -22,6 +22,7 @@ import { UserType, userConverter } from "./user";
 import { PerfumeProps } from "../perfume/perfume";
 import { TransactionFirebaseProps } from "../transaction/transaction";
 import { getPerfumeByIdFromLocal } from "../perfume/getPerfumeFromLocal";
+import { FirebaseError } from "firebase/app";
 
 export enum UserLoginState {
   Idle,
@@ -145,9 +146,17 @@ export function useFirebaseAuth() {
       await setDoc(doc(db, "user", newUserData.id!), newUserData);
       setLoginState(() => UserLoginState.Success);
       await sendEmailVerification(credential.user);
-      return credential;
+      // return credential;
     } catch (e) {
       setLoginState(UserLoginState.Failed);
+      console.log(e);
+      if (e instanceof FirebaseError) {
+        if (e.code == "auth/email-already-in-use") {
+          return "Email already in use";
+        } else {
+          return e.code;
+        }
+      }
     }
   };
 
@@ -159,45 +168,60 @@ export function useFirebaseAuth() {
         email,
         password,
       );
-      return credential;
+      // return credential;
     } catch (e) {
       setLoginState(UserLoginState.Failed);
+      console.log(e)
+      if (e instanceof FirebaseError) {
+        if (e.code == "auth/email-already-in-use") {
+          return "Email already in use";
+        } else {
+          return e.code;
+        }
+      }
     }
   };
 
-  const logInWithGoogle = () => {
+  const logInWithGoogle = async () => {
     try {
       const provider = new GoogleAuthProvider();
-      const result = signInWithPopup(auth, provider).then(async (result) => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential?.accessToken;
-        // The signed-in user info.
-        const user = result.user;
-        // check if user has data in firestore
-        const document = await getDoc(doc(db, "user", user.uid));
-        if (document.exists()) {
-          //not doing anything
-        } else {
-          // create new user data and send email verification
-          const newUserData = {
-            id: user.uid,
-            name: user.displayName,
-            email: user.email,
-            wishlist: [] as string[],
-            cart: [] as string[],
-            cartAmount: [] as number[],
-            review: [] as string[],
-            buy: [] as string[],
-          } as UserType;
-          await setDoc(doc(db, "user", newUserData.id!), newUserData);
-          setLoginState(() => UserLoginState.Success);
-          await sendEmailVerification(user);
-        }
-        return result;
-      });
-      return result;
+      const result = await signInWithPopup(auth, provider);
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential?.accessToken;
+      // The signed-in user info.
+      const user = result.user;
+      // check if user has data in firestore
+      const document = await getDoc(doc(db, "user", user.uid));
+      if (document.exists()) {
+        //not doing anything
+      } else {
+        // create new user data and send email verification
+        const newUserData = {
+          id: user.uid,
+          name: user.displayName,
+          email: user.email,
+          wishlist: [] as string[],
+          cart: [] as string[],
+          cartAmount: [] as number[],
+          review: [] as string[],
+          buy: [] as string[],
+        } as UserType;
+        await setDoc(doc(db, "user", newUserData.id!), newUserData);
+        setLoginState(() => UserLoginState.Success);
+        await sendEmailVerification(user);
+      }
+      // return result;
+      // });
+      // return result;
     } catch (e) {
       setLoginState(UserLoginState.Failed);
+      if (e instanceof FirebaseError) {
+        if (e.code == "auth/email-already-in-use") {
+          return "Email already in use";
+        } else {
+          return e.code;
+        }
+      }
     }
   };
 
@@ -296,10 +320,10 @@ export function useFirebaseAuth() {
 
     // update perfume stock on firebase
     perfumeId.forEach(async (id) => {
-      await updateDoc(doc(db, 'perfume', id), {
+      await updateDoc(doc(db, "perfume", id), {
         stock: increment(amounts[perfumeId.findIndex((val) => val == id)] * -1),
       });
-    })
+    });
 
     // await updateStock();
 
