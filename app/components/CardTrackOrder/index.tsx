@@ -59,21 +59,21 @@ export default function CardTrackOrder(props: CardTrackOrderProps) {
             </button>
             <button
               className={`h-7 w-20 sm:h-12 sm:w-32 items-center justify-center rounded-lg border-2 border-solid border-primary-blue-accent ${
-                activeButton === "Sent" && "bg-[#E4EBF5] text-primary-blue-accent"
-              }`}
-              type="button"
-              onClick={() => handleButtonClick("Sent")}
-            >
-              Sent
-            </button>
-            <button
-              className={`h-7 w-20 sm:h-12 sm:w-32 items-center justify-center rounded-lg border-2 border-solid border-primary-blue-accent ${
                 activeButton === "Packed" && "bg-[#E4EBF5] text-primary-blue-accent"
               }`}
               type="button"
               onClick={() => handleButtonClick("Packed")}
             >
               Packed
+            </button>
+            <button
+              className={`h-7 w-20 sm:h-12 sm:w-32 items-center justify-center rounded-lg border-2 border-solid border-primary-blue-accent ${
+                activeButton === "Sent" && "bg-[#E4EBF5] text-primary-blue-accent"
+              }`}
+              type="button"
+              onClick={() => handleButtonClick("Sent")}
+            >
+              Sent
             </button>
             <button
               className={`h-7 w-20 sm:h-12 sm:w-32 items-center justify-center rounded-lg border-2 border-solid border-primary-blue-accent ${
@@ -102,6 +102,7 @@ export default function CardTrackOrder(props: CardTrackOrderProps) {
                 Parfume_name={perfume.name}
                 Parfume_qty={transaction.amount[index]}
                 Parfume_price={transaction.totalAmount[index].toString()}
+                verification="Wait for verification"
               />
             ))
           ))}
