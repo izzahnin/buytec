@@ -11,22 +11,6 @@ import isEqual from 'lodash/isEqual';
 import { useAuth } from "@/firebase/auth/AuthUserProvider";
 import getUserTransactions from "@/firebase/transaction/getUserTransactions";
 
-export const navItems = [
-  { id: 1, title: "Notes", href: "/product" },
-  { id: 2, title: "Brand", href: "/product" },
-  { id: 3, title: "Occasion", href: "/product" },
-  { id: 4, title: "Gender", href: "/product" },
-  { id: 5, title: "Concentration", href: "/product" },
-  { id: 6, title: "Size", href: "/product" },
-  { id: 7, title: "Origin", href: "/product" },
-];
-
-// export const notifItems = [
-//   { id:1, title: "New Product", description: "Lorem ipsum dolor sit amet consectetur." },
-//   { id:2, title: "New Product", description: "Lorem ipsum dolor sit amet consectetur." },
-//   { id:3, title: "New Product", description: "Lorem ipsum dolor sit amet consectetur." },
-// ]
-
 interface Notification {
   id: number;
   title: string;
@@ -168,7 +152,7 @@ export default function Navbar() {
   return (
     <>
       <nav className="flex flex-col">
-        <section className="sticky top-0 z-50 flex h-[70px] w-screen items-center justify-between bg-white px-5 shadow-lg lg:hidden ">
+        <section className="sticky top-0 z-50 flex h-[70px] w-screen items-center justify-between bg-white px-5 shadow-lg sm:hidden ">
           <Link
             href="/"
             className="select-none font-playfair text-heading-l text-primary-blue"

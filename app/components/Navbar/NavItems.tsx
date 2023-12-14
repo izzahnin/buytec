@@ -80,7 +80,7 @@ export default function NavItems() {
   
   return (
     <>
-      <nav className="sticky top-0 z-50 hidden h-[70px] w-screen items-center justify-between bg-white px-5 shadow-lg lg:flex xl:px-8">
+      <nav className="sticky top-0 z-50 hidden h-[70px] w-screen items-center justify-between bg-white px-5 shadow-lg sm:flex xl:px-8">
         <Link
           href="/"
           className="select-none font-playfair text-heading-l text-primary-blue"
