@@ -2,11 +2,18 @@
 import React from "react";
 import Link from "next/link";
 
-import { navItems } from "@/components/Navbar/";
-
 import { FaTwitterSquare, FaInstagram, FaTiktok, FaTwitter } from "react-icons/fa";
 
 export default function Footer() {
+  const navItems = [
+    { id: 1, title: "Notes", href: "/product" },
+    { id: 2, title: "Brand", href: "/product" },
+    { id: 3, title: "Occasion", href: "/product" },
+    { id: 4, title: "Gender", href: "/product"},
+    { id: 5, title: "Concentration", href: "/product"},
+    { id: 6, title: "Size", href: "/product"},
+    { id: 7, title: "Origin", href: "/product"},
+  ];
   return (
     <footer className="flex w-full flex-col gap-12 bg-dark-blue  text-white">
       <main className="flex flex-col sm:flex-row gap-8 justify-between mx-8 mt-4 md:mx-12 md:my-6 lg:mx-16 lg:mt-8">
