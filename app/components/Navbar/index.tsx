@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { MdOutlineNotifications, MdSearch } from "react-icons/md";
+import { MdOutlineNotifications, MdOutlinePersonOutline, MdOutlineShoppingCart, MdSearch } from "react-icons/md";
 
 import NavItems from "./NavItems";
 import CardSearchProduct from "../CardSearchProduct";
@@ -106,7 +106,7 @@ export default function Navbar() {
     setNotifications(notifItems);
     console.log(`isi notif: ${notifItems.size}`);
     setNotificationCount(notifItems.size);
-  }, [notifItems, notifItems.size]);
+  }, []);
 
   getNotif().then(() => {
     setNotifications(notifItems);
@@ -211,17 +211,17 @@ export default function Navbar() {
             >
               <Link
                 href="/cart"
-                className="p-1 hover:font-semibold"
+                className="p-1 hover:font-semibold flex items-center gap-3"
                 onClick={onNavClick}
               >
-                Cart
+                <span className="p-1 text-heading-s"><MdOutlineShoppingCart /></span> Cart
               </Link>
               <Link
                 href="/profile"
-                className="p-1 hover:font-semibold"
+                className="p-1 hover:font-semibold flex items-center gap-3"
                 onClick={onNavClick}
               >
-                Profile
+                <span className="p-1 text-heading-s"><MdOutlinePersonOutline /></span> Profile
               </Link>
               <hr className="border-gray-300" />
             </section>
@@ -244,17 +244,6 @@ export default function Navbar() {
               </Link>
               <hr className="border-gray-300" />
             </section>
-
-            {navItems.map((item) => (
-              <Link
-                key={item.id}
-                href={item.href}
-                className={`p-1 hover:font-semibold `}
-                onClick={onNavClick}
-              >
-                {item.title}
-              </Link>
-            ))}
           </section>
         </section>
       </nav>

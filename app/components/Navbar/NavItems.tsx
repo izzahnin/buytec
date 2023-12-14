@@ -62,7 +62,7 @@ export default function NavItems() {
 
     setNotificationCount(notifItems.size);
 
-  }, [searchInput, searchProduct, notifItems.size]);
+  }, [searchInput, searchProduct]);
   // search bar end
 
   // notification start
@@ -75,7 +75,7 @@ export default function NavItems() {
 
   useEffect(() => {
     setNotificationCount(notifItems.size);
-  }, [notifItems]);
+  }, []);
 
   
   return (
@@ -87,7 +87,7 @@ export default function NavItems() {
         >
           Elixir
         </Link>
-        <section className="flex gap-4 px-2 py-3 text-center">
+        {/* <section className="flex gap-4 px-2 py-3 text-center">
           {navItems.map((item) => (
             <Link
               key={item.id}
@@ -97,7 +97,7 @@ export default function NavItems() {
               {item.title}
             </Link>
           ))}
-        </section>
+        </section> */}
         <section className="flex items-center gap-1">
           <button className="p-1 text-heading-s" onClick={toggleSearchBar}>
             <MdSearch />
