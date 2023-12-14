@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import CardProduct from "@components/ProductCard";
 import getAllPerfume from "@/firebase/perfume/getAllPerfume";
 import getPerfumesByCategory from "@/firebase/perfume/getPerfumesByCategory";
 import { getPerfumeFromLocal } from "@/firebase/perfume/getPerfumeFromLocal";
+import { PerfumeProps } from '@/firebase/perfume/perfume';
 
 interface ProductFilterProps {
   selectedCategory: string;
@@ -12,11 +13,22 @@ interface ProductFilterProps {
 export default async function ProductFilter(props: ProductFilterProps) {
   const { selectedCategory, selectedSubCategory } = props;
   // const perfumes = await getAllPerfume();
-  const perfumes = await getPerfumeFromLocal();
+  let perfumes: PerfumeProps[] | undefined = []
+
+    if (selectedCategory != '' && selectedSubCategory != '') {
+      if (selectedCategory == 'size') {
+        perfumes = await getPerfumesByCategory({category: selectedCategory, subcategory: parseInt(selectedSubCategory)});
+      } else {
+        perfumes = await getPerfumesByCategory({category: selectedCategory, subcategory: selectedSubCategory});
+      }
+    } else {
+      perfumes = await getPerfumeFromLocal();
+    }
+
   let cardList: JSX.Element[] = [];
   if (perfumes != undefined) {
-    const filteredPerfumes = perfumes.filter(perfume => (perfume.gender === "male"));
-    cardList = filteredPerfumes.map((perfume) => (
+    // const filteredPerfumes = perfumes.filter(perfume => (perfume.gender === "male"));
+    cardList = perfumes.map((perfume) => (
       <CardProduct
         id={perfume.id}
         brand={perfume.brand}
