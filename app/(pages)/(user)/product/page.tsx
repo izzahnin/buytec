@@ -14,7 +14,7 @@ const ProductFilter = dynamic(() => import("@/components/ProductFilter"), {
 export const categorys = [
   {
     id: 1,
-    title: "Notes",
+    title: "baseNotes",
     subCategory: [
       "Floral",
       "Fresh",
@@ -27,20 +27,20 @@ export const categorys = [
   },
   {
     id: 2,
-    title: "Brand",
+    title: "brand",
     subCategory: ["Dior", "Versace", "Diptyque", "Lattafa", "Prada", "HMNS"],
   },
-  { id: 3, title: "Occasion", subCategory: ["Day", "Nigth", "Versatile"] },
-  { id: 4, title: "Gender", subCategory: ["Women", "Men", "Unisex"] },
+  { id: 3, title: "occasion", subCategory: ["Day", "Nigth", "Versatile"] },
+  { id: 4, title: "gender", subCategory: ["Women", "Men", "Unisex"] },
   {
     id: 5,
-    title: "Concentration",
+    title: "concentration",
     subCategory: ["Eau de Toilette", "Eau de Parfum", "Extrait de Parfum"],
   },
-  { id: 6, title: "Size", subCategory: ["50ml", "100ml"] },
+  { id: 6, title: "size", subCategory: ["50", "100"] },
   {
     id: 7,
-    title: "Origin",
+    title: "origin",
     subCategory: ["France", "Italy", "Indonesia", "UAE"],
   },
 ];
