@@ -21,11 +21,16 @@ export default function Product() {
       if (adminAuth.admin.username != null) {
         setUserValid(true);
       } else {
-        router.push("/");
+        router.push("/admin/product");
       }
     };
 
-    checkAuth();
+    const timer = setTimeout(() => {
+      checkAuth();
+    }, 2000);
+
+    return () => clearTimeout(timer);
+
   });
 
   const onClick = (perfumeId: string) => {

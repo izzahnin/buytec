@@ -6,6 +6,7 @@ import React from "react";
 
 import {
   MdExitToApp,
+  MdOutlineDashboard,
   MdOutlineLocalShipping,
   MdOutlineShoppingBag,
   MdPersonAddAlt,
@@ -32,6 +33,15 @@ export default function Bar() {
           <span>CONTOH</span>
         </Link>
         <Link
+          href={"/admin/dashboard"}
+          className=" flex cursor-pointer items-center gap-2 rounded-xl p-2  hover:bg-zinc-200"
+        >
+          <span className="text-2xl">
+            <MdOutlineDashboard />
+          </span>
+          <span>Dashboard</span>
+        </Link>
+        <Link
           href={"/admin/product"}
           className=" flex cursor-pointer items-center gap-2 rounded-xl p-2  hover:bg-zinc-200"
         >
@@ -41,13 +51,13 @@ export default function Bar() {
           <span>Product</span>
         </Link>
         <Link
-          href={"/admin/shipping"}
+          href={"/admin/purchase"}
           className=" flex cursor-pointer items-center gap-2 rounded-xl p-2  hover:bg-zinc-200"
         >
           <span className="text-2xl">
             <MdOutlineLocalShipping />
           </span>{" "}
-          <span>Shipping</span>
+          <span>Purchase</span>
         </Link>
 
         {adminAuth.admin.superAdmin && <Link
