@@ -1,5 +1,5 @@
 'use client';
-import localFont from '@next/font/local'
+import localFont from "next/font/local"
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { AuthUserProvider } from '@/firebase/auth/AuthUserProvider';
