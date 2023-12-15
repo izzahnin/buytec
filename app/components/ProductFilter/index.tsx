@@ -44,9 +44,6 @@ export default async function ProductFilter(props: ProductFilterProps) {
   }
   return (
     <>
-      {/* tes produk */}
-      <p>{selectedCategory}</p>
-      <p>{selectedSubCategory}</p>
       {cardList}
     </>
   )

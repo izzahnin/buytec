@@ -30,7 +30,7 @@ export const categorys = [
     title: "brand",
     subCategory: ["Dior", "Versace", "Diptyque", "Lattafa", "Prada", "HMNS"],
   },
-  { id: 3, title: "occasion", subCategory: ["Day", "Nigth", "Versatile"] },
+  { id: 3, title: "occasion", subCategory: ["Day", "Night", "Versatile"] },
   { id: 4, title: "gender", subCategory: ["Women", "Men", "Unisex"] },
   {
     id: 5,
