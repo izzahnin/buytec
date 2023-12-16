@@ -7,7 +7,7 @@ import {
   MdOutlineNotifications,
 } from "react-icons/md";
 
-import { navItems, notifItems } from "@/components/Navbar/";
+import { notifItems } from "@/components/Navbar/";
 import CardSearchProduct from "@/components/CardSearchProduct";
 import CardNotification from "@/components/CardNotification";
 

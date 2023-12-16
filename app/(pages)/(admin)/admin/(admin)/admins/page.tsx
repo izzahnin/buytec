@@ -27,64 +27,41 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 
-import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 type User = {
   id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
+  userName: string;
 };
 
 const fakeData: User[] = [
   {
     id: "9s41rp",
-    firstName: "Kelvin",
-    lastName: "Langosh",
-    email: "Jerod14@hotmail.com",
+    userName: "Kelvin",
   },
   {
     id: "08m6rx",
-    firstName: "Molly",
-    lastName: "Purdy",
-    email: "Hugh.Dach79@hotmail.com",
+    userName: "Molly",
   },
   {
     id: "5ymtrc",
-    firstName: "Henry",
-    lastName: "Lynch",
-    email: "Camden.Macejkovic@yahoo.com",
+    userName: "Henry",
   },
   {
     id: "ek5b97",
-    firstName: "Glenda",
-    lastName: "Douglas",
-    email: "Eric0@yahoo.com",
+    userName: "Glenda",
   },
   {
     id: "xxtydd",
-    firstName: "Leone",
-    lastName: "Williamson",
-    email: "Ericka_Mueller52@yahoo.com",
+    userName: "Leone",
   },
   {
     id: "wzxj9m",
-    firstName: "Mckenna",
-    lastName: "Friesen",
-    email: "Veda_Feeney@yahoo.com",
-  },
-  {
-    id: "21dwtz",
-    firstName: "Wyman",
-    lastName: "Jast",
-    email: "Melvin.Pacocha@yahoo.com",
+    userName: "Mckenna",
   },
   {
     id: "o8oe4k",
-    firstName: "Janick",
-    lastName: "Willms",
-    email: "Delfina12@gmail.com",
+    userName: "Janick",
   },
 ];
 const Example = () => {
@@ -101,52 +78,20 @@ const Example = () => {
         size: 80,
       },
       {
-        accessorKey: "firstName",
-        header: "First Name",
+        accessorKey: "userName",
+        header: "User Name",
         muiEditTextFieldProps: {
-          type: "email",
+          // type: "email",
           required: true,
-          error: !!validationErrors?.firstName,
-          helperText: validationErrors?.firstName,
+          error: !!validationErrors?.userName,
+          helperText: validationErrors?.userName,
           //remove any previous validation errors when user focuses on the input
           onFocus: () =>
             setValidationErrors({
               ...validationErrors,
-              firstName: undefined,
+              userName: undefined,
             }),
           //optionally add validation checking for onBlur or onChange
-        },
-      },
-      {
-        accessorKey: "lastName",
-        header: "Last Name",
-        muiEditTextFieldProps: {
-          type: "email",
-          required: true,
-          error: !!validationErrors?.lastName,
-          helperText: validationErrors?.lastName,
-          //remove any previous validation errors when user focuses on the input
-          onFocus: () =>
-            setValidationErrors({
-              ...validationErrors,
-              lastName: undefined,
-            }),
-        },
-      },
-      {
-        accessorKey: "email",
-        header: "Email",
-        muiEditTextFieldProps: {
-          type: "email",
-          required: true,
-          error: !!validationErrors?.email,
-          helperText: validationErrors?.email,
-          //remove any previous validation errors when user focuses on the input
-          onFocus: () =>
-            setValidationErrors({
-              ...validationErrors,
-              email: undefined,
-            }),
         },
       },
     ],
@@ -163,9 +108,6 @@ const Example = () => {
     isFetching: isFetchingUsers,
     isLoading: isLoadingUsers,
   } = useGetUsers();
-  //call UPDATE hook
-  const { mutateAsync: updateUser, isPending: isUpdatingUser } =
-    useUpdateUser();
   //call DELETE hook
   const { mutateAsync: deleteUser, isPending: isDeletingUser } =
     useDeleteUser();
@@ -183,21 +125,6 @@ const Example = () => {
     setValidationErrors({});
     await createUser(values);
     table.setCreatingRow(null); //exit creating mode
-  };
-
-  //UPDATE action
-  const handleSaveUser: MRT_TableOptions<User>["onEditingRowSave"] = async ({
-    values,
-    table,
-  }) => {
-    const newValidationErrors = validateUser(values);
-    if (Object.values(newValidationErrors).some((error) => error)) {
-      setValidationErrors(newValidationErrors);
-      return;
-    }
-    setValidationErrors({});
-    await updateUser(values);
-    table.setEditingRow(null); //exit editing mode
   };
 
   //DELETE action
@@ -227,8 +154,6 @@ const Example = () => {
     },
     onCreatingRowCancel: () => setValidationErrors({}),
     onCreatingRowSave: handleCreateUser,
-    onEditingRowCancel: () => setValidationErrors({}),
-    onEditingRowSave: handleSaveUser,
     //optionally customize modal content
     renderCreateRowDialogContent: ({ table, row, internalEditComponents }) => (
       <>
@@ -243,27 +168,8 @@ const Example = () => {
         </DialogActions>
       </>
     ),
-    //optionally customize modal content
-    renderEditRowDialogContent: ({ table, row, internalEditComponents }) => (
-      <>
-        <DialogTitle variant="h3">Edit User</DialogTitle>
-        <DialogContent
-          sx={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}
-        >
-          {internalEditComponents} {/* or render custom edit components here */}
-        </DialogContent>
-        <DialogActions>
-          <MRT_EditActionButtons variant="text" table={table} row={row} />
-        </DialogActions>
-      </>
-    ),
     renderRowActions: ({ row, table }) => (
       <Box sx={{ display: "flex", gap: "1rem" }}>
-        <Tooltip title="Edit">
-          <IconButton onClick={() => table.setEditingRow(row)}>
-            <EditIcon />
-          </IconButton>
-        </Tooltip>
         <Tooltip title="Delete">
           <IconButton color="error" onClick={() => openDeleteConfirmModal(row)}>
             <DeleteIcon />
@@ -272,24 +178,19 @@ const Example = () => {
       </Box>
     ),
     renderTopToolbarCustomActions: ({ table }) => (
-      <Button
-        variant="contained"
+      <button
+        // variant="contained"
         onClick={() => {
           table.setCreatingRow(true); //simplest way to open the create row modal with no default values
-          //or you can pass in a row object to set default values with the `createRow` helper function
-          // table.setCreatingRow(
-          //   createRow(table, {
-          //     //optionally pass in default values for the new row, useful for nested data or other complex scenarios
-          //   }),
-          // );
         }}
+        className="bg-blue-500 p-3 rounded-md text-white"
       >
         Add New Admin
-      </Button>
+      </button>
     ),
     state: {
       isLoading: isLoadingUsers,
-      isSaving: isCreatingUser || isUpdatingUser || isDeletingUser,
+      isSaving: isCreatingUser || isDeletingUser,
       showAlertBanner: isLoadingUsersError,
       showProgressBars: isFetchingUsers,
     },
@@ -394,20 +295,11 @@ const ExampleWithProviders = () => (
 export default ExampleWithProviders;
 
 const validateRequired = (value: string) => !!value.length;
-const validateEmail = (email: string) =>
-  !!email.length &&
-  email
-    .toLowerCase()
-    .match(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-    );
 
 function validateUser(user: User) {
   return {
-    firstName: !validateRequired(user.firstName)
-      ? "First Name is Required"
+    userName: !validateRequired(user.userName)
+      ? "User Name is Required"
       : "",
-    lastName: !validateRequired(user.lastName) ? "Last Name is Required" : "",
-    email: !validateEmail(user.email) ? "Incorrect Email Format" : "",
   };
 }
