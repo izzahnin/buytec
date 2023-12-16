@@ -2,7 +2,7 @@
 import { useAdmin } from "@/firebase/admin/AdminContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   MdExitToApp,
@@ -15,6 +15,16 @@ import {
 export default function Bar() {
   const adminAuth = useAdmin();
   const router = useRouter();
+
+  const [superAdmin, setSuperAdmin] = useState(false);
+
+  useEffect(() => {
+    if (adminAuth.admin.superAdmin == true) {
+      setSuperAdmin(true);
+    } else {
+      setSuperAdmin(false);
+    }
+  }, [adminAuth.admin.superAdmin]);
   const handleLogout = () => {
     adminAuth.logOut();
     router.replace('/admin');
@@ -60,7 +70,7 @@ export default function Bar() {
           <span>Purchase</span>
         </Link>
 
-        {adminAuth.admin.superAdmin && <Link
+        {superAdmin && <Link
           href={"/admin/admins"}
           className=" flex cursor-pointer items-center gap-2 rounded-xl p-2  hover:bg-zinc-200"
         >

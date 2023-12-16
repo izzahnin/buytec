@@ -84,6 +84,15 @@ export default function CardTrackOrder(props: CardTrackOrderProps) {
             >
               Received
             </button>
+            <button
+              className={`h-7 w-20 sm:h-12 sm:w-32 items-center justify-center rounded-lg border-2 border-solid border-primary-blue-accent ${
+                activeButton === "Wait for verification" && "bg-[#E4EBF5] text-primary-blue-accent"
+              }`}
+              type="button"
+              onClick={() => handleButtonClick("Wait for verification")}
+            >
+              Wait for verification
+            </button>
           </div>
         </div>
         <section className="flex flex-col gap-7">
@@ -102,7 +111,7 @@ export default function CardTrackOrder(props: CardTrackOrderProps) {
                 Parfume_name={perfume.name}
                 Parfume_qty={transaction.amount[index]}
                 Parfume_price={transaction.totalAmount[index].toString()}
-                verification="Wait for verification"
+                // verification="Wait for verification"
               />
             ))
           ))}
