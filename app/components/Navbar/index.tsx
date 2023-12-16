@@ -173,7 +173,7 @@ export default function Navbar() {
               <MdOutlineNotifications />
               {notificationCount > 0 && (
                 <span className="absolute -right-1 -top-1 rounded-full bg-red-500 px-2 text-xs text-white">
-                  {notificationCount}
+                  {}
                 </span>
               )}
             </button>

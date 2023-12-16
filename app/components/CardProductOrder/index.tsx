@@ -10,7 +10,7 @@ interface CardProductOrderProps {
   Parfume_name: string;
   Parfume_qty: number;
   Parfume_price: string;
-  verification: string;
+  // verification: string;
 }
 
 export default function CardProductOrder(props: CardProductOrderProps) {
@@ -22,7 +22,7 @@ export default function CardProductOrder(props: CardProductOrderProps) {
     Parfume_name,
     Parfume_qty,
     Parfume_price,
-    verification,
+    // verification,
   } = props;
   
 
@@ -40,7 +40,7 @@ export default function CardProductOrder(props: CardProductOrderProps) {
             {orderstatus}
           </span>
           <span className="text-[8px] sm:text-text-m md:text-text-l font-semibold">{resi}</span>
-          <span className="flex items-center text-center text-[8px] sm:text-text-m md:text-text-l rounded-md bg-[#E4EBF5] -center px-2 sm:px-4 sm:py-1 text-primary-blue-accent">{verification}</span>
+          {/* <span className="flex items-center text-center text-[8px] sm:text-text-m md:text-text-l rounded-md bg-[#E4EBF5] -center px-2 sm:px-4 sm:py-1 text-primary-blue-accent">{verification}</span> */}
         </div>
 
         <div>
