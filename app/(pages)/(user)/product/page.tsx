@@ -14,15 +14,15 @@ const ProductFilter = dynamic(() => import("@/components/ProductFilter"), {
 export const categorys = [
   {
     id: 1,
-    title: "topNotes",
+    title: "notes",
     subCategory: [
-      "Amber",
-      "Vanilla",
-      "Bergamot",
-      "Citrus",
-      "Orange",
-      "Rose",
       "Lemon",
+      "Apple",
+      "Woody Notes",
+      "Citrus",
+      "Musk",
+      "Bergamot",
+      "Patchouli",
     ],
   },
   {
