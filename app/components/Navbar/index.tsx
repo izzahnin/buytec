@@ -239,8 +239,8 @@ export default function Navbar() {
 
       {/* search bar */}
       {searchBarVisible && (
-        <section className="relative mx-3 my-2">
-          <section className="mx-3 my-2 flex h-11  items-center rounded-xl border border-dark-blue px-4 align-middle lg:hidden">
+        <section className="flex relative mx-3 my-2 sm:hidden">
+          <section className="w-full mx-3 my-2 flex h-11  items-center rounded-xl border border-dark-blue px-4 align-middle ">
             <MdSearch className="w-5  text-2xl text-dark-blue" />
             <input
               type="text"
@@ -249,7 +249,7 @@ export default function Navbar() {
               onChange={async (e) => {await handleSearch(e)}}
             />
           </section>
-          <section className="absolute  top-0 mt-4 flex w-full flex-col gap-1 md:w-1/4">
+          <section className="absolute top-0 mt-18 flex w-full flex-col gap-1 ">
             {searchInput.trim() !== "" &&
               filteredProducts.map((product) => (
                 <CardSearchProduct

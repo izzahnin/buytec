@@ -141,8 +141,8 @@ export default function NavItems() {
 
       {/* search bar */}
       {searchBarVisible && (
-        <section className="relative mx-7 my-2">
-          <section className="hidden h-12 items-center rounded-xl border border-dark-blue px-4 align-middle lg:flex">
+        <section className="hidden relative mx-7 my-2 sm:flex">
+          <section className="flex w-full h-12 items-center rounded-xl border border-dark-blue px-4 align-middle lg:flex">
             <MdSearch className="w-5 text-2xl text-dark-blue" />
             <input
               type="text"
@@ -152,7 +152,7 @@ export default function NavItems() {
               onChange={async (e) => await handleSearch(e)}
             />
           </section>
-          <section className="absolute mt-4 flex w-full flex-col gap-1 md:w-1/4">
+          <section className="absolute mt-14 flex w-10/12 flex-col gap-1 sm:w-10/12 md:w-1/2 lg:w-1/3 xl:w-1/4">
             {searchInput.trim() !== "" &&
               filteredProducts.map((product) => (
                   <CardSearchProduct
