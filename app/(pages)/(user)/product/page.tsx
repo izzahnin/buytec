@@ -14,15 +14,15 @@ const ProductFilter = dynamic(() => import("@/components/ProductFilter"), {
 export const categorys = [
   {
     id: 1,
-    title: "baseNotes",
+    title: "topNotes",
     subCategory: [
-      "Floral",
-      "Fresh",
-      "Woody",
+      "Amber",
+      "Vanilla",
+      "Bergamot",
       "Citrus",
-      "Oriental",
-      "Aromatic",
-      "Fruity",
+      "Orange",
+      "Rose",
+      "Lemon",
     ],
   },
   {
@@ -41,7 +41,7 @@ export const categorys = [
   {
     id: 7,
     title: "origin",
-    subCategory: ["France", "Italy", "Indonesia", "UAE"],
+    subCategory: ["France", "Italy", "Indonesia", "UEA"],
   },
 ];
 

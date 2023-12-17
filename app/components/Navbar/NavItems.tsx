@@ -35,24 +35,6 @@ export default function NavItems() {
     setSearchBarVisible(!searchBarVisible);
   };
   const [searchProduct, setSearchProduct] = useState<PerfumeProps[]>([
-    // {
-    //   id: "1",
-    //   name: "Infusion d'Homme",
-    //   image:
-    //     "https://firebasestorage.googleapis.com/v0/b/elixir-8ce95.appspot.com/o/Prada_Infusiond_Homme.jpg?alt=media&token=51a6e28a-f52a-4d1a-a07b-5433eb38a524",
-    //   brand: "Prada",
-    //   concentration: "Eau de Toilette",
-    //   size: 100,
-    // },
-    // {
-    //   id: "2",
-    //   name: "Luna Rossa Ocean",
-    //   image:
-    //     "https://firebasestorage.googleapis.com/v0/b/elixir-8ce95.appspot.com/o/Prada_LunaRossaOcean.jpg?alt=media&token=b33498d4-215c-4417-83ec-d57e28b8a5a1",
-    //   brand: "Prada",
-    //   concentration: "Eau de Toilette",
-    //   size: 100,
-    // },
   ]);
 
   const [filteredProducts, setFilteredProducts] = useState(searchProduct);
@@ -92,17 +74,6 @@ export default function NavItems() {
         >
           Elixir
         </Link>
-        {/* <section className="flex gap-4 px-2 py-3 text-center">
-          {navItems.map((item) => (
-            <Link
-              key={item.id}
-              href={item.href}
-              className={`p-1 hover:font-semibold `}
-            >
-              {item.title}
-            </Link>
-          ))}
-        </section> */}
         <section className="flex items-center gap-1">
           <button className="p-1 text-heading-s" onClick={toggleSearchBar}>
             <MdSearch />
@@ -119,7 +90,7 @@ export default function NavItems() {
           >
             <MdOutlineNotifications />
             {notificationCount > 0 && (
-              <span className="absolute -right-1 -top-1 rounded-full bg-red-500 px-2 text-xs text-white">
+              <span className="absolute right-1 top-1 rounded-full bg-red-500 w-2 h-2 text-xs text-white">
                 &nbsp;
               </span>
             )}
@@ -184,17 +155,6 @@ export default function NavItems() {
           <section className="absolute mt-4 flex w-full flex-col gap-1 md:w-1/4">
             {searchInput.trim() !== "" &&
               filteredProducts.map((product) => (
-                // <Link
-                //   key={product.id}
-                //   href={`/product/${product.id}/${product.name.replace(
-                //     /\s+/g,
-                //     "-",
-                //   )}`}
-                //   // onClick={() => {
-                //   //   setSearchInput("");
-                //   //   setSearchBarVisible(false);
-                //   // }}
-                // >
                   <CardSearchProduct
                     key={product.id}
                     id={product.id}
@@ -203,8 +163,8 @@ export default function NavItems() {
                     brand={product.brand}
                     concentration={product.concentration}
                     size={product.size}
+                    onClick={() => setSearchBarVisible(false)}
                   />
-                // </Link>
               ))}
           </section>
         </section>
