@@ -12,12 +12,20 @@ import CardSearchProduct from "@/components/CardSearchProduct";
 import CardNotification from "@/components/CardNotification";
 
 import { useAuth } from "@/firebase/auth/AuthUserProvider";
+import { PerfumeProps } from "@/firebase/perfume/perfume";
+import searchPerfume from "@/firebase/perfume/searchPerfume";
 
 export default function NavItems() {
   let alreadyLogin = false;
   const auth = useAuth();
   if (auth.user.id != null) {
     alreadyLogin = true;
+  }
+
+  const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value);
+    const result = await searchPerfume(searchInput);
+    setSearchProduct(result);
   }
 
 
@@ -27,25 +35,25 @@ export default function NavItems() {
   const toggleSearchBar = () => {
     setSearchBarVisible(!searchBarVisible);
   };
-  const [searchProduct, setSearchProduct] = useState([
-    {
-      id: "1",
-      name: "Infusion d'Homme",
-      image:
-        "https://firebasestorage.googleapis.com/v0/b/elixir-8ce95.appspot.com/o/Prada_Infusiond_Homme.jpg?alt=media&token=51a6e28a-f52a-4d1a-a07b-5433eb38a524",
-      brand: "Prada",
-      concentration: "Eau de Toilette",
-      size: 100,
-    },
-    {
-      id: "2",
-      name: "Luna Rossa Ocean",
-      image:
-        "https://firebasestorage.googleapis.com/v0/b/elixir-8ce95.appspot.com/o/Prada_LunaRossaOcean.jpg?alt=media&token=b33498d4-215c-4417-83ec-d57e28b8a5a1",
-      brand: "Prada",
-      concentration: "Eau de Toilette",
-      size: 100,
-    },
+  const [searchProduct, setSearchProduct] = useState<PerfumeProps[]>([
+    // {
+    //   id: "1",
+    //   name: "Infusion d'Homme",
+    //   image:
+    //     "https://firebasestorage.googleapis.com/v0/b/elixir-8ce95.appspot.com/o/Prada_Infusiond_Homme.jpg?alt=media&token=51a6e28a-f52a-4d1a-a07b-5433eb38a524",
+    //   brand: "Prada",
+    //   concentration: "Eau de Toilette",
+    //   size: 100,
+    // },
+    // {
+    //   id: "2",
+    //   name: "Luna Rossa Ocean",
+    //   image:
+    //     "https://firebasestorage.googleapis.com/v0/b/elixir-8ce95.appspot.com/o/Prada_LunaRossaOcean.jpg?alt=media&token=b33498d4-215c-4417-83ec-d57e28b8a5a1",
+    //   brand: "Prada",
+    //   concentration: "Eau de Toilette",
+    //   size: 100,
+    // },
   ]);
 
   const [filteredProducts, setFilteredProducts] = useState(searchProduct);
@@ -173,12 +181,13 @@ export default function NavItems() {
               placeholder="Search"
               className="h-full w-full bg-transparent pl-2 text-lg text-dark-blue outline-none"
               value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
+              onChange={async (e) => await handleSearch(e)}
             />
           </section>
           <section className="absolute mt-4 flex w-full flex-col gap-1 md:w-1/4">
             {searchInput.trim() !== "" &&
               filteredProducts.map((product) => (
+                <Link key={product.id} href={`/product/${product.id}/${product.name.replace(/\s+/g, '-')}`}>
                 <CardSearchProduct
                   key={product.id}
                   id={product.id}
@@ -187,7 +196,8 @@ export default function NavItems() {
                   brand={product.brand}
                   concentration={product.concentration}
                   size={product.size}
-                />
+                  />
+                  </Link>
               ))}
           </section>
         </section>
