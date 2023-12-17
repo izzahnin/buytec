@@ -12,6 +12,8 @@ import CardSearchProduct from "@/components/CardSearchProduct";
 import CardNotification from "@/components/CardNotification";
 
 import { useAuth } from "@/firebase/auth/AuthUserProvider";
+import { PerfumeProps } from "@/firebase/perfume/perfume";
+import searchPerfume from "@/firebase/perfume/searchPerfume";
 
 export default function NavItems() {
   let alreadyLogin = false;
@@ -20,6 +22,11 @@ export default function NavItems() {
     alreadyLogin = true;
   }
 
+  const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value);
+    const result = await searchPerfume(searchInput);
+    setSearchProduct(result);
+  };
 
   // search bar start
   const [searchBarVisible, setSearchBarVisible] = useState(false);
@@ -27,25 +34,25 @@ export default function NavItems() {
   const toggleSearchBar = () => {
     setSearchBarVisible(!searchBarVisible);
   };
-  const [searchProduct, setSearchProduct] = useState([
-    {
-      id: "1",
-      name: "Infusion d'Homme",
-      image:
-        "https://firebasestorage.googleapis.com/v0/b/elixir-8ce95.appspot.com/o/Prada_Infusiond_Homme.jpg?alt=media&token=51a6e28a-f52a-4d1a-a07b-5433eb38a524",
-      brand: "Prada",
-      concentration: "Eau de Toilette",
-      size: 100,
-    },
-    {
-      id: "2",
-      name: "Luna Rossa Ocean",
-      image:
-        "https://firebasestorage.googleapis.com/v0/b/elixir-8ce95.appspot.com/o/Prada_LunaRossaOcean.jpg?alt=media&token=b33498d4-215c-4417-83ec-d57e28b8a5a1",
-      brand: "Prada",
-      concentration: "Eau de Toilette",
-      size: 100,
-    },
+  const [searchProduct, setSearchProduct] = useState<PerfumeProps[]>([
+    // {
+    //   id: "1",
+    //   name: "Infusion d'Homme",
+    //   image:
+    //     "https://firebasestorage.googleapis.com/v0/b/elixir-8ce95.appspot.com/o/Prada_Infusiond_Homme.jpg?alt=media&token=51a6e28a-f52a-4d1a-a07b-5433eb38a524",
+    //   brand: "Prada",
+    //   concentration: "Eau de Toilette",
+    //   size: 100,
+    // },
+    // {
+    //   id: "2",
+    //   name: "Luna Rossa Ocean",
+    //   image:
+    //     "https://firebasestorage.googleapis.com/v0/b/elixir-8ce95.appspot.com/o/Prada_LunaRossaOcean.jpg?alt=media&token=b33498d4-215c-4417-83ec-d57e28b8a5a1",
+    //   brand: "Prada",
+    //   concentration: "Eau de Toilette",
+    //   size: 100,
+    // },
   ]);
 
   const [filteredProducts, setFilteredProducts] = useState(searchProduct);
@@ -61,7 +68,6 @@ export default function NavItems() {
     setFilteredProducts(filtered);
 
     setNotificationCount(notifItems.size);
-
   }, [searchInput, searchProduct]);
   // search bar end
 
@@ -77,7 +83,6 @@ export default function NavItems() {
     setNotificationCount(notifItems.size);
   }, []);
 
-  
   return (
     <>
       <nav className="sticky top-0 z-50 hidden h-[70px] w-screen items-center justify-between bg-white px-5 shadow-lg sm:flex xl:px-8">
@@ -151,7 +156,7 @@ export default function NavItems() {
       {/* notification bar */}
       {notificationBarVisible && (
         <main className="sticky top-[70px] z-50  w-full ">
-          <section className="divide-y  border-slate-200 border divide-slate-200 absolute right-16 md:w-1/4 ">
+          <section className="absolute  right-16 divide-y divide-slate-200 border border-slate-200 md:w-1/4 ">
             {Array.from(notifItems).map((item) => (
               <CardNotification
                 key={item.id}
@@ -173,21 +178,33 @@ export default function NavItems() {
               placeholder="Search"
               className="h-full w-full bg-transparent pl-2 text-lg text-dark-blue outline-none"
               value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
+              onChange={async (e) => await handleSearch(e)}
             />
           </section>
           <section className="absolute mt-4 flex w-full flex-col gap-1 md:w-1/4">
             {searchInput.trim() !== "" &&
               filteredProducts.map((product) => (
-                <CardSearchProduct
-                  key={product.id}
-                  id={product.id}
-                  name={product.name}
-                  image={product.image}
-                  brand={product.brand}
-                  concentration={product.concentration}
-                  size={product.size}
-                />
+                // <Link
+                //   key={product.id}
+                //   href={`/product/${product.id}/${product.name.replace(
+                //     /\s+/g,
+                //     "-",
+                //   )}`}
+                //   // onClick={() => {
+                //   //   setSearchInput("");
+                //   //   setSearchBarVisible(false);
+                //   // }}
+                // >
+                  <CardSearchProduct
+                    key={product.id}
+                    id={product.id}
+                    name={product.name}
+                    image={product.image}
+                    brand={product.brand}
+                    concentration={product.concentration}
+                    size={product.size}
+                  />
+                // </Link>
               ))}
           </section>
         </section>
