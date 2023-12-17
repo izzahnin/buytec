@@ -178,17 +178,6 @@ export default function SignUp() {
                 placeholder="password"
                 className="w-full bg-transparent focus:outline-none"
               />
-              {/* <button
-                type="button"
-                className="bg-transparent"
-                onClick={togglePassword}
-              >
-                {passwordType === "password" ? (
-                  <FaRegEye size={24} />
-                ) : (
-                  <FaRegEyeSlash size={24} />
-                )}
-              </button> */}
             </div>
             {passwordTooShort && (
               <span className="text-red-500">

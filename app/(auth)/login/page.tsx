@@ -83,29 +83,8 @@ export default function Login() {
                 placeholder="Password"
                 className=" w-full bg-transparent focus:outline-none"
               />
-              {/* <button
-                type="button"
-                className="bg-transparent"
-                onClick={togglePassword}
-              >
-                {passwordType === "password" ? (
-                  <FaRegEye size={24} />
-                ) : (
-                  <FaRegEyeSlash size={24} />
-                )}
-              </button> */}
             </div>
-            {/* <div className="flex justify-between text-xs">
-              <div className="flex space-x-2">
-                <input type="checkbox" id="rememberMe" name="remember_me" />
-                <label htmlFor="rememberMe" className="text-s">
-                  Remember me
-                </label>
-              </div>
-              <a href="#" className="text-s">
-                Forgot Password?
-              </a>
-            </div> */}
+            
             {signupError && (
               <span className="text-red-500 flex justify-center">
                 {signupError}

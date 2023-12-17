@@ -29,7 +29,7 @@ export default function CardOrderSummary(props: CardOrderSummaryProps) {
       : subTotal + parseFloat(ShippingPrice.replace(/\./g, ""));
 
   return (
-    <main className="flex h-fit w-full flex-col gap-4 rounded border-2 border-solid border-primary-blue-accent p-6 ">
+    <main className="flex h-full w-full flex-col gap-4 rounded border-2 border-solid border-primary-blue-accent p-6 ">
       <section className="flex flex-col divide-y-2 divide-primary-blue-accent">
         <h1 className="pb-4 text-heading-s font-bold">Order Summary</h1>
         <span className="py-4 text-text-l">{Totalitems} Items In Cart</span>

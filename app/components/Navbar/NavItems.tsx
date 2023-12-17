@@ -75,16 +75,18 @@ export default function NavItems() {
           Elixir
         </Link>
         <section className="flex items-center gap-1">
-          <button className="p-1 text-heading-s" onClick={toggleSearchBar}>
+          <button title="search" className="p-1 text-heading-s" onClick={toggleSearchBar}>
             <MdSearch />
           </button>
           <Link
+            title="cart"
             href="/cart"
             className={alreadyLogin ? "p-1 text-heading-s" : "hidden"}
           >
             <MdOutlineShoppingCart />
           </Link>
           <button
+            title="notification"
             className={alreadyLogin ? "relative p-1 text-heading-s" : "hidden"}
             onClick={toggleNotificationBar}
           >
@@ -96,6 +98,7 @@ export default function NavItems() {
             )}
           </button>
           <Link
+            title="profile"
             href="/profile"
             className={alreadyLogin ? "p-1 text-heading-s" : "hidden"}
           >

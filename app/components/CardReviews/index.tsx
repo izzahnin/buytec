@@ -15,24 +15,13 @@ export default function CardReviews(props: ReviewProps) {
 
   return (
     <main>
-      <section className="flex w-[430px] flex-row gap-5 rounded-xl p-5 shadow-lg sm:w-[512px] md:w-[592px] lg:w-[712px]">
-        <section className="absolute items-center">
-          <div className="w-9 sm:w-14">
-            <Image
-              className="flex items-center justify-center rounded-full"
-              src="/images/ProfileReview.png"
-              alt="PreviewUser"
-              width={56}
-              height={56}
-              layout="fixed"
-            />
-          </div>
-          <div className="absolute left-3 top-1 flex items-center justify-center rounded-full text-lg font-semibold text-black sm:left-[19.5px] sm:top-[13px] sm:text-2xl">
+      <section className="flex w-full flex-row gap-5 rounded-xl p-5 shadow-lg ">
+        <section className="flex w-fit flex-col ">
+          <div className="flex items-center justify-center rounded-full w-10 h-10 text-lg font-semibold text-black bg-gray-200">
             {firstLetter}
           </div>
         </section>
-
-        <section className="flex flex-col pl-14 sm:pl-24">
+        <section className="flex flex-col">
           <Star stars={rating} />
 
           <div className="line-clamp-1 pt-4 text-text-m lg:line-clamp-3 lg:w-fit">

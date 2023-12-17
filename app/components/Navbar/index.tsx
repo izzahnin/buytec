@@ -151,10 +151,11 @@ export default function Navbar() {
             Elixir
           </Link>
           <div className="flex gap-1">
-            <button className="p-1 text-heading-s" onClick={toggleSearchBar}>
+            <button title="search" className="p-1 text-heading-s" onClick={toggleSearchBar}>
               <MdSearch />
             </button>
             <button
+              title="notification"
               className={
                 alreadyLogin ? "relative p-1 text-heading-s" : "hidden"
               }
@@ -167,7 +168,9 @@ export default function Navbar() {
                 </span>
               )}
             </button>
-            <button className="p-1 text-heading-m" onClick={onNavClick}>
+            <button 
+            title="humburger menu"
+            className="p-1 text-heading-m" onClick={onNavClick}>
               <RxHamburgerMenu />
             </button>
           </div>
@@ -184,6 +187,7 @@ export default function Navbar() {
               className={alreadyLogin ? "flex flex-col gap-4" : "hidden"}
             >
               <Link
+                title="cart"
                 href="/cart"
                 className="p-1 hover:font-semibold flex items-center gap-3"
                 onClick={onNavClick}
@@ -191,6 +195,7 @@ export default function Navbar() {
                 <span className="p-1 text-heading-s"><MdOutlineShoppingCart /></span> Cart
               </Link>
               <Link
+                title="profile"
                 href="/profile"
                 className="p-1 hover:font-semibold flex items-center gap-3"
                 onClick={onNavClick}

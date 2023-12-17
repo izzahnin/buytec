@@ -113,7 +113,7 @@ export default function Cart() {
               </div>
 
               <section className="flex md:w-5/12 md:justify-center">
-                <div className="flex h-fit w-full flex-col gap-4  rounded-sm border-solid md:w-11/12">
+                <div className="flex h-full w-full flex-col gap-4  rounded-sm border-solid md:w-11/12">
                   <span className="font-bold">SUMMARY</span>
                   <section className="flex flex-row justify-between gap-2 border-t-2">
                     <span className="mt-4 text-[#8C8A8C]">ORDER TOTAL</span>

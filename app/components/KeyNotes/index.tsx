@@ -28,7 +28,7 @@ export default function KeyNotes(props: KeyNotesProps) {
     },
   ];
   return (
-    <main className="container mx-auto h-fit w-full max-w-screen-lg">
+    <main className="container mx-auto h-full w-full max-w-screen-lg">
       <h2 className="my-3 mt-5 text-center text-heading-m font-bold">Key Notes</h2>
       <section className=" flex flex-col items-center md:items-start justify-between align-middle md:flex-row mx-2 gap-8">
         {Notes.map((item) => (

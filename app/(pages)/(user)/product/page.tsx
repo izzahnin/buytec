@@ -64,6 +64,7 @@ export default function Product() {
         <section>
           <span className="font-bold">Category:</span>
           <select
+            title="category"
             id="category"
             onChange={(e) => handleCategoryChange(e.target.value)}
             value={selectedCategory}
@@ -82,6 +83,7 @@ export default function Product() {
             <>
               <span className="font-bold">Subcategory:</span>
               <select
+                title="subcategory"
                 id="subCategory"
                 onChange={(e) => handleSubCategoryChange(e.target.value)}
                 value={selectedSubCategory}

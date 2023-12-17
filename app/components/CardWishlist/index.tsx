@@ -61,8 +61,8 @@ export default function CardWishlist(props: CardProps) {
             <h3 className="">Move to Cart</h3>
           </button>
           <span className="h-6 w-0.5 bg-[#BFC9D9] md:h-6 md:w-0.5"></span>
-          <button className="p-1 text-heading-s" onClick={handleDelete}>
-            <FaRegTrashCan />
+          <button title="Delete Button" className="p-1 text-heading-s" onClick={handleDelete}>
+1            <FaRegTrashCan />
           </button>
         </div>
       </section>

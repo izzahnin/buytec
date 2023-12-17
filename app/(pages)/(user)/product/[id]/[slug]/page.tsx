@@ -1,4 +1,5 @@
 import React from "react";
+import NextLink from "next/link";
 
 import CardProduct from "@components/ProductCard";
 import KeyNotes from "@components/KeyNotes/index";
@@ -23,7 +24,7 @@ import { ReviewProps } from "@/firebase/review/review";
 export default async function ProductDetail({
   params,
 }: {
-  params: { id: string, slug: string };
+  params: { id: string; slug: string };
 }) {
   const { id } = params;
   // const perfume = await getPerfumeById(id);
@@ -61,6 +62,13 @@ export default async function ProductDetail({
   }
   return (
     <main className="flex w-screen flex-col gap-8">
+      <section className="flex flex-row gap-1 mt-4 mx-4">
+        <NextLink href="/product" passHref>
+          <span className="cursor-pointer">Product</span>
+        </NextLink>
+        <span>/</span>
+        <span>{perfume.name}</span>
+      </section>
       {/* product detail */}
       <section className=" h-full w-full">
         <DetailProduct
@@ -87,10 +95,12 @@ export default async function ProductDetail({
 
       {/* reviews */}
       <section className="flex  flex-col items-center justify-center gap-6">
-        <h1 className="my-3 mt-5 text-center text-heading-m font-bold">Reviews</h1>
+        <h1 className="my-3 mt-5 text-center text-heading-m font-bold">
+          Reviews
+        </h1>
         <section className="flex flex-col gap-20 ">
           {reviews!.length === 0 ? (
-            <div className="mb-4 text-lg bg-slate-100 p-3">
+            <div className="mb-4 bg-slate-100 p-3 text-lg">
               <h1>There are no reviews for this product yet</h1>
             </div>
           ) : (

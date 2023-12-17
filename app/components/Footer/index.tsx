@@ -33,13 +33,13 @@ export default function Footer() {
               Our Social Media
             </span>
             <div className="flex gap-2 items-center">
-              <a target="_blank" href={"https://www.instagram.com/"} className="bg-white p-1 text-dark-blue rounded-full">
+              <a title="social media" target="_blank" href={"https://www.instagram.com/"} className="bg-white p-1 text-dark-blue rounded-full">
                 <FaInstagram size={24} />
               </a>
-              <a target="_blank" href={"https://twitter.com/"} className="bg-white p-1 text-dark-blue rounded-full">
+              <a title="social media" target="_blank" href={"https://twitter.com/"} className="bg-white p-1 text-dark-blue rounded-full">
                 <FaTwitter size={24} />
               </a>
-              <a target="_blank" href={"https://www.tiktok.com/"} className="bg-white p-1 text-dark-blue rounded-full">
+              <a title="social media" target="_blank" href={"https://www.tiktok.com/"} className="bg-white p-1 text-dark-blue rounded-full">
                 <FaTiktok size={24} />
               </a>
             </div>

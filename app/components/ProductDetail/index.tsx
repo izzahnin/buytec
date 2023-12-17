@@ -115,7 +115,7 @@ export default function DetailProduct(props: DetailProductProps) {
   };
 
   return (
-    <main className="mx-4 flex h-fit flex-col justify-center md:flex-row md:gap-5 lg:gap-16 ">
+    <main className="mx-4 flex h-full flex-col justify-center md:flex-row md:gap-5 lg:gap-16 ">
       <section className="flex justify-center align-middle md:w-1/2 md:justify-end lg:w-5/12">
         <Image
           priority={true}
