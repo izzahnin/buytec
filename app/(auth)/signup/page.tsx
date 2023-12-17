@@ -93,7 +93,7 @@ export default function SignUp() {
     if (passwordInput != confirmPasswordInput) {
       setPasswordNotMatch(true);
     }
-    console.log(agreeTerms);
+    // console.log(agreeTerms);
     if (resubmit) {
       setLoading(false);
       return;
@@ -101,7 +101,7 @@ export default function SignUp() {
 
     try {
       const result = await auth.signUp(nameInput, emailInput, passwordInput);
-      console.log(auth.loginState);
+      // console.log(auth.loginState);
       if (result == undefined) {
         router.push("/");
       } else {

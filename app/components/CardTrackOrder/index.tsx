@@ -24,7 +24,7 @@ export default function CardTrackOrder(props: CardTrackOrderProps) {
         const userTransactions = await getUserTransactions(userId);
         setTransactions(userTransactions!);
       } catch (error) {
-        console.error("Error fetching transactions:", error);
+        // console.error("Error fetching transactions:", error);
       }
     }
 

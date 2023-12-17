@@ -15,7 +15,7 @@ export default function UserLayout({
   children: React.ReactNode;
 }) {
   const auth = useAuth();
-  console.log(auth.user.id);
+  // console.log(auth.user.id);
   return (
     <AuthUserProvider>
       <section className={futura.className}>

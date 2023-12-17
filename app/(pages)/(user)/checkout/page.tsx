@@ -49,7 +49,7 @@ export default function Checkout(props: CheckoutProps) {
 
   const handleRecaptchaChange = (value: any) => {
     setIsRecaptchaVerified(true);
-    console.log("reCAPTCHA value:", value);
+    // console.log("reCAPTCHA value:", value);
   };
 
   const handlePayment = (method: string) => {

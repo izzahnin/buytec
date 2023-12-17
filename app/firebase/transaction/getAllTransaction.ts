@@ -17,7 +17,7 @@ export default async function getAllTransaction(): Promise<
     await Promise.all(fetchPromises);
     return transactions;
   } catch (e) {
-    console.log(e);
+    // console.log(e);
     return undefined;
   }
 }

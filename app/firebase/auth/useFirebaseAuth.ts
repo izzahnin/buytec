@@ -149,7 +149,7 @@ export function useFirebaseAuth() {
       // return credential;
     } catch (e) {
       setLoginState(UserLoginState.Failed);
-      console.log(e);
+      // console.log(e);
       if (e instanceof FirebaseError) {
         if (e.code == "auth/email-already-in-use") {
           return "Email already in use";
@@ -171,7 +171,7 @@ export function useFirebaseAuth() {
       // return credential;
     } catch (e) {
       setLoginState(UserLoginState.Failed);
-      console.log(e)
+      // console.log(e)
       if (e instanceof FirebaseError) {
         if (e.code == "auth/email-already-in-use") {
           return "Email already in use";

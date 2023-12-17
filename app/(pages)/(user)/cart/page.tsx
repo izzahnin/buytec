@@ -39,7 +39,7 @@ export default function Cart() {
       setSelectedCart(newSelected);
     }
     change = 1;
-    console.log(selectedCart);
+    // console.log(selectedCart);
   };
 
   const handleBuy = async () => {

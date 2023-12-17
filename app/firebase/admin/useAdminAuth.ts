@@ -41,13 +41,13 @@ export function useAdminAuth() {
 
     const querySnapshot = await getDocs(q);
     if (querySnapshot.empty) {
-      console.log("username and/or password is wrong");
+      // console.log("username and/or password is wrong");
       setLoginState(AdminLoginState.Failed);
     } else {
       querySnapshot.docs.map((doc) => {
         const admin = jsonToAdmin(doc.data());
         setAdmin(admin);
-        console.log(admin);
+        // console.log(admin);
       });
       setLoginState(AdminLoginState.Success);
     }

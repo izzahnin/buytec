@@ -45,7 +45,7 @@ export default async function getPerfumesByCategory(
     await Promise.all(fetchPromises);
     return perfumes;
   } catch (e) {
-    console.log(e);
+    // console.log(e);
     return undefined;
   }
 }

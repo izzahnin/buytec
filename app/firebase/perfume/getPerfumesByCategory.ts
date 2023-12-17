@@ -43,10 +43,10 @@ export default async function getPerfumesByCategory(
 
     // Wait for all promises to resolve
     await Promise.all(fetchPromises);
-    console.log(perfumes);
+    // console.log(perfumes);
     return perfumes;
   } catch (e) {
-    console.log(e);
+    // console.log(e);
     return undefined;
   }
 }

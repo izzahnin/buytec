@@ -26,8 +26,8 @@ export default function ModalPassword({ closeModal }: ModalPasswordProps) {
       return;
     }
 
-    console.log(`Current Password: ${currentPassword}`);
-    console.log(`New Password: ${newPassword}`);
+    // console.log(`Current Password: ${currentPassword}`);
+    // console.log(`New Password: ${newPassword}`);
     closeModal();
     // window.location.reload();
   };

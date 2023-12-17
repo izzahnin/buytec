@@ -40,7 +40,7 @@ export default async function getReviews(
     });
     return reviews;
   } catch (e) {
-    console.log(e);
+    // console.log(e);
     return undefined;
   }
 }
