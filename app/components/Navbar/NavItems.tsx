@@ -26,8 +26,7 @@ export default function NavItems() {
     setSearchInput(e.target.value);
     const result = await searchPerfume(searchInput);
     setSearchProduct(result);
-  }
-
+  };
 
   // search bar start
   const [searchBarVisible, setSearchBarVisible] = useState(false);
@@ -69,7 +68,6 @@ export default function NavItems() {
     setFilteredProducts(filtered);
 
     setNotificationCount(notifItems.size);
-
   }, [searchInput, searchProduct]);
   // search bar end
 
@@ -85,7 +83,6 @@ export default function NavItems() {
     setNotificationCount(notifItems.size);
   }, []);
 
-  
   return (
     <>
       <nav className="sticky top-0 z-50 hidden h-[70px] w-screen items-center justify-between bg-white px-5 shadow-lg sm:flex xl:px-8">
@@ -159,7 +156,7 @@ export default function NavItems() {
       {/* notification bar */}
       {notificationBarVisible && (
         <main className="sticky top-[70px] z-50  w-full ">
-          <section className="divide-y  border-slate-200 border divide-slate-200 absolute right-16 md:w-1/4 ">
+          <section className="absolute  right-16 divide-y divide-slate-200 border border-slate-200 md:w-1/4 ">
             {Array.from(notifItems).map((item) => (
               <CardNotification
                 key={item.id}
@@ -187,17 +184,27 @@ export default function NavItems() {
           <section className="absolute mt-4 flex w-full flex-col gap-1 md:w-1/4">
             {searchInput.trim() !== "" &&
               filteredProducts.map((product) => (
-                <Link key={product.id} href={`/product/${product.id}/${product.name.replace(/\s+/g, '-')}`}>
-                <CardSearchProduct
-                  key={product.id}
-                  id={product.id}
-                  name={product.name}
-                  image={product.image}
-                  brand={product.brand}
-                  concentration={product.concentration}
-                  size={product.size}
+                // <Link
+                //   key={product.id}
+                //   href={`/product/${product.id}/${product.name.replace(
+                //     /\s+/g,
+                //     "-",
+                //   )}`}
+                //   // onClick={() => {
+                //   //   setSearchInput("");
+                //   //   setSearchBarVisible(false);
+                //   // }}
+                // >
+                  <CardSearchProduct
+                    key={product.id}
+                    id={product.id}
+                    name={product.name}
+                    image={product.image}
+                    brand={product.brand}
+                    concentration={product.concentration}
+                    size={product.size}
                   />
-                  </Link>
+                // </Link>
               ))}
           </section>
         </section>

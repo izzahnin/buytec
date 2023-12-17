@@ -270,7 +270,7 @@ export default function Navbar() {
           <section className="absolute  top-0 mt-4 flex w-full flex-col gap-1 md:w-1/4">
             {searchInput.trim() !== "" &&
               filteredProducts.map((product) => (
-                <Link key={product.id} href={`/product/${product.id}/${product.name.replace(/\s+/g, '-')}`}>
+                // <Link key={product.id} href={`/product/${product.id}/${product.name.replace(/\s+/g, '-')}`}>
                 <CardSearchProduct
                   key={product.id}
                   id={product.id}
@@ -280,7 +280,7 @@ export default function Navbar() {
                   concentration={product.concentration}
                   size={product.size}
                   />
-                  </Link>
+                  // </Link>
               ))}
           </section>
         </section>
