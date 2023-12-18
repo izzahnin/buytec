@@ -11,7 +11,14 @@ const ProductFilter = dynamic(() => import("@/components/ProductFilter"), {
     </div>
   ),
 });
-export const categorys = [
+
+interface Category {
+  id: number;
+  title: string;
+  subCategory: string[];
+}
+
+const categorys: Category[] = [
   {
     id: 1,
     title: "notes",

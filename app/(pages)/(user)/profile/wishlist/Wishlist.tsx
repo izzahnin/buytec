@@ -1,10 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NextLink from "next/link";
 import CardWishlist from "@/components/CardWishlist";
 import { useAuth } from "@/firebase/auth/AuthUserProvider";
 import CardEmpty from "@/components/CardEmpty";
-import { wishlistItems } from "./page";
+import { getPerfumeByIdFromLocal } from "@/firebase/perfume/getPerfumeFromLocal";
+// import { wishlist } from "./page";
 
 export default function Wishlist() {
   const auth = useAuth();
@@ -20,7 +21,7 @@ export default function Wishlist() {
   return (
     <main className="mx-auto flex w-screen flex-col">
       <section>
-        {wishlistItems.length == 0 ? (
+        {wishlist.length == 0 ? (
           <CardEmpty type="wishlist" />
         ) : (
           <section className="mx-auto my-8 flex h-screen w-11/12 flex-col gap-6">
@@ -33,14 +34,18 @@ export default function Wishlist() {
             </section>
 
             <div className="flex flex-col gap-4">
-              {wishlistItems.map((List, index) => (
-                <CardWishlist
-                  key={index}
-                  title={List.title}
-                  price={List.price}
-                  image={List.image}
-                />
-              ))}
+              {wishlist.map((id, index) => {
+                const perfume = getPerfumeByIdFromLocal(id)!;
+                return (
+                  <CardWishlist
+                    key={index}
+                    id={perfume.id}
+                    title={perfume.name}
+                    price={perfume.price.toString()}
+                    image={perfume.image}
+                  />
+                );
+              })}
             </div>
           </section>
         )}
