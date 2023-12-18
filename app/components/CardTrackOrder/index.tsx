@@ -42,14 +42,14 @@ export default function CardTrackOrder(props: CardTrackOrderProps) {
 
   return (
     <main className="rounded-xl border-2 w-full border-solid border-primary-blue-accent">
-      <section className="flex flex-col gap-6 sm:gap-10 md:gap-20 px-12 py-8">
-        <div className="flex flex-row items-center gap-9 w-11/12">
-          <span className="text-text-xl font-extrabold text-primary-blue-accent">
+      <section className="flex flex-col gap-8 p-3 md:p-5 lg:px-12 lg:py-8">
+        <div className="flex flex-row items-center gap-3 w-full">
+          <span className="text-lg font-extrabold text-primary-blue-accent">
             Status
           </span>
-          <div className="flex flex-row gap-2 sm:gap-5 w-10/12 sm:text-text-l text-text-s">
+          <div className="grid grid-cols-3 grid-rows-2 md:grid-cols-5 md:grid-rows-none gap-2 text-sm ">
             <button
-              className={`h-7 w-20 sm:h-12 sm:w-32 items-center justify-center rounded-lg border-2 border-solid border-primary-blue-accent ${
+              className={`w-full py-2 h-10 px-4 line-clamp-1 items-center justify-center rounded-lg border-2 border-solid border-primary-blue-accent ${
                 activeButton === "All" && "bg-[#E4EBF5] text-primary-blue-accent"
               }`}
               type="button"
@@ -58,7 +58,7 @@ export default function CardTrackOrder(props: CardTrackOrderProps) {
               All
             </button>
             <button
-              className={`h-7 w-20 sm:h-12 sm:w-32 items-center justify-center rounded-lg border-2 border-solid border-primary-blue-accent ${
+              className={`w-full py-2 h-10 px-4 line-clamp-1 items-center justify-center rounded-lg border-2 border-solid border-primary-blue-accent ${
                 activeButton === "Packed" && "bg-[#E4EBF5] text-primary-blue-accent"
               }`}
               type="button"
@@ -67,7 +67,7 @@ export default function CardTrackOrder(props: CardTrackOrderProps) {
               Packed
             </button>
             <button
-              className={`h-7 w-20 sm:h-12 sm:w-32 items-center justify-center rounded-lg border-2 border-solid border-primary-blue-accent ${
+              className={`w-full py-2 h-10 px-4 line-clamp-1 items-center justify-center rounded-lg border-2 border-solid border-primary-blue-accent ${
                 activeButton === "Sent" && "bg-[#E4EBF5] text-primary-blue-accent"
               }`}
               type="button"
@@ -76,7 +76,7 @@ export default function CardTrackOrder(props: CardTrackOrderProps) {
               Sent
             </button>
             <button
-              className={`h-7 w-20 sm:h-12 sm:w-32 items-center justify-center rounded-lg border-2 border-solid border-primary-blue-accent ${
+              className={`w-full py-2 h-10 px-4 line-clamp-1 items-center justify-center rounded-lg border-2 border-solid border-primary-blue-accent ${
                 activeButton === "Received" && "bg-[#E4EBF5] text-primary-blue-accent"
               }`}
               type="button"
@@ -85,7 +85,7 @@ export default function CardTrackOrder(props: CardTrackOrderProps) {
               Received
             </button>
             <button
-              className={`h-7 w-20 sm:h-12 sm:w-32 items-center justify-center rounded-lg border-2 border-solid border-primary-blue-accent ${
+              className={`w-full py-2 h-10 px-4 line-clamp-1 items-center justify-center rounded-lg border-2 border-solid border-primary-blue-accent ${
                 activeButton === "Wait for verification" && "bg-[#E4EBF5] text-primary-blue-accent"
               }`}
               type="button"
@@ -120,24 +120,3 @@ export default function CardTrackOrder(props: CardTrackOrderProps) {
     </main>
   );
 }
-
-// const OrderList = [
-//   {
-//     date: "20 Nov 2023",
-//     orderstatus: "Received",
-//     resi: "123456789",
-//     Image: "/images/Prada_LunaRossaOcean.jpg",
-//     Name: "Ameer Al Oudh Intense Oud",
-//     Qty: 1,
-//     Price: "2.999.999",
-//   },
-//   {
-//     date: "25 Des 2023",
-//     orderstatus: "Sent",
-//     resi: "123456789",
-//     Image: "/images/Prada_LunaRossaOcean.jpg",
-//     Name: "Ameer Al Oudh Intense Oud",
-//     Qty: 2,
-//     Price: "2.999.999",
-//   },
-// ];

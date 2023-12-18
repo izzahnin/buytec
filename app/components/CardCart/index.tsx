@@ -46,15 +46,15 @@ export default function CardCart(props: CardProps) {
           className="border-red h-6 w-7 appearance-none border-2 border-black bg-white text-heading-m before:absolute before:scale-0 before:leading-6 before:text-white before:content-['\2713'] checked:bg-primary-blue checked:before:scale-100"
           onClick={() => handleCheckbox(id)}
         />
-        <section className="lg:w-1/10 flex w-1/3 justify-center object-cover sm:w-1/4 xl:w-32 ">
+        <section className="lg:w-1/10 flex h-auto w-1/3 justify-center object-cover sm:w-1/4 xl:w-32">
           <Image
-            priority={true}
+            // priority={true}
             draggable={false}
             src={image}
             alt={title}
             width={100}
             height={100}
-            className="m-auto h-[100px] w-auto"
+            className="m-auto h-auto w-auto object-cover"
           />
         </section>
 
@@ -69,29 +69,30 @@ export default function CardCart(props: CardProps) {
 
           <section className="flex items-center justify-between text-[#8D96AA] md:hidden">
             <section className="flex gap-5">
-              {/* <button>
-                <h3 className="text-text-l md:text-heading-s">Move to Cart</h3>
-              </button> */}
-
               <div className="h-6 w-0.5 bg-[#BFC9D9]"></div>
 
-              <button className="w-5" onClick={handleDelete}>
-                <FaRegTrashCan size="auto" />
+              <button title="delete" className="w-5" onClick={handleDelete}>
+                <FaRegTrashCan />
               </button>
             </section>
 
             <section className="flex gap-5">
               <button
+                title="decrease quantity"
                 className={`w-6 ${quantityValue == 1 ? "" : "text-dark-blue"}`}
                 onClick={handleMin}
               >
-                <FiMinusCircle size="auto" />
+                <FiMinusCircle />
               </button>
 
               <p className="font-semibold">{quantityValue}</p>
 
-              <button className="w-6 text-dark-blue" onClick={handleAdd}>
-                <FiPlusCircle size="auto" />
+              <button
+                title="increase quantity"
+                className="w-6 text-dark-blue"
+                onClick={handleAdd}
+              >
+                <FiPlusCircle />
               </button>
             </section>
           </section>
@@ -101,29 +102,30 @@ export default function CardCart(props: CardProps) {
       {/* Desktop */}
       <section className="hidden items-center justify-end gap-12 border-[#C7C7C7] px-8 py-4 text-[#8D96AA] md:flex md:border-t-2">
         <section className="flex gap-5">
-          {/* <button>
-            <h3 className="text-text-l md:text-heading-s">Move to Cart</h3>
-          </button> */}
-
           <div className="h-6 w-0.5 bg-[#BFC9D9] md:h-6 md:w-0.5"></div>
 
-          <button className="w-5 md:w-5" onClick={handleDelete}>
-            <FaRegTrashCan size="auto" />
+          <button title="delete" className="w-5 md:w-5" onClick={handleDelete}>
+            <FaRegTrashCan />
           </button>
         </section>
 
         <section className="flex gap-5">
           <button
+            title="decrease quantity"
             className={`w-6 ${quantityValue == 1 ? "" : "text-dark-blue"}`}
             onClick={handleMin}
           >
-            <FiMinusCircle size="auto" />
+            <FiMinusCircle />
           </button>
 
           <p className="font-semibold">{quantityValue}</p>
 
-          <button className="w-6 text-dark-blue md:w-6" onClick={handleAdd}>
-            <FiPlusCircle size="auto" />
+          <button
+            title="increase quantity"
+            className="w-6 text-dark-blue md:w-6"
+            onClick={handleAdd}
+          >
+            <FiPlusCircle />
           </button>
         </section>
       </section>

@@ -23,14 +23,13 @@ export default function CardWishlist(props: CardProps) {
   const handleAddToCartClick = async () => {
     if (auth.user.id != null) {
       await auth.addToCart(id, 1);
-      await auth.deleteFromWishlist(id)
+      await auth.deleteFromWishlist(id);
       toast.custom((t) => (
         <ModalToast
           closeModal={() => toast.dismiss(t)}
           value="Perfume added to cart"
         />
       ));
-      
     } else {
       // TODO: CHANGE POP UP
       // alert('Create account to add perfume to wishlist')
@@ -45,14 +44,21 @@ export default function CardWishlist(props: CardProps) {
 
   return (
     <main className="flex w-full items-center gap-2 rounded-xl border-2 border-[#C7C7C7] p-6 ">
-      <section className="flex justify-center object-cover w-1/2 sm:w-1/4 md:w-1/6 lg:w-1/10 xl:w-32 ">
-        <Image priority={true} draggable={false} src={image} alt={title} width={100} height={100} 
-        className="h-[100px] w-auto m-0"/>
+      <section className="lg:w-1/10 flex h-fit w-[80px] justify-center object-cover sm:w-1/4 md:w-1/6 xl:w-32 ">
+        <Image
+          priority={true}
+          draggable={false}
+          src={image}
+          alt={title}
+          width={100}
+          height={100}
+          className="m-auto h-[100px] w-auto object-cover"
+        />
       </section>
 
       <section className="flex w-full flex-col justify-between gap-4 md:flex-row">
         <div className="flex flex-col gap-2">
-          <h5 className="text-xl line-clamp-2">{title}</h5>
+          <h5 className="line-clamp-2 text-xl">{title}</h5>
           <p className="text-[#606060]">Price : Rp {price}</p>
         </div>
 
@@ -61,8 +67,12 @@ export default function CardWishlist(props: CardProps) {
             <h3 className="">Move to Cart</h3>
           </button>
           <span className="h-6 w-0.5 bg-[#BFC9D9] md:h-6 md:w-0.5"></span>
-          <button title="Delete Button" className="p-1 text-heading-s" onClick={handleDelete}>
-1            <FaRegTrashCan />
+          <button
+            title="Delete Button"
+            className="p-1 text-heading-s"
+            onClick={handleDelete}
+          >
+            <FaRegTrashCan />
           </button>
         </div>
       </section>

@@ -16,6 +16,7 @@ export default function CardOrder(props: CardOrdersInterface) {
       <section className="m-2 w-full flex justify-between gap-2 sm:gap-4 md:gap-4 ">
         <div className=" flex m-auto w-1/4 object-cover">
           <Image
+            priority={true}
             src={Parfum_image}
             alt="ParfumeImage"
             width={100}

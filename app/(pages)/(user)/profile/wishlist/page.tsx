@@ -29,7 +29,7 @@ export default function Wishlist() {
         {wishlist.length == 0 ? (
           <CardEmpty type="wishlist" />
         ) : (
-          <section className="mx-auto my-8 flex h-screen w-11/12 flex-col gap-6">
+          <section className="mx-auto my-8 flex min-h-screen h-full w-11/12 flex-col gap-6">
             <section className="flex flex-row gap-1">
               <NextLink href="/profile" passHref>
                 <span className="cursor-pointer">Profile</span>
@@ -57,21 +57,3 @@ export default function Wishlist() {
     </main>
   );
 }
-
-// export const wishlistItems = [
-//   {
-//     title: "Ameer Al Oudh Intense Oud",
-//     price: "2.999.999",
-//     image: "/images/Prada_LunaRossaOcean.jpg",
-//   },
-//   {
-//     title: "Ameer Al Oudh Intense Oud",
-//     price: "2.999.999",
-//     image: "/images/Prada_LunaRossaOcean.jpg",
-//   },
-//   {
-//     title: "Ameer Al Oudh Intense Oud",
-//     price: "2.999.999",
-//     image: "/images/Prada_LunaRossaOcean.jpg",
-//   },
-// ];

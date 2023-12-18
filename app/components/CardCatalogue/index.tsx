@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface CardProps {
   title: string;
@@ -19,7 +20,8 @@ const renderImages = (props: CardProps) => {
   return small ? (
     <>
       {images.map((image, index) => (
-        <section
+        <Link
+          href="/product"
           key={index}
           className="relative h-24 w-14 md:h-52 md:w-32 lg:h-52 lg:w-32"
         >
@@ -32,11 +34,11 @@ const renderImages = (props: CardProps) => {
             sizes="(max-width: 768px) 100vw"
             className="inline-block object-scale-down mix-blend-multiply"
           />
-        </section>
+        </Link>
       ))}
     </>
   ) : (
-    <>
+    <Link href="/product">
       <section className="flex gap-20 lg:justify-between">
         {images.slice(0, 2).map((image, index) => (
           <section
@@ -44,7 +46,6 @@ const renderImages = (props: CardProps) => {
             className="relative h-24 w-14 md:h-64 md:w-44 lg:h-64 lg:w-44 object-cover"
           >
             <Image
-              priority={true}
               key={index}
               src={image}
               alt={`${alt} ${index + 1}`}
@@ -63,7 +64,6 @@ const renderImages = (props: CardProps) => {
             className="relative h-24 w-14 md:h-64 md:w-44 lg:h-64 lg:w-44"
           >
             <Image
-              priority={true}
               key={index + 2}
               src={image}
               alt={`${alt} ${index + 3}`}
@@ -74,7 +74,7 @@ const renderImages = (props: CardProps) => {
           </section>
         ))}
       </section>
-    </>
+    </Link>
   );
 };
 
@@ -88,7 +88,7 @@ export default function CardCatalogue(props: CardProps) {
       className={`h-40 w-40 md:h-80 md:w-80 lg:h-full lg:w-full lg:py-5 ${cardStyle}`}
     >
       <div className="flex w-full justify-between gap-5 px-6">{images}</div>
-      <h5 className="text-text-m font-bold md:text-text-l lg:text-text-l">
+      <h5 className="text-text-m font-bold md:text-text-l lg:text-text-l select-none">
         {title}
       </h5>
     </section>
@@ -97,7 +97,7 @@ export default function CardCatalogue(props: CardProps) {
       className={`h-80 w-80 md:h-[670px] md:w-[600px] lg:h-full lg:w-full lg:py-5 ${cardStyle}`}
     >
       <section className="flex flex-col gap-5">{images}</section>
-      <h2 className="text-heading-s font-bold md:text-heading-m lg:text-heading-m">
+      <h2 className="text-heading-s font-bold md:text-heading-m lg:text-heading-m select-none">
         {title}
       </h2>
     </section>

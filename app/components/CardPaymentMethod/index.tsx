@@ -13,7 +13,7 @@ function CardPaymentMethod(props: CardProps) {
     <section className="flex h-16 w-42 items-center gap-4 rounded-xl bg-white p-4 text-m  drop-shadow-md hover:border-2 border-collapse  hover:border-primary-blue" onClick={() => handlePayment(bank)}>
       <input type="radio" name="option" />
       <p>{bank}</p>
-      <Image width={48} height={48} alt={bank} src={image} />
+      <Image width={48} height={48} alt={bank} src={image} className="w-auto" />
     </section>
   );
 }

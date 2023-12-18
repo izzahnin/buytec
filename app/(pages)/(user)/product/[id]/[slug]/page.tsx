@@ -4,7 +4,6 @@ import NextLink from "next/link";
 import CardProduct from "@components/ProductCard";
 import KeyNotes from "@components/KeyNotes/index";
 import CardReviews from "@/components/CardReviews";
-import CardReviewsInput from "@/components/CardReviewsInput";
 
 import DetailProduct from "@/components/ProductDetail";
 import getPerfumeById from "@/firebase/perfume/getPerfumeById";
@@ -120,9 +119,6 @@ export default async function ProductDetail({
             </div>
           )}
         </section>
-        {/* <h1 className="my-3 w-fit text-center text-heading-s font-medium text-gray-500 hover:cursor-pointer">
-          Show more
-        </h1> */}
       </section>
 
       {/* other product */}
@@ -137,17 +133,3 @@ export default async function ProductDetail({
     </main>
   );
 }
-
-// const reviews: ReviewProps[] = [
-//   {
-//     id: "",
-//     userId: "b8nq2zRA64fism84W2GMpdiZ0LI2",
-//     userName: "shobur",
-//     perfumeId: "yNpphOS3xykaHeejUv5e",
-//     text: "Very masspleasing scent!",
-//     rating: 4,
-//     date: new Date(),
-//   },
-// ];
-
-const filter = [];

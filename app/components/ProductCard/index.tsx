@@ -64,12 +64,12 @@ export default function CardProduct(props: ProductCardProps) {
     <main className="relative flex">
       <Link
         href={`/product/${id}/${slug}`}
-        as={`/product/${id}/${slug}`}
+        // as={`/product/${id}/${slug}`}
         className=" flex  h-[400px] w-[280px] flex-col items-center justify-between rounded-2xl p-6 transition duration-300 ease-in-out hover:shadow-custom"
       >
         <section className="w-[280px] h-fit object-cover">
           <Image
-            priority={true}
+            // priority={true}
             draggable={false}
             src={image}
             alt={name}

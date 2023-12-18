@@ -336,7 +336,7 @@ export function useFirebaseAuth() {
       perfumeId: perfumeId,
       amount: amounts,
       totalAmount: totalAmount,
-      packageStatus: "Packed",
+      packageStatus: "Wait for verification",
       total: total,
       paymentMethod: paymentMethod,
       date: new Date(),

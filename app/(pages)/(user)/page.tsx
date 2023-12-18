@@ -20,7 +20,9 @@ export default async function Home() {
         <AboutSection />
       </main>
 
-      <Link href={"https://wa.me/+6281355938355"}>
+      <Link 
+        as="link"
+        href={"https://wa.me/+6281355938355"}>
         <Image
           src={"/whatsapp-icon.svg"}
           alt="whatsappIcon"

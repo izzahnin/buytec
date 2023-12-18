@@ -24,66 +24,63 @@ export default function CardProductOrder(props: CardProductOrderProps) {
     Parfume_price,
     // verification,
   } = props;
-  
 
-  const Total_order = (Parfume_qty * parseFloat(Parfume_price.replace(/\./g, ""))).toLocaleString("id-ID", {
+  const Total_order = (
+    Parfume_qty * parseFloat(Parfume_price.replace(/\./g, ""))
+  ).toLocaleString("id-ID", {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   });
-  
+
   return (
-    <main className="shadow-xl rounded-xl">
-      <section className="flex flex-col md:gap-7 py-4 px-10 gap-4">
-        <div className="w-11/12 text-text-s flex flex-row items-center justify-start gap-6 md:text-text-m">
-          <span className="text-[8px] sm:text-text-m md:text-text-l font-semibold">{date}</span>
-          <span className="text-[8px] sm:text-text-m md:text-text-l rounded-md bg-[#E4EBF5] px-2 md:px-4 md:py-1 font-semibold text-primary-blue-accent">
+    <main className="w-full max-w-2xl rounded-xl shadow-xl">
+      <section className="flex h-full flex-col gap-4 p-3 md:gap-7">
+        <div className="flex w-full flex-row items-center justify-between gap-6 text-text-s sm:justify-start md:text-text-m">
+          <span className="line-clamp-2 text-xs font-semibold  sm:text-sm">
+            {date}
+          </span>
+          <span className="line-clamp-2 rounded-md bg-[#E4EBF5]  px-2 py-1 text-xs font-semibold text-primary-blue-accent sm:text-sm md:px-4 md:py-1">
             {orderstatus}
           </span>
-          <span className="text-[8px] sm:text-text-m md:text-text-l font-semibold">{resi}</span>
-          {/* <span className="flex items-center text-center text-[8px] sm:text-text-m md:text-text-l rounded-md bg-[#E4EBF5] -center px-2 sm:px-4 sm:py-1 text-primary-blue-accent">{verification}</span> */}
+          <span className="line-clamp-1 cursor-copy select-text text-xs font-semibold sm:text-sm">
+            {resi}
+          </span>
         </div>
 
-        <div>
-          <section className="flex flex-row items-center justify-start">
-            <div>
-              <Image
-                className="w-28 md:w-36"
-                src={Parfum_image}
-                alt="ParfumeImage"
-                width={100}
-                height={100}
-              />
+        <section className="flex flex-row items-center justify-start md:gap-3">
+            <Image
+              priority={true}
+              className="w-28 md:w-36"
+              src={Parfum_image}
+              alt="ParfumeImage"
+              width={100}
+              height={100}
+            />
+
+          <section className="flex w-full flex-col gap-4 text-xs sm:text-sm">
+            <div className="flex flex-col">
+              <h3 className="line-clamp-1 font-bold">{Parfume_name}</h3>
+              <div className="flex gap-2 line-clamp-1">
+                <h3>Qty {Parfume_qty} x {Parfume_price}</h3>
+              </div>
             </div>
-            
-            <section className="flex flex-col gap-4 pl-3 md:pl-8 md:w-[700px] w-96 text-xs sm:text-sm pr-4">
-              <div className="flex flex-col md:text-xl ">
-                <h3 className="font-bold">{Parfume_name}</h3>
-                <div className="flex gap-2">
 
-                <h3>Qty {Parfume_qty} x</h3>
-                <h3>{Parfume_price}</h3>
-                </div>
-              </div>
-
-              <div className="">
-                <button
-                  className="w-fit px-6 rounded-md bg-primary-blue-accent py-1 font-bold text-white"
-                  type="button"
-                >
-                  Buy Again
-                </button>
-              </div>
-            </section>
-
-            <section className=" flex flex-col gap-2 border-l-2  pl-3 py-6 text-xs sm:text-sm md:text-text-l">
-                <span className="text-[#858585]">Sub Total</span>
-                <span className="font-bold">{Total_order}</span>
-            </section>
+            <button
+              className="w-fit rounded-md bg-primary-blue-accent px-6 py-1 font-bold text-white"
+              type="button"
+            >
+              Buy Again
+            </button>
           </section>
-        </div>
 
-        {orderstatus === 'Received' && (
-          <div className="pt-3 pl-3 pb-3">
+          <section className=" py-auto flex flex-col gap-2  border-l-2 pl-3 text-xs sm:text-sm md:text-text-l">
+            <span className="text-[#858585]">Sub Total</span>
+            <span className="font-bold">{Total_order}</span>
+          </section>
+        </section>
+
+        {orderstatus === "Received" && (
+          <div className="pb-3 pl-3 pt-3">
             <CardReviewsInput perfumeId={""} />
           </div>
         )}
