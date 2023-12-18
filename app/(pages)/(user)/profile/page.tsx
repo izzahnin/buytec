@@ -16,7 +16,7 @@ export default function Profile() {
 
   return (
     <main>
-      <section className="flex flex-col gap-3 m-6">
+      <section className="flex flex-col gap-3 my-6">
         <section>
           <div className="flex flex-row items-center justify-center gap-3">
             <span

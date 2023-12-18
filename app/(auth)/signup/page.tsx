@@ -46,9 +46,9 @@ export default function SignUp() {
     }
   };
 
-  const handleConfirmPasswordChange: (e: ChangeEvent<HTMLInputElement>) => void = (
+  const handleConfirmPasswordChange: (
     e: ChangeEvent<HTMLInputElement>,
-  ) => {
+  ) => void = (e: ChangeEvent<HTMLInputElement>) => {
     setConfirmPasswordInput(e.target.value);
     if (passwordInput != e.target.value) {
       setPasswordNotMatch(true);
@@ -77,10 +77,13 @@ export default function SignUp() {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
-    setLoading(true)
+    setLoading(true);
     setSignupError(null);
     const resubmit =
-      !emailRegex.test(emailInput) || !agreeTerms || nameInput == "" || passwordInput != confirmPasswordInput;
+      !emailRegex.test(emailInput) ||
+      !agreeTerms ||
+      nameInput == "" ||
+      passwordInput != confirmPasswordInput;
     if (!emailRegex.test(emailInput)) {
       setEmailInvalid(true);
     }
@@ -125,7 +128,7 @@ export default function SignUp() {
   };
 
   return (
-    <div className="custom-height flex flex-col items-center justify-center">
+    <div className="custom-height mx-3 flex flex-col items-center justify-center">
       <div className="flex w-full max-w-screen-xl flex-col items-center gap-4">
         <div className="flex w-full max-w-md flex-col items-center rounded-xl border-dark-blue px-6 py-12 text-dark-blue shadow-custom">
           <h2 className="mb-4 text-center text-heading-m font-bold">
@@ -207,9 +210,7 @@ export default function SignUp() {
               </button> */}
             </div>
             {passwordNotMatch && (
-              <span className="text-red-500">
-                Password did not match
-              </span>
+              <span className="text-red-500">Password did not match</span>
             )}
             <div className="test-xs flex justify-between">
               <div className="flex space-x-2">
@@ -232,7 +233,7 @@ export default function SignUp() {
               </span>
             )}
             {signupError && (
-              <span className="text-red-500 flex justify-center">
+              <span className="flex justify-center text-red-500">
                 {signupError}
               </span>
             )}
@@ -243,7 +244,7 @@ export default function SignUp() {
                 onClick={handleSubmit}
                 disabled={loading}
               >
-                {loading ? 'Loading...' : 'Sign Up'}
+                {loading ? "Loading..." : "Sign Up"}
               </button>
               <button
                 type="submit"

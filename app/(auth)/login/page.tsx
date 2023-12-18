@@ -27,8 +27,9 @@ export default function Login() {
     setPasswordType("password");
   };
 
-  
-  const handleLogin = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleLogin = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
     e.preventDefault();
     setLoading(true);
     setSignupError(null);
@@ -37,26 +38,30 @@ export default function Login() {
       if (result == undefined) {
         router.push("/");
       } else {
-        setSignupError('Email and/or password is wrong');
+        setSignupError("Email and/or password is wrong");
       }
     } finally {
       setLoading(false);
     }
-  }
+  };
 
-  const handleGoogleLogin = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleGoogleLogin = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
     e.preventDefault();
     const result = await auth.logInWithGoogle();
     if (result == undefined) {
       router.push("/");
     }
-  }
+  };
 
   return (
-    <div className="custom-height flex flex-col items-center justify-center">
+    <div className="custom-height mx-3 flex flex-col items-center justify-center">
       <div className="flex w-full max-w-screen-xl flex-col items-center gap-4">
         <div className="bder flex w-full max-w-md flex-col items-center rounded-xl border-dark-blue px-6 py-12 text-dark-blue shadow-custom">
-          <h2 className="mb-4 text-center text-heading-m font-bold">Hello Again!</h2>
+          <h2 className="mb-4 text-center text-heading-m font-bold">
+            Hello Again!
+          </h2>
           <p className="text-m text-center">{`Welcome Back You've Been Missed!`}</p>
           <form
             action="/"
@@ -84,9 +89,9 @@ export default function Login() {
                 className=" w-full bg-transparent focus:outline-none"
               />
             </div>
-            
+
             {signupError && (
-              <span className="text-red-500 flex justify-center">
+              <span className="flex justify-center text-red-500">
                 {signupError}
               </span>
             )}
@@ -97,7 +102,7 @@ export default function Login() {
                 className="h-8 w-40 rounded-full bg-dark-blue font-bold text-white"
                 disabled={loading}
               >
-                {loading ? 'Loading...' : 'Login'}
+                {loading ? "Loading..." : "Login"}
               </button>
               <button
                 onClick={handleGoogleLogin}
