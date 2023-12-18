@@ -95,7 +95,7 @@ export default function Checkout() {
 
           <div className="flex justify-center py-8">
             <ReCAPTCHA
-              sitekey="6LdFAScpAAAAAIm9ZJw4mxLUiFGNjtfext7LhxV9"
+              sitekey="6LdQKjUpAAAAAN2tkRoHhxbEwtALFo4bpWbuo4Xh"
               onChange={handleRecaptchaChange}
             />
           </div>
