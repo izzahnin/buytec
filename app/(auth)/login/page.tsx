@@ -6,6 +6,7 @@ import { FaRegEyeSlash, FaRegEye, FaGoogle } from "react-icons/fa";
 import Link from "next/link";
 import { UserLoginState, useAuth } from "@/firebase/auth/AuthUserProvider";
 import { useRouter } from "next/navigation";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function Login() {
   const auth = useAuth();
@@ -54,6 +55,11 @@ export default function Login() {
       router.push("/");
     }
   };
+  const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
+  const handleRecaptchaChange = (value: any) => {
+    setIsRecaptchaVerified(true);
+    console.log("reCAPTCHA value:", value);
+  };
 
   return (
     <div className="custom-height mx-3 flex flex-col items-center justify-center">
@@ -96,11 +102,15 @@ export default function Login() {
               </span>
             )}
             <div className="flex flex-col items-center space-y-6">
+              <ReCAPTCHA
+                sitekey="6LdQKjUpAAAAAN2tkRoHhxbEwtALFo4bpWbuo4Xh"
+                onChange={handleRecaptchaChange}
+              />
               <button
                 onClick={handleLogin}
                 type="submit"
                 className="h-8 w-40 rounded-full bg-dark-blue font-bold text-white"
-                disabled={loading}
+                disabled={!isRecaptchaVerified}
               >
                 {loading ? "Loading..." : "Login"}
               </button>

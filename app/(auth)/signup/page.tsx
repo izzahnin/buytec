@@ -9,6 +9,7 @@ import Link from "next/link";
 // import { UserLoginState, useAuth } from "@/firebase/auth/AuthContext";
 import { useRouter } from "next/navigation";
 import { UserLoginState, useAuth } from "@/firebase/auth/AuthUserProvider";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function SignUp() {
   const router = useRouter();
@@ -27,6 +28,7 @@ export default function SignUp() {
   const [agreeTermsNotChecked, setAgreeTermsNotChecked] = useState(false);
   const [signupError, setSignupError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -125,6 +127,11 @@ export default function SignUp() {
     } else {
       setSignupError(result);
     }
+  };
+
+  const handleRecaptchaChange = (value: any) => {
+    setIsRecaptchaVerified(true);
+    console.log("reCAPTCHA value:", value);
   };
 
   return (
@@ -238,11 +245,16 @@ export default function SignUp() {
               </span>
             )}
             <div className="flex flex-col items-center space-y-6">
+            <ReCAPTCHA
+              sitekey="6LdQKjUpAAAAAN2tkRoHhxbEwtALFo4bpWbuo4Xh"
+              onChange={handleRecaptchaChange}
+            />
               <button
                 type="submit"
                 className="h-8 w-40 rounded-full bg-dark-blue font-bold text-white"
                 onClick={handleSubmit}
-                disabled={loading}
+                disabled={!isRecaptchaVerified}
+               
               >
                 {loading ? "Loading..." : "Sign Up"}
               </button>
@@ -268,3 +280,7 @@ export default function SignUp() {
     </div>
   );
 }
+function setIsRecaptchaVerified(arg0: boolean) {
+  throw new Error("Function not implemented.");
+}
+
