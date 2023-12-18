@@ -34,8 +34,7 @@ export default function NavItems() {
   const toggleSearchBar = () => {
     setSearchBarVisible(!searchBarVisible);
   };
-  const [searchProduct, setSearchProduct] = useState<PerfumeProps[]>([
-  ]);
+  const [searchProduct, setSearchProduct] = useState<PerfumeProps[]>([]);
 
   const [filteredProducts, setFilteredProducts] = useState(searchProduct);
 
@@ -75,7 +74,11 @@ export default function NavItems() {
           Elixir
         </Link>
         <section className="flex items-center gap-1">
-          <button title="search" className="p-1 text-heading-s" onClick={toggleSearchBar}>
+          <button
+            title="search"
+            className="p-1 text-heading-s"
+            onClick={toggleSearchBar}
+          >
             <MdSearch />
           </button>
           <Link
@@ -92,7 +95,7 @@ export default function NavItems() {
           >
             <MdOutlineNotifications />
             {notificationCount > 0 && (
-              <span className="absolute right-1 top-1 rounded-full bg-red-500 w-2 h-2 text-xs text-white">
+              <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-red-500 text-xs text-white">
                 &nbsp;
               </span>
             )}
@@ -129,7 +132,7 @@ export default function NavItems() {
 
       {/* notification bar */}
       {notificationBarVisible && (
-        <main className="sticky top-[70px] z-50  w-full ">
+        <main className="sticky top-[70px] z-50 hidden w-full  sm:flex ">
           <section className="absolute  right-16 divide-y divide-slate-200 border border-slate-200 md:w-1/4 ">
             {Array.from(notifItems).map((item) => (
               <CardNotification
@@ -144,8 +147,8 @@ export default function NavItems() {
 
       {/* search bar */}
       {searchBarVisible && (
-        <section className="hidden relative mx-7 my-2 sm:flex">
-          <section className="flex w-full h-12 items-center rounded-xl border border-dark-blue px-4 align-middle lg:flex">
+        <section className="relative mx-7 my-2 hidden sm:flex">
+          <section className="flex h-12 w-full items-center rounded-xl border border-dark-blue px-4 align-middle lg:flex">
             <MdSearch className="w-5 text-2xl text-dark-blue" />
             <input
               type="text"
@@ -158,16 +161,16 @@ export default function NavItems() {
           <section className="absolute mt-14 flex w-10/12 flex-col gap-1 sm:w-10/12 md:w-1/2 lg:w-1/3 xl:w-1/4">
             {searchInput.trim() !== "" &&
               filteredProducts.map((product) => (
-                  <CardSearchProduct
-                    key={product.id}
-                    id={product.id}
-                    name={product.name}
-                    image={product.image}
-                    brand={product.brand}
-                    concentration={product.concentration}
-                    size={product.size}
-                    onClick={() => setSearchBarVisible(false)}
-                  />
+                <CardSearchProduct
+                  key={product.id}
+                  id={product.id}
+                  name={product.name}
+                  image={product.image}
+                  brand={product.brand}
+                  concentration={product.concentration}
+                  size={product.size}
+                  onClick={() => setSearchBarVisible(false)}
+                />
               ))}
           </section>
         </section>

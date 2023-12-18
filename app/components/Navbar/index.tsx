@@ -2,12 +2,17 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { MdOutlineNotifications, MdOutlinePersonOutline, MdOutlineShoppingCart, MdSearch } from "react-icons/md";
+import {
+  MdOutlineNotifications,
+  MdOutlinePersonOutline,
+  MdOutlineShoppingCart,
+  MdSearch,
+} from "react-icons/md";
 
 import NavItems from "./NavItems";
 import CardSearchProduct from "../CardSearchProduct";
 import CardNotification from "@/components/CardNotification";
-import isEqual from 'lodash/isEqual';
+import isEqual from "lodash/isEqual";
 import { useAuth } from "@/firebase/auth/AuthUserProvider";
 import getUserTransactions from "@/firebase/transaction/getUserTransactions";
 import searchPerfume from "@/firebase/perfume/searchPerfume";
@@ -82,7 +87,9 @@ export default function Navbar() {
         description: desc,
       };
       // check if the notification is already exist
-      const exist = Array.from(notifItems).some((notif) => isEqual(notif, newNotif));
+      const exist = Array.from(notifItems).some((notif) =>
+        isEqual(notif, newNotif),
+      );
       if (!exist) {
         notifItems.add(newNotif);
       }
@@ -97,7 +104,7 @@ export default function Navbar() {
   getNotif().then(() => {
     setNotifications(notifItems);
     // console.log(`isi notif: ${notifItems.size}`);
-    setNotificationCount(notifItems.size)
+    setNotificationCount(notifItems.size);
   });
 
   // search bar start
@@ -107,15 +114,14 @@ export default function Navbar() {
     setSearchInput(e.target.value);
     const result = await searchPerfume(searchInput);
     setSearchProduct(result);
-  }
+  };
 
   const toggleSearchBar = () => {
     setSearchBarVisible(!searchBarVisible);
   };
   const [searchInput, setSearchInput] = useState("");
 
-  const [searchProduct, setSearchProduct] = useState<PerfumeProps[]>([
-  ]);
+  const [searchProduct, setSearchProduct] = useState<PerfumeProps[]>([]);
 
   const [filteredProducts, setFilteredProducts] = useState(searchProduct);
 
@@ -128,7 +134,6 @@ export default function Navbar() {
     );
 
     setFilteredProducts(filtered);
-
   }, [searchInput, searchProduct]);
   // search bar end
 
@@ -137,7 +142,6 @@ export default function Navbar() {
   const toggleNotificationBar = () => {
     setNotificationBarVisible(!notificationBarVisible);
   };
-  
 
   return (
     <>
@@ -151,7 +155,11 @@ export default function Navbar() {
             Elixir
           </Link>
           <div className="flex gap-1">
-            <button title="search" className="p-1 text-heading-s" onClick={toggleSearchBar}>
+            <button
+              title="search"
+              className="p-1 text-heading-s"
+              onClick={toggleSearchBar}
+            >
               <MdSearch />
             </button>
             <button
@@ -163,14 +171,16 @@ export default function Navbar() {
             >
               <MdOutlineNotifications />
               {notificationCount > 0 && (
-                <span className="absolute right-1 top-1 rounded-full bg-red-500 px-2 text-xs text-white">
-                  {}
+                <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-red-500 text-xs text-white">
+                  &nbsp;
                 </span>
               )}
             </button>
-            <button 
-            title="humburger menu"
-            className="p-1 text-heading-m" onClick={onNavClick}>
+            <button
+              title="humburger menu"
+              className="p-1 text-heading-m"
+              onClick={onNavClick}
+            >
               <RxHamburgerMenu />
             </button>
           </div>
@@ -189,18 +199,24 @@ export default function Navbar() {
               <Link
                 title="cart"
                 href="/cart"
-                className="p-1 hover:font-semibold flex items-center gap-3"
+                className="flex items-center gap-3 p-1 hover:font-semibold"
                 onClick={onNavClick}
               >
-                <span className="p-1 text-heading-s"><MdOutlineShoppingCart /></span> Cart
+                <span className="p-1 text-heading-s">
+                  <MdOutlineShoppingCart />
+                </span>{" "}
+                Cart
               </Link>
               <Link
                 title="profile"
                 href="/profile"
-                className="p-1 hover:font-semibold flex items-center gap-3"
+                className="flex items-center gap-3 p-1 hover:font-semibold"
                 onClick={onNavClick}
               >
-                <span className="p-1 text-heading-s"><MdOutlinePersonOutline /></span> Profile
+                <span className="p-1 text-heading-s">
+                  <MdOutlinePersonOutline />
+                </span>{" "}
+                Profile
               </Link>
               <hr className="border-gray-300" />
             </section>
@@ -229,8 +245,8 @@ export default function Navbar() {
 
       {/* notification bar */}
       {notificationBarVisible && (
-        <main className="sticky top-[70px] z-50  w-full ">
-          <section className="absolute right-16 md:w-1/4 ">
+        <main className="sticky top-[70px] z-50 flex w-full sm:hidden  ">
+          <section className="absolute right-16 divide-y divide-slate-200 border border-slate-200 md:w-1/4 ">
             {Array.from(notifications).map((item) => (
               <CardNotification
                 key={item.id}
@@ -244,17 +260,19 @@ export default function Navbar() {
 
       {/* search bar */}
       {searchBarVisible && (
-        <section className="flex relative mx-3 my-2 sm:hidden">
-          <section className="w-full mx-3 my-2 flex h-11  items-center rounded-xl border border-dark-blue px-4 align-middle ">
+        <section className="relative mx-3 my-2 flex sm:hidden">
+          <section className="mx-3 my-2 flex h-11 w-full  items-center rounded-xl border border-dark-blue px-4 align-middle ">
             <MdSearch className="w-5  text-2xl text-dark-blue" />
             <input
               type="text"
               placeholder="Search"
               className="h-full w-full bg-transparent pl-2 text-lg text-dark-blue outline-none"
-              onChange={async (e) => {await handleSearch(e)}}
+              onChange={async (e) => {
+                await handleSearch(e);
+              }}
             />
           </section>
-          <section className="absolute top-0 mt-18 flex w-full flex-col gap-1 ">
+          <section className="absolute mt-16 flex w-full flex-col gap-1 ">
             {searchInput.trim() !== "" &&
               filteredProducts.map((product) => (
                 <CardSearchProduct
@@ -266,13 +284,13 @@ export default function Navbar() {
                   concentration={product.concentration}
                   size={product.size}
                   onClick={() => setSearchBarVisible(false)}
-                  />
+                />
               ))}
           </section>
         </section>
       )}
 
-      <NavItems/>
+      <NavItems />
     </>
   );
 }
