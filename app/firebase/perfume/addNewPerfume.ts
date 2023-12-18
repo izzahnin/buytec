@@ -16,6 +16,7 @@ interface AddNewPerfumeProps {
   baseNotes: string[];
   gender: string;
   description: string;
+  stock: number;
 }
 
 export default async function addNewPerfume(
@@ -35,6 +36,7 @@ export default async function addNewPerfume(
     baseNotes,
     gender,
     description,
+    stock,
   } = props;
 
   const newDocRef = doc(collection(db, "perfume"));
@@ -54,7 +56,7 @@ export default async function addNewPerfume(
     baseNotes: baseNotes,
     gender: gender,
     description: description,
-    stock: generateRandomStock(),
+    stock: stock,
     rating: 0,
     reviews: [],
     bestSeller: false,

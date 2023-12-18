@@ -43,7 +43,7 @@ export default async function updatePerfume(
   const newDocRef = doc(collection(db, "perfume", id));
 
   const newPerfumeData = {
-    id: newDocRef.id,
+    id: id,
     name: name,
     image: image,
     price: price,
