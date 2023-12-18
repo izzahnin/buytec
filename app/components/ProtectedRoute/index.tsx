@@ -1,4 +1,5 @@
-import { useAuth } from '@/firebase/auth/AuthContext';
+
+import { useAuth } from '@/firebase/auth/AuthUserProvider';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 

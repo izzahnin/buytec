@@ -8,14 +8,14 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { useAuth } from "@/firebase/auth/AuthUserProvider";
 import { useRouter } from "next/navigation";
 
-interface CheckoutProps {
-  perfumes: string[];
-  perfumeAmount: number[];
-  total: number;
-  formattedTotal: string;
-}
+// interface CheckoutProps {
+//   perfumes: string[];
+//   perfumeAmount: number[];
+//   total: number;
+//   formattedTotal: string;
+// }
 
-export default function Checkout(props: CheckoutProps) {
+export default function Checkout() {
   const auth = useAuth();
   const router = useRouter();
   const { perfumes, perfumeAmount, total, formattedTotal } = auth.checkout;
