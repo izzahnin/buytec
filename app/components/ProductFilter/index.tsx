@@ -22,7 +22,7 @@ export default async function ProductFilter(props: ProductFilterProps) {
         perfumes = await getPerfumesByCategory({category: selectedCategory, subcategory: selectedSubCategory});
       }
     } else {
-      perfumes = await getPerfumeFromLocal();
+      perfumes = await getAllPerfume();
     }
 
   let cardList: JSX.Element[] = [];
