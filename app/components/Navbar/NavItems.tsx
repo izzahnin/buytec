@@ -133,7 +133,13 @@ export default function NavItems() {
       {/* notification bar */}
       {notificationBarVisible && (
         <main className="sticky top-[70px] z-50 hidden w-full sm:flex">
-          <section className="fixed sm:right-16 divide-y divide-slate-200 border border-slate-200  sm:w-1/2 md:w-1/3 lg:w-1/4 h-fit max-h-1/2 overflow-y-scroll">
+          <section className="fixed min-h-min max-h-72  divide-y divide-slate-200 overflow-y-scroll border  border-slate-200 sm:right-16 sm:w-1/2 md:w-1/3 lg:w-1/4">
+            {notificationCount == 0  &&(
+              <CardNotification
+                title="Notification"
+                description="You have no notification"
+              />
+            )}
             {Array.from(notifItems).map((item) => (
               <CardNotification
                 key={item.id}
