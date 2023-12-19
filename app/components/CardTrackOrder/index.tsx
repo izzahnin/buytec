@@ -4,20 +4,22 @@ import { TransactionProps } from "@/firebase/transaction/transaction";
 import getUserTransactions from "@/firebase/transaction/getUserTransactions";
 
 interface CardTrackOrderProps {
-  userId: string,
+  userId: string;
 }
 
 export default function CardTrackOrder(props: CardTrackOrderProps) {
   const { userId } = props;
   const [activeButton, setActiveButton] = useState("All");
-  const [transactions, setTransactions] = useState<TransactionProps[] | null>(null);
-  const handleButtonClick = (status:string) => {
+  const [transactions, setTransactions] = useState<TransactionProps[] | null>(
+    null,
+  );
+  const handleButtonClick = (status: string) => {
     setActiveButton(status);
   };
-  
+
   // const getTransactions = await getUserTransactions(userId);
   // setTransactions(() => getTransactions!);
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -26,11 +28,10 @@ export default function CardTrackOrder(props: CardTrackOrderProps) {
       } catch (error) {
         // console.error("Error fetching transactions:", error);
       }
-    }
+    };
 
     fetchData();
   }, [userId]);
-  
 
   // const filteredOrders = OrderList.filter((order) => {
   //   if (activeButton === "All") {
@@ -41,16 +42,17 @@ export default function CardTrackOrder(props: CardTrackOrderProps) {
   // });
 
   return (
-    <main className="rounded-xl border-2 w-full border-solid border-primary-blue-accent">
+    <main className="w-full rounded-xl border-2 border-solid border-primary-blue-accent">
       <section className="flex flex-col gap-8 p-3 md:p-5 lg:px-12 lg:py-8">
-        <div className="flex flex-row items-center gap-3 w-full">
+        <div className="flex w-full flex-row items-center gap-3">
           <span className="text-lg font-extrabold text-primary-blue-accent">
             Status
           </span>
-          <div className="grid grid-cols-3 grid-rows-2 md:grid-cols-5 md:grid-rows-none gap-2 text-sm ">
+          <div className="grid grid-cols-3 grid-rows-2 gap-2 text-sm md:grid-cols-5 md:grid-rows-none ">
             <button
-              className={`w-full py-2 h-10 px-4 line-clamp-1 items-center justify-center rounded-lg border-2 border-solid border-primary-blue-accent ${
-                activeButton === "All" && "bg-[#E4EBF5] text-primary-blue-accent"
+              className={`line-clamp-1 h-10 w-full items-center justify-center rounded-lg border-2 border-solid border-primary-blue-accent mx-auto py-2 ${
+                activeButton === "All" &&
+                "bg-[#E4EBF5] text-primary-blue-accent"
               }`}
               type="button"
               onClick={() => handleButtonClick("All")}
@@ -58,8 +60,19 @@ export default function CardTrackOrder(props: CardTrackOrderProps) {
               All
             </button>
             <button
-              className={`w-full py-2 h-10 px-4 line-clamp-1 items-center justify-center rounded-lg border-2 border-solid border-primary-blue-accent ${
-                activeButton === "Packed" && "bg-[#E4EBF5] text-primary-blue-accent"
+              className={`line-clamp-1 overflow-ellipsis overflow-hidden h-fit w-full items-center justify-center whitespace-nowrap rounded-lg border-2 border-solid border-primary-blue-accent mx-auto p-2 ${
+                activeButton === "Wait for verification" &&
+                "bg-[#E4EBF5] text-primary-blue-accent"
+              }`}
+              type="button"
+              onClick={() => handleButtonClick("Wait for verification")}
+            >
+              Wait for verification
+            </button>
+            <button
+              className={`line-clamp-1 h-10 w-full items-center justify-center rounded-lg border-2 border-solid border-primary-blue-accent mx-auto py-2 ${
+                activeButton === "Packed" &&
+                "bg-[#E4EBF5] text-primary-blue-accent"
               }`}
               type="button"
               onClick={() => handleButtonClick("Packed")}
@@ -67,8 +80,9 @@ export default function CardTrackOrder(props: CardTrackOrderProps) {
               Packed
             </button>
             <button
-              className={`w-full py-2 h-10 px-4 line-clamp-1 items-center justify-center rounded-lg border-2 border-solid border-primary-blue-accent ${
-                activeButton === "Sent" && "bg-[#E4EBF5] text-primary-blue-accent"
+              className={`line-clamp-1 h-10 w-full items-center justify-center rounded-lg border-2 border-solid border-primary-blue-accent mx-auto py-2 ${
+                activeButton === "Sent" &&
+                "bg-[#E4EBF5] text-primary-blue-accent"
               }`}
               type="button"
               onClick={() => handleButtonClick("Sent")}
@@ -76,45 +90,38 @@ export default function CardTrackOrder(props: CardTrackOrderProps) {
               Sent
             </button>
             <button
-              className={`w-full py-2 h-10 px-4 line-clamp-1 items-center justify-center rounded-lg border-2 border-solid border-primary-blue-accent ${
-                activeButton === "Received" && "bg-[#E4EBF5] text-primary-blue-accent"
+              className={`line-clamp-1 h-10 w-full items-center justify-center rounded-lg border-2 border-solid border-primary-blue-accent mx-auto py-2 ${
+                activeButton === "Received" &&
+                "bg-[#E4EBF5] text-primary-blue-accent"
               }`}
               type="button"
               onClick={() => handleButtonClick("Received")}
             >
               Received
             </button>
-            <button
-              className={`w-full py-2 h-10 px-4 line-clamp-1 items-center justify-center rounded-lg border-2 border-solid border-primary-blue-accent ${
-                activeButton === "Wait for verification" && "bg-[#E4EBF5] text-primary-blue-accent"
-              }`}
-              type="button"
-              onClick={() => handleButtonClick("Wait for verification")}
-            >
-              Wait for verification
-            </button>
           </div>
         </div>
         <section className="flex flex-col gap-7">
-          {transactions && transactions.map((transaction, index) => (
-            transaction.perfumeId.map((perfume, index) => (
-              <CardProductOrder
-                key={index}
-                date={new Date(transaction.date).toLocaleDateString('en-US', {
-                  day: 'numeric',
-                  month: 'long',
-                  year: 'numeric',
-                })}
-                orderstatus={transaction.packageStatus}
-                resi={transaction.id}
-                Parfum_image={perfume.image}
-                Parfume_name={perfume.name}
-                Parfume_qty={transaction.amount[index]}
-                Parfume_price={transaction.totalAmount[index].toString()}
-                // verification="Wait for verification"
-              />
-            ))
-          ))}
+          {transactions &&
+            transactions.map((transaction, index) =>
+              transaction.perfumeId.map((perfume, index) => (
+                <CardProductOrder
+                  key={index}
+                  date={new Date(transaction.date).toLocaleDateString("en-US", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                  })}
+                  orderstatus={transaction.packageStatus}
+                  resi={transaction.id}
+                  Parfum_image={perfume.image}
+                  Parfume_name={perfume.name}
+                  Parfume_qty={transaction.amount[index]}
+                  Parfume_price={transaction.totalAmount[index].toString()}
+                  // verification="Wait for verification"
+                />
+              )),
+            )}
         </section>
       </section>
     </main>

@@ -21,13 +21,13 @@ export default function CardOrder(props: CardOrdersInterface) {
             alt="ParfumeImage"
             width={100}
             height={100}
-            className="h-[100px] w-auto m-auto"
+            className="m-auto h-auto w-auto object-cover"
           />
         </div>
 
-        <section className="flex w-full flex-col justify-between my-2">
-          <h1 className=" line-clamp-1 text-lg font-bold">{Parfume_name}</h1>
-          <h2 className="text-right text-xl">{Parfume_price}</h2>
+        <section className="flex w-full flex-col justify-between my-2 gap-1">
+          <h1 className=" line-clamp-1 font-bold">{Parfume_name}</h1>
+          <h2 className="text-right text-lg">{Parfume_price}</h2>
           <h3>Qty {Parfume_qty}</h3>
         </section>
       </section>

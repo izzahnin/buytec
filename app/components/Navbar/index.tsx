@@ -145,8 +145,8 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="flex flex-col">
-        <section className="sticky top-0 z-50 flex h-[70px] w-screen items-center justify-between bg-white px-5 shadow-lg sm:hidden ">
+      <nav className="sticky top-0 z-50 flex h-[70px] w-screen items-center  bg-white px-5 shadow-lg sm:hidden">
+        <section className="flex w-full items-center justify-between">
           <Link
             href="/"
             className="select-none font-playfair text-heading-l text-primary-blue"
@@ -245,8 +245,8 @@ export default function Navbar() {
 
       {/* notification bar */}
       {notificationBarVisible && (
-        <main className="sticky top-[70px] z-50 flex w-full sm:hidden  ">
-          <section className="absolute right-16 divide-y divide-slate-200 border border-slate-200 md:w-1/4 ">
+        <main className="sticky top-[70px] z-50 flex w-full bg-orange-300 sm:hidden ">
+          <section className="max-h-1/2 fixed right-3 h-fit divide-y divide-slate-200  overflow-y-scroll border border-slate-200">
             {Array.from(notifications).map((item) => (
               <CardNotification
                 key={item.id}
