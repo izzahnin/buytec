@@ -245,8 +245,19 @@ export default function Navbar() {
 
       {/* notification bar */}
       {notificationBarVisible && (
-        <main className="sticky top-[70px] z-50 flex w-full bg-orange-300 sm:hidden ">
-          <section className="max-h-1/2 fixed right-3 h-fit divide-y divide-slate-200  overflow-y-scroll border border-slate-200">
+        <main className="sticky top-[70px] z-50 flex w-full  sm:hidden ">
+          <section className=" fixed right-3 max-h-72 min-h-min divide-y divide-slate-200  overflow-y-scroll border border-slate-200">
+            Lorem.
+            <CardNotification
+              title="Notification"
+              description="You have no notification"
+            />
+            {notificationCount == 0 && (
+              <CardNotification
+                title="Notification"
+                description="You have no notification"
+              />
+            )}
             {Array.from(notifications).map((item) => (
               <CardNotification
                 key={item.id}
