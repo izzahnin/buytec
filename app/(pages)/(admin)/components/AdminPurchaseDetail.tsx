@@ -62,7 +62,7 @@ export default function AdminListPurchase(props: AdminPurchaseDetailProps) {
                   <li key={perfume.id} className="flex items-center gap-2 p-4">
                     <section className="relative h-28 w-24">
                       <Image
-                        src={perfume.image}
+                        src={perfume.image as string}
                         alt={perfume.name}
                         fill
                         sizes="(max-width: 100px) 100vw"
