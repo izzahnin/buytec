@@ -1,4 +1,4 @@
-import { collection, doc, setDoc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../config";
 import { PerfumeProps } from "./perfume";
 
@@ -40,7 +40,7 @@ export default async function updatePerfume(
     bestSeller,
   } = props;
 
-  const newDocRef = doc(collection(db, "perfume", id));
+  const newDocRef = doc(db, "perfume", id);
 
   const newPerfumeData = {
     id: id,
