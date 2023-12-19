@@ -114,7 +114,7 @@ export default function CardTrackOrder(props: CardTrackOrderProps) {
                   })}
                   orderstatus={transaction.packageStatus}
                   resi={transaction.id}
-                  Parfum_image={perfume.image}
+                  Parfum_image={perfume.image as string}
                   Parfume_name={perfume.name}
                   Parfume_qty={transaction.amount[index]}
                   Parfume_price={transaction.totalAmount[index].toString()}
