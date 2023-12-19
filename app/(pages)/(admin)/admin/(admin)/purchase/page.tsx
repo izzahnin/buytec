@@ -1,11 +1,7 @@
-"use client";
-import React from "react";
-import AdminListPurchase from "@/(pages)/(admin)/components/AdminListPurchase";
+import React from 'react'
 
 export default function Purchase() {
   return (
-    <div className="p-4">
-      <AdminListPurchase />
-    </div>
-  );
+    <div className='w-screen h-screen flex justify-center items-center'>Purchase</div>
+  )
 }
