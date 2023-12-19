@@ -171,7 +171,7 @@ export default function NavItems() {
                   key={product.id}
                   id={product.id}
                   name={product.name}
-                  image={product.image}
+                  image={product.image as string}
                   brand={product.brand}
                   concentration={product.concentration}
                   size={product.size}

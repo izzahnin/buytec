@@ -37,7 +37,7 @@ export default async function ProductFilter(props: ProductFilterProps) {
         rating={perfume.rating}
         concentration={perfume.concentration}
         size={perfume.size}
-        image={perfume.image}
+        image={perfume.image as string}
         key={perfume.id}
       />
     ));
