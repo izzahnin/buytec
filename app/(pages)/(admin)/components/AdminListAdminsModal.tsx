@@ -58,7 +58,8 @@ export default function AdminListAdminsModal({
             </header>
 
             <form className="flex flex-col gap-5 p-6">
-              <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-2">
+                <label>Username:</label>
                 <div className="rounded-lg border-2 border-black p-3">
                   <input
                     type="text"
@@ -73,11 +74,14 @@ export default function AdminListAdminsModal({
                 </div>
 
                 {usernameError && (
-                  <p className="-mt-5 text-sm text-red-500 md:text-base">
+                  <p className="-mt-2 text-sm text-red-500 md:text-base">
                     {usernameError}
                   </p>
                 )}
+              </div>
 
+              <div className="flex flex-col gap-2">
+                <label>Password:</label>
                 <div className="rounded-lg border-2 border-black p-3">
                   <input
                     type="password"
@@ -92,7 +96,7 @@ export default function AdminListAdminsModal({
                 </div>
 
                 {passwordError && (
-                  <p className="-mt-5 text-sm text-red-500 md:text-base">
+                  <p className="-mt-2 text-sm text-red-500 md:text-base">
                     {passwordError}
                   </p>
                 )}

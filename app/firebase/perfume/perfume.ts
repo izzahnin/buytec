@@ -4,7 +4,7 @@ import { ReviewProps } from "../review/review";
 export interface PerfumeProps {
   id: string;
   name: string;
-  image: string;
+  image: string | File;
   price: number;
   brand: string;
   occasion: string;

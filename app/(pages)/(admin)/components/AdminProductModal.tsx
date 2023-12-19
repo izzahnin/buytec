@@ -14,6 +14,8 @@ export default function AdminProductModal({
   onSubmit,
   initialData,
 }: AdminProductModalProps) {
+  const isUpdateMode = !!initialData;
+
   const [formData, setFormData] = useState<PerfumeProps>(
     (initialData as PerfumeProps) || {
       brand: "",
@@ -47,15 +49,15 @@ export default function AdminProductModal({
       errors.name = "Please enter the perfume name.";
     }
 
-    if (formData.image.trim() === "") {
-      errors.image = "Please enter the image URL.";
+    if (!formData.image) {
+      errors.image = "Please select an image.";
     }
 
     if (formData.price <= 0) {
       errors.price = "Please enter a valid price.";
     }
 
-    if (formData.stock < 0) {
+    if (formData.stock <= 0) {
       errors.stock = "Please enter a valid stock value.";
     }
 
@@ -119,6 +121,20 @@ export default function AdminProductModal({
     }));
   };
 
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0];
+
+    setInputErrors((prevErrors) => ({
+      ...prevErrors,
+      image: "",
+    }));
+
+    setFormData((prevData) => ({
+      ...prevData,
+      image: file || "",
+    }));
+  };
+
   const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -127,7 +143,10 @@ export default function AdminProductModal({
         if (initialData) {
           await updatePerfume(formData);
         } else {
-          await addNewPerfume(formData);
+          await addNewPerfume({
+            ...formData,
+            image: formData.image as File,
+          });
         }
 
         onSubmit();
@@ -201,24 +220,25 @@ export default function AdminProductModal({
                 )}
               </div>
 
-              <div className="flex flex-col gap-2">
-                <label>Image URL:</label>
-                <div className="rounded-lg border-2 border-black p-3">
-                  <input
-                    type="text"
-                    name="image"
-                    placeholder="Image URL"
-                    className="w-full outline-none"
-                    value={formData.image}
-                    onChange={handleInputChange}
-                  />
+              {!isUpdateMode && (
+                <div className="flex flex-col gap-2">
+                  <label>Image:</label>
+                  <div className="rounded-lg border-2 border-black p-3">
+                    <input
+                      type="file"
+                      name="image"
+                      accept="image/*"
+                      onChange={(e) => handleImageChange(e)}
+                      className="w-full outline-none"
+                    />
+                  </div>
+                  {inputErrors.image && (
+                    <p className="-mt-1 text-sm text-red-500">
+                      {inputErrors.image}
+                    </p>
+                  )}
                 </div>
-                {inputErrors.image && (
-                  <p className="-mt-1 text-sm text-red-500">
-                    {inputErrors.image}
-                  </p>
-                )}
-              </div>
+              )}
 
               <div className="flex flex-col gap-2">
                 <label>Price:</label>
