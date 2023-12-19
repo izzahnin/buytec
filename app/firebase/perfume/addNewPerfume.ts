@@ -1,10 +1,12 @@
 import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
-import { db } from "../config";
+import { db, storage } from "../config";
 import { PerfumeProps, jsonToParfume } from "./perfume";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 interface AddNewPerfumeProps {
   name: string;
-  image: string;
+  image: File;
+  imageUrl: string;
   price: number;
   brand: string;
   occasion: string;
@@ -25,6 +27,7 @@ export default async function addNewPerfume(
   const {
     name,
     image,
+    imageUrl,
     price,
     brand,
     occasion,
@@ -40,11 +43,15 @@ export default async function addNewPerfume(
   } = props;
 
   const newDocRef = doc(collection(db, "perfume"));
+  const newImageRef = ref(storage, imageUrl);
+
+  await uploadBytes(newImageRef, image);
+  const imageRef = await getDownloadURL(newImageRef);
 
   const newPerfume: PerfumeProps = {
     id: newDocRef.id,
     name: name,
-    image: image,
+    image: imageRef,
     price: price,
     brand: brand,
     occasion: occasion,
