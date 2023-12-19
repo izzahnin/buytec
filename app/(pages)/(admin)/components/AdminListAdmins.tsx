@@ -5,7 +5,7 @@ import {
   useMaterialReactTable,
   type MRT_ColumnDef,
 } from "material-react-table";
-import { FaRegTrashCan } from "react-icons/fa6";
+import { FaTrash } from "react-icons/fa";
 
 import getAllAdmin from "@/firebase/admin/getAllAdmin";
 import { AdminType } from "@/firebase/admin/admin";
@@ -84,7 +84,7 @@ const AdminListAdmins: React.FC = () => {
             onClick={() => handleDeleteAdmin(row.original.username)}
             className="text-heading-s text-red-500"
           >
-            <FaRegTrashCan />
+            <FaTrash />
           </button>
         ),
       },
